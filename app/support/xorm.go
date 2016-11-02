@@ -12,6 +12,7 @@ import (
 
 var Xorm *xorm.Engine
 
+//Init the mysql.
 func InitXorm() {
 
 	file := (revel.BasePath + "/conf/speedy.conf")

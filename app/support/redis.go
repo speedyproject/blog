@@ -1,15 +1,15 @@
 package support
 
 import (
-	"github.com/revel/revel"
-	"github.com/revel/config"
 	"github.com/alecthomas/log4go"
+	"github.com/revel/config"
+	"github.com/revel/revel"
 	"gopkg.in/redis.v5"
 )
 
-var Cache    *redis.Client
+var Cache *redis.Client
 
-func InitRedis(){
+func InitRedis() {
 
 	file := (revel.BasePath + "/conf/speedy.conf")
 	data, _ := config.ReadDefault(file)

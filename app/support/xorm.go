@@ -1,23 +1,23 @@
 package support
 
 import (
-	"github.com/go-xorm/xorm"
-	"github.com/revel/revel"
-	"github.com/revel/config"
 	"fmt"
-	"github.com/go-xorm/core"
 	"github.com/alecthomas/log4go"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/go-xorm/core"
+	"github.com/go-xorm/xorm"
+	"github.com/revel/config"
+	"github.com/revel/revel"
 )
 
 var Xorm *xorm.Engine
 
-func InitXorm(){
+func InitXorm() {
 
 	file := (revel.BasePath + "/conf/speedy.conf")
 	data, _ := config.ReadDefault(file)
 
-	driver, _ := data.String("database", "db.driver")
+	driver, _ := data.String("database", "database.driver")
 	dbname, _ := data.String("database", "database.dbname")
 	user, _ := data.String("database", "database.user")
 	passwd, _ := data.String("database", "database.password")

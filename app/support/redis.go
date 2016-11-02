@@ -12,9 +12,6 @@ var Cache *redis.Client
 const (
 	SPY_CONF_MD5_KEY  = "speedy:conf:md5:key"
 	SPY_CONF_SIGN_KEY = "speedy:conf:sign:key"
-
-	USER_LOGIN_BY_SIGN = "admin:user:sign:"
-	USER_DATA_BY_ID    = "admin:user:id:"
 )
 
 //Init the redis client.

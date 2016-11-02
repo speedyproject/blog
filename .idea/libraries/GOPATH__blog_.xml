@@ -6,6 +6,7 @@
       <root url="file://$PROJECT_DIR$/../wechat" />
       <root url="file://$PROJECT_DIR$/../sourcegraph.com" />
       <root url="file://$PROJECT_DIR$/../gopkg.in" />
+      <root url="file://$PROJECT_DIR$/../test" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
@@ -14,6 +15,7 @@
       <root url="file://$PROJECT_DIR$/../wechat" />
       <root url="file://$PROJECT_DIR$/../sourcegraph.com" />
       <root url="file://$PROJECT_DIR$/../gopkg.in" />
+      <root url="file://$PROJECT_DIR$/../test" />
     </SOURCES>
     <excluded>
       <root url="file://$PROJECT_DIR$" />

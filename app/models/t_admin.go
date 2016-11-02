@@ -2,9 +2,7 @@ package models
 
 import (
 	"blog/app/support"
-	"encoding/json"
 	"github.com/alecthomas/log4go"
-	"strconv"
 	"strings"
 	"time"
 	"wechat/utils"
@@ -28,27 +26,12 @@ func (a *Admin) SignIn() (Admin, error) {
 		return error.Error("username or passwd can't be null.")
 	}
 
-	//first try login for cache use sign.
-	sign_key := support.Cache.Get(support.SPY_CONF_SIGN_KEY).String()
-
-	s := &support.Sign{Src: a.Name + a.Passwd, Key: sign_key}
-
-	sign := s.GetMd5()
-
-	res := support.Cache.Get(sign).String()
-
 	admin := new(Admin)
-	e := json.Unmarshal([]byte(res), admin)
 
-	if e == nil {
-		if strings.EqualFold(a.Name, admin.Name) && strings.EqualFold(a.Passwd, admin.Passwd) {
-			return admin, nil
-		}
-	}
+	sign_key := support.Cache.Get(support.SPY_CONF_MD5_KEY).String()
+	sign := &support.Sign{a.Passwd, Key: sign_key}
 
-	//if cache login failed, handle db login.
-	s.Src = a.Passwd
-	a.Passwd = s.GetMd5()
+	a.Passwd = sign.GetMd5()
 
 	_, err := utils.Orm.Where("name = ? and passwd = ?", a.Name, a.Passwd).Get(&admin)
 
@@ -90,9 +73,6 @@ func (a *Admin) New() (int64, error) {
 		return false, error.Error("create new admin user failed.")
 	}
 
-	json, _ := json.Marshal(&a)
-	support.Cache.Set(support.USER_LOGIN_BY_SIGN, string(json), 0)
-
 	return res, nil
 }
 
@@ -107,30 +87,24 @@ func (a *Admin) ChangePasswd(old_pwd, new_pwd string) (bool, error) {
 	old_pwd = &support.Sign{Src: old_pwd, Key: key}.GetMd5()
 	new_pwd = &support.Sign{Src: new_pwd, Key: key}.GetMd5()
 
-	res := support.Cache.Get(support.USER_DATA_BY_ID + strconv.Itoa(a.Id)).String()
 	admin := new(Admin)
-	e1 := json.Unmarshal([]byte(res), admin)
+	_,e1 := support.Xorm.Id(a.Id).Get(admin)
 
 	if e1 != nil {
-		return false, error.Error("change fiald.")
+		return false,e1
 	}
 
-	if !strings.EqualFold(old_pwd, admin.Passwd) {
-		return false, error.Error("change fiald, old passwd error.")
+	if !strings.EqualFold(old_pwd,admin.Passwd) {
+		return false, error.Error("change passwd failed, old passwd error.")
 	}
 
-	ad := new(Admin)
-	ad.Passwd = new_pwd
-	has, e2 := support.Xorm.Id(a.Id).Update(ad)
+	admin = new(Admin)
+	admin.Passwd = new_pwd
+	has, e2 := support.Xorm.Id(a.Id).Update(&admin)
 
 	if e2 != nil {
 		return false, e2
 	}
-
-	support.Cache.Del(support.USER_DATA_BY_ID + strconv.Itoa(a.Id))
-	admin.Passwd = new_pwd
-	tmp, _ := json.Marshal(&admin)
-	support.Cache.Set(support.USER_DATA_BY_ID+strconv.Itoa(a.Id), string(tmp), 0)
 
 	return has > 0, nil
 }

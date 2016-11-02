@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/go-xorm/core"
 	"github.com/alecthomas/log4go"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 var Xorm *xorm.Engine

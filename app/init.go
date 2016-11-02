@@ -1,6 +1,9 @@
 package app
 
-import "github.com/revel/revel"
+import (
+	"github.com/revel/revel"
+	"blog/app/support"
+)
 
 func init() {
 	// Filters is the default set of global filters.
@@ -21,7 +24,7 @@ func init() {
 
 	// register startup functions with OnAppStart
 	// ( order dependent )
-	// revel.OnAppStart(InitDB)
+	revel.OnAppStart(support.InitXorm)
 	// revel.OnAppStart(FillCache)
 }
 

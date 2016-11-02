@@ -1,0 +1,2 @@
+# blog
+Golang blog

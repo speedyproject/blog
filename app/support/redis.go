@@ -32,5 +32,4 @@ func InitRedis(){
 	} else {
 		log4go.Debug(res)
 	}
-
 }

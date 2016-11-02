@@ -34,5 +34,4 @@ func InitXorm(){
 	} else {
 		Xorm.Ping()
 	}
-
 }

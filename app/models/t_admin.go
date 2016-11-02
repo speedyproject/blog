@@ -88,13 +88,13 @@ func (a *Admin) ChangePasswd(old_pwd, new_pwd string) (bool, error) {
 	new_pwd = &support.Sign{Src: new_pwd, Key: key}.GetMd5()
 
 	admin := new(Admin)
-	_,e1 := support.Xorm.Id(a.Id).Get(admin)
+	_, e1 := support.Xorm.Id(a.Id).Get(admin)
 
 	if e1 != nil {
-		return false,e1
+		return false, e1
 	}
 
-	if !strings.EqualFold(old_pwd,admin.Passwd) {
+	if !strings.EqualFold(old_pwd, admin.Passwd) {
 		return false, error.Error("change passwd failed, old passwd error.")
 	}
 

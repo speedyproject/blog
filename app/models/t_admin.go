@@ -16,6 +16,7 @@ type Admin struct {
 	Email     string    `xorm:"VARCHAR(45)"`
 	Skey      string    `xorm:"not null VARCHAR(64)"`
 	Lock      int       `xorm:"default 0 INT(11)"`
+	RoleId    int       `xorm:"default 1001 INT(11)"`
 	LastIp    string    `xorm:"default '0.0.0.0' VARCHAR(20)"`
 	LastLogin time.Time `xorm:"default 'CURRENT_TIMESTAMP' TIMESTAMP"`
 }
@@ -80,6 +81,11 @@ func (a *Admin) New() (int64, string) {
 	a.Skey = sign.GetMd5()
 	a.Passwd = passwd.GetMd5()
 	a.LastLogin = time.Now()
+
+	if a.RoleId <= 0 {
+		a.RoleId = 1003
+	}
+
 	revel.INFO.Println(a)
 
 	res, err := support.Xorm.InsertOne(a)

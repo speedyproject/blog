@@ -78,7 +78,7 @@ func (a *Admin) New() (int64, string) {
 	a.Sign = sign.GetMd5()
 	a.Passwd = passwd.GetMd5()
 
-	revel.INFO.Printf(a)
+	revel.INFO.Println(a)
 
 	res, err := support.Xorm.InsertOne(a)
 

@@ -28,7 +28,7 @@ func (l Login) SignInHandler(name, passwd string) revel.Result {
 		return l.Redirect(routes.Login.SignIn())
 	}
 
-	revel.INFO.Printf(admin)
+	revel.INFO.Println(admin)
 
 	l.Session["UID"] = strconv.Itoa(admin.Id)
 

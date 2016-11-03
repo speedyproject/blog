@@ -4,18 +4,6 @@ package routes
 import "github.com/revel/revel"
 
 
-type tMain struct {}
-var Main tMain
-
-
-func (_ tMain) Main(
-		) string {
-	args := make(map[string]string)
-	
-	return revel.MainRouter.Reverse("Main.Main", args).Url
-}
-
-
 type tLogin struct {}
 var Login tLogin
 
@@ -56,6 +44,18 @@ func (_ tLogin) SignUpHandler(
 	revel.Unbind(args, "email", email)
 	revel.Unbind(args, "passwd", passwd)
 	return revel.MainRouter.Reverse("Login.SignUpHandler", args).Url
+}
+
+
+type tMain struct {}
+var Main tMain
+
+
+func (_ tMain) Main(
+		) string {
+	args := make(map[string]string)
+	
+	return revel.MainRouter.Reverse("Main.Main", args).Url
 }
 
 

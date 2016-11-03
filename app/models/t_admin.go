@@ -14,10 +14,10 @@ type Admin struct {
 	Name      string    `xorm:"not null VARCHAR(15)"`
 	Passwd    string    `xorm:"not null VARCHAR(64)"`
 	Email     string    `xorm:"VARCHAR(45)"`
-	Sign      string    `xorm:"not null VARCHAR(64)"`
+	Skey      string    `xorm:"not null VARCHAR(64)"`
 	Lock      int       `xorm:"default 0 INT(11)"`
 	LastIp    string    `xorm:"default '0.0.0.0' VARCHAR(20)"`
-	LastLogin time.Time `xorm:"TIMESTAMP"`
+	LastLogin time.Time `xorm:"default 'CURRENT_TIMESTAMP' TIMESTAMP"`
 }
 
 //SignIn -> Admin sign in.
@@ -30,7 +30,7 @@ func (a *Admin) SignIn(request *revel.Request) (*Admin, string) {
 	}
 
 	//Get MD5 key in cache
-	signKey := support.Cache.Get(support.SPY_CONF_MD5_KEY).String()
+	signKey, _ := support.Cache.Get(support.SPY_CONF_MD5_KEY).Result()
 	sign := &support.Sign{Src: a.Passwd, Key: signKey}
 	a.Passwd = sign.GetMd5()
 
@@ -69,17 +69,17 @@ func (a *Admin) New() (int64, string) {
 		return 0, "username or passwd can't be null."
 	}
 	//Get MD5/Sign key in cache
-	md5Key := support.Cache.Get(support.SPY_CONF_MD5_KEY).String()
-	signKyey := support.Cache.Get(support.SPY_CONF_SIGN_KEY).String()
+	md5Key, _ := support.Cache.Get(support.SPY_CONF_MD5_KEY).Result()
+	signKyey, _ := support.Cache.Get(support.SPY_CONF_SIGN_KEY).Result()
 
 	revel.INFO.Printf("MD5_Key: %s, Sign_Key: %s", md5Key, signKyey)
 
 	passwd := &support.Sign{Src: a.Passwd, Key: md5Key}
 	sign := &support.Sign{Src: a.Name + a.Passwd, Key: signKyey}
 
-	a.Sign = sign.GetMd5()
+	a.Skey = sign.GetMd5()
 	a.Passwd = passwd.GetMd5()
-
+	a.LastLogin = time.Now()
 	revel.INFO.Println(a)
 
 	res, err := support.Xorm.InsertOne(a)
@@ -99,7 +99,7 @@ func (a *Admin) ChangePasswd(oldPwd, newPwd string) (bool, string) {
 		return false, "old passwd or new passwd can't be null."
 	}
 	//Get MD5 key in cache
-	key := support.Cache.Get(support.SPY_CONF_MD5_KEY).String()
+	key, _ := support.Cache.Get(support.SPY_CONF_MD5_KEY).Result()
 
 	o := &support.Sign{Src: oldPwd, Key: key}
 	n := &support.Sign{Src: newPwd, Key: key}

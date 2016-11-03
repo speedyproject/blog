@@ -7,6 +7,10 @@ type Login struct {
 }
 
 func (l Login) SignIn() revel.Result {
-
 	return l.Render()
+}
+
+
+func (l Login) SignInHandler() revel.Result {
+	return l.RenderHtml("ok")
 }

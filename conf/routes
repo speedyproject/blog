@@ -19,6 +19,11 @@ POST    /create                                 Login.SignUpHandler
 GET     /                                       Main.Main
 GET     /main                                   Main.Main
 
+# Admin
+
+GET     /admin/                                 Admin.Main
+GET     /admin/main                             Admin.Main
+
 
 
 # Ignore favicon requests

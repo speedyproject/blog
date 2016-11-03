@@ -2,7 +2,6 @@ package support
 
 import (
 	"fmt"
-	"github.com/alecthomas/log4go"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/core"
 	"github.com/go-xorm/xorm"
@@ -31,7 +30,7 @@ func InitXorm() {
 	Xorm.SetTableMapper(tbMapper)
 
 	if err != nil {
-		log4go.Error(err)
+		revel.ERROR.Println(err)
 	} else {
 		Xorm.Ping()
 	}

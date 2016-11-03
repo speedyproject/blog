@@ -2,7 +2,6 @@ package models
 
 import (
 	"blog/app/support"
-	"github.com/alecthomas/log4go"
 	"strings"
 	"time"
 	"github.com/revel/revel"
@@ -52,7 +51,7 @@ func (a *Admin) SignIn(request *revel.Request) (*Admin, string) {
 		_, e1 := support.Xorm.Id(admin.Id).Get(ad)
 
 		if e1 != nil {
-			log4go.Error(e1)
+			revel.ERROR.Println(e1)
 		}
 
 		return admin, ""
@@ -71,7 +70,7 @@ func (a *Admin) New() (int64, string) {
 	md5_key := support.Cache.Get(support.SPY_CONF_MD5_KEY).String()
 	sign_key := support.Cache.Get(support.SPY_CONF_SIGN_KEY).String()
 
-	log4go.Debug("MD5_Key: %s, Sign_Key: %s", md5_key, sign_key)
+	revel.INFO.Printf("MD5_Key: %s, Sign_Key: %s", md5_key, sign_key)
 
 	passwd := &support.Sign{Src: a.Passwd, Key: md5_key}
 	sign := &support.Sign{Src: a.Name + a.Passwd, Key: sign_key}
@@ -79,12 +78,12 @@ func (a *Admin) New() (int64, string) {
 	a.Sign = sign.GetMd5()
 	a.Passwd = passwd.GetMd5()
 
-	log4go.Debug(a)
+	revel.INFO.Printf(a)
 
 	res, err := support.Xorm.InsertOne(a)
 
 	if err != nil {
-		log4go.Debug(err)
+		revel.ERROR.Println(err)
 		return 0, "create new admin user failed."
 	}
 

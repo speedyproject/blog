@@ -1,7 +1,6 @@
 package support
 
 import (
-	"github.com/alecthomas/log4go"
 	"github.com/revel/config"
 	"github.com/revel/revel"
 	"gopkg.in/redis.v5"
@@ -36,9 +35,9 @@ func InitRedis() {
 	res, err := Cache.Ping().Result()
 
 	if err != nil {
-		log4go.Error(err)
+		revel.ERROR.Println(err)
 	} else {
-		log4go.Debug(res)
+		revel.INFO.Println(res)
 	}
 }
 

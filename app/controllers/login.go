@@ -5,7 +5,6 @@ import (
 	"blog/app/routes"
 	"blog/app/support"
 	"encoding/json"
-	"github.com/alecthomas/log4go"
 	"github.com/revel/revel"
 	"strconv"
 )
@@ -24,12 +23,12 @@ func (l Login) SignInHandler(name, passwd string) revel.Result {
 	admin, err := model.SignIn(l.Request)
 
 	if err != "" {
-		log4go.Error(err)
+		revel.ERROR.Println(err)
 		l.Flash.Error("msg", err)
 		return l.Redirect(routes.Login.SignIn())
 	}
 
-	log4go.Debug(admin)
+	revel.INFO.Printf(admin)
 
 	l.Session["UID"] = strconv.Itoa(admin.Id)
 

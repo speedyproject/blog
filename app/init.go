@@ -29,6 +29,7 @@ func init() {
 
 	revel.OnAppStart(support.InitXorm)
 	revel.OnAppStart(support.InitRedis)
+	revel.OnAppStart(support.LoadCache)
 }
 
 // TODO turn this into revel.HeaderFilter

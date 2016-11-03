@@ -3,10 +3,10 @@ package models
 import (
 	"blog/app/support"
 	"github.com/alecthomas/log4go"
-	"net/http"
 	"strings"
 	"time"
 	"wechat/utils"
+	"github.com/revel/revel"
 )
 
 type Admin struct {
@@ -21,27 +21,27 @@ type Admin struct {
 }
 
 //Admin sign in.
-func (a *Admin) SignIn(request *http.Request) (Admin, error) {
-
-	if a.Name == "" || a.Passwd == "" {
-		return error.Error("username or passwd can't be null.")
-	}
+func (a *Admin) SignIn(request *revel.Request) (*Admin, string) {
 
 	admin := new(Admin)
 
+	if a.Name == "" || a.Passwd == "" {
+		return admin, "username or passwd can't be null."
+	}
+
 	sign_key := support.Cache.Get(support.SPY_CONF_MD5_KEY).String()
-	sign := &support.Sign{a.Passwd, Key: sign_key}
+	sign := &support.Sign{Src:a.Passwd, Key: sign_key}
 
 	a.Passwd = sign.GetMd5()
 
 	_, err := utils.Orm.Where("name = ? and passwd = ?", a.Name, a.Passwd).Get(&admin)
 
 	if err != nil {
-		return admin, error.Error("login failed.")
+		return admin, "login failed."
 	}
 
 	if admin.Lock > 0 {
-		return admin, error.Error("login failed, the account is lock.")
+		return admin, "login failed, the account is lock."
 	}
 
 	if strings.EqualFold(a.Name, admin.Name) && strings.EqualFold(a.Passwd, admin.Passwd) {
@@ -49,24 +49,24 @@ func (a *Admin) SignIn(request *http.Request) (Admin, error) {
 
 		ad := new(Admin)
 		ad.LastIp = lastIp
-		ad.LastLogin = time.Time.UTC()
+		ad.LastLogin = time.Now()
 		_, e1 := support.Xorm.Id(admin.Id).Get(ad)
 
 		if e1 != nil {
 			log4go.Error(e1)
 		}
 
-		return admin, nil
+		return admin, ""
 	}
 
-	return admin, error.Error("login failed.")
+	return admin, "login failed."
 }
 
 //Add new admin user.
-func (a *Admin) New() (int64, error) {
+func (a *Admin) New() (int64, string) {
 
 	if a.Name == "" || a.Passwd == "" {
-		return false, error.Error("username or passwd can't be null.")
+		return 0, "username or passwd can't be null."
 	}
 
 	md5_key := support.Cache.Get(support.SPY_CONF_MD5_KEY).String()
@@ -74,11 +74,11 @@ func (a *Admin) New() (int64, error) {
 
 	log4go.Debug("MD5_Key: %s, Sign_Key: %s", md5_key, sign_key)
 
-	passwd := &support.Sign{Src: a.Passwd, Key: md5_key}.GetMd5()
-	sign := &support.Sign{Src: a.Name + a.Passwd, Key: sign_key}.GetMd5()
+	passwd := &support.Sign{Src: a.Passwd, Key: md5_key}
+	sign := &support.Sign{Src: a.Name + a.Passwd, Key: sign_key}
 
-	a.Sign = sign
-	a.Passwd = passwd
+	a.Sign = sign.GetMd5()
+	a.Passwd = passwd.GetMd5()
 
 	log4go.Debug(a)
 
@@ -86,32 +86,36 @@ func (a *Admin) New() (int64, error) {
 
 	if err != nil {
 		log4go.Debug(err)
-		return false, error.Error("create new admin user failed.")
+		return 0, "create new admin user failed."
 	}
 
-	return res, nil
+	return res, ""
 }
 
 //Admin change password.
-func (a *Admin) ChangePasswd(old_pwd, new_pwd string) (bool, error) {
+func (a *Admin) ChangePasswd(old_pwd, new_pwd string) (bool, string) {
 
 	if old_pwd == "" || new_pwd == "" {
-		return false, error.Error("old passwd or new passwd can't be null.")
+		return false, "old passwd or new passwd can't be null."
 	}
 
 	key := support.Cache.Get(support.SPY_CONF_MD5_KEY).String()
-	old_pwd = &support.Sign{Src: old_pwd, Key: key}.GetMd5()
-	new_pwd = &support.Sign{Src: new_pwd, Key: key}.GetMd5()
+
+	o := &support.Sign{Src: old_pwd, Key: key}
+	n := &support.Sign{Src: new_pwd, Key: key}
+
+	old_pwd = o.GetMd5()
+	new_pwd = n.GetMd5()
 
 	admin := new(Admin)
 	_, e1 := support.Xorm.Id(a.Id).Get(admin)
 
 	if e1 != nil {
-		return false, e1
+		return false, e1.Error()
 	}
 
 	if !strings.EqualFold(old_pwd, admin.Passwd) {
-		return false, error.Error("change passwd failed, old passwd error.")
+		return false, "change passwd failed, old passwd error."
 	}
 
 	admin = new(Admin)
@@ -119,8 +123,8 @@ func (a *Admin) ChangePasswd(old_pwd, new_pwd string) (bool, error) {
 	has, e2 := support.Xorm.Id(a.Id).Update(&admin)
 
 	if e2 != nil {
-		return false, e2
+		return false, e2.Error()
 	}
 
-	return has > 0, nil
+	return has > 0, ""
 }

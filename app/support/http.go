@@ -1,8 +1,10 @@
 package support
 
-import "net/http"
+import (
+	"github.com/revel/revel"
+)
 
-func GetRequestIP(req *http.Request) string {
+func GetRequestIP(req *revel.Request) string {
 
 	lastId := req.Header.Get("x-forwarded-for")
 

@@ -60,5 +60,6 @@ func (l Login) SignUpHandler(name, email, passwd string) revel.Result {
 		return l.Redirect(routes.Login.SignUp())
 	}
 
-	return l.RenderHtml("ok")
+	l.Flash.Success("msg", "success")
+	return l.Redirect(routes.Login.SignIn())
 }

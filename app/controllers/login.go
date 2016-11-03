@@ -7,16 +7,19 @@ import (
 	"encoding/json"
 	"github.com/revel/revel"
 	"strconv"
+	"time"
 )
 
 type Login struct {
 	*revel.Controller
 }
 
+//Sign In page.
 func (l Login) SignIn() revel.Result {
 	return l.Render()
 }
 
+//Sign In handler.
 func (l Login) SignInHandler(name, passwd string) revel.Result {
 
 	model := &models.Admin{Name: name, Passwd: passwd}
@@ -29,11 +32,11 @@ func (l Login) SignInHandler(name, passwd string) revel.Result {
 	}
 
 	revel.INFO.Println(admin)
-
+	//put admin id in seesion
 	l.Session["UID"] = strconv.Itoa(admin.Id)
-
+	//set admin info in cache, time out time.Minute * 30
 	data, _ := json.Marshal(&admin)
-	support.Cache.Set(support.SPY_ADMIN_INFO+strconv.Itoa(admin.Id), string(data), 0)
+	support.Cache.Set(support.SPY_ADMIN_INFO+strconv.Itoa(admin.Id), string(data), time.Minute * 30)
 
 	return l.RenderHtml(l.Session.Id())
 }

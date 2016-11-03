@@ -27,9 +27,9 @@ func (a *Admin) SignIn(request *revel.Request) (*Admin, string) {
 		return admin, "username or passwd can't be null."
 	}
 
+	//Get MD5 key in cache
 	sign_key := support.Cache.Get(support.SPY_CONF_MD5_KEY).String()
 	sign := &support.Sign{Src:a.Passwd, Key: sign_key}
-
 	a.Passwd = sign.GetMd5()
 
 	_, err := support.Xorm.Where("name = ? and passwd = ?", a.Name, a.Passwd).Get(admin)
@@ -66,7 +66,7 @@ func (a *Admin) New() (int64, string) {
 	if a.Name == "" || a.Passwd == "" {
 		return 0, "username or passwd can't be null."
 	}
-
+	//Get MD5/Sign key in cache
 	md5_key := support.Cache.Get(support.SPY_CONF_MD5_KEY).String()
 	sign_key := support.Cache.Get(support.SPY_CONF_SIGN_KEY).String()
 
@@ -96,7 +96,7 @@ func (a *Admin) ChangePasswd(old_pwd, new_pwd string) (bool, string) {
 	if old_pwd == "" || new_pwd == "" {
 		return false, "old passwd or new passwd can't be null."
 	}
-
+	//Get MD5 key in cache
 	key := support.Cache.Get(support.SPY_CONF_MD5_KEY).String()
 
 	o := &support.Sign{Src: old_pwd, Key: key}

@@ -5,9 +5,10 @@ import (
 	"blog/app/routes"
 	"blog/app/support"
 	"encoding/json"
-	"github.com/revel/revel"
 	"strconv"
 	"time"
+
+	"github.com/revel/revel"
 )
 
 type Login struct {
@@ -36,7 +37,7 @@ func (l Login) SignInHandler(name, passwd string) revel.Result {
 	l.Session["UID"] = strconv.Itoa(admin.Id)
 	//set admin info in cache, time out time.Minute * 30
 	data, _ := json.Marshal(&admin)
-	support.Cache.Set(support.SPY_ADMIN_INFO+strconv.Itoa(admin.Id), string(data), time.Minute * 30)
+	support.Cache.Set(support.SPY_ADMIN_INFO+strconv.Itoa(admin.Id), string(data), time.Minute*30)
 
 	return l.RenderHtml(l.Session.Id())
 }

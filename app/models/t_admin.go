@@ -5,7 +5,6 @@ import (
 	"github.com/alecthomas/log4go"
 	"strings"
 	"time"
-	"wechat/utils"
 	"github.com/revel/revel"
 )
 
@@ -34,7 +33,7 @@ func (a *Admin) SignIn(request *revel.Request) (*Admin, string) {
 
 	a.Passwd = sign.GetMd5()
 
-	_, err := utils.Orm.Where("name = ? and passwd = ?", a.Name, a.Passwd).Get(&admin)
+	_, err := support.Xorm.Where("name = ? and passwd = ?", a.Name, a.Passwd).Get(admin)
 
 	if err != nil {
 		return admin, "login failed."

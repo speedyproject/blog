@@ -38,8 +38,10 @@ func (a *Admin) SignIn(request *revel.Request) (*Admin, string) {
 	_, err := support.Xorm.Where("name = ? and passwd = ?", a.Name, a.Passwd).Get(admin)
 
 	if err != nil {
-		return admin, "login failed."
+		return admin, err.Error()
 	}
+
+	revel.INFO.Printf("Admin user info: %v", admin)
 
 	if admin.Lock > 0 {
 		return admin, "login failed, the account is lock."

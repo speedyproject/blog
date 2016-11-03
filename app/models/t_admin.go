@@ -3,6 +3,7 @@ package models
 import (
 	"blog/app/support"
 	"github.com/alecthomas/log4go"
+	"net/http"
 	"strings"
 	"time"
 	"wechat/utils"
@@ -20,7 +21,7 @@ type Admin struct {
 }
 
 //Admin sign in.
-func (a *Admin) SignIn() (Admin, error) {
+func (a *Admin) SignIn(request *http.Request) (Admin, error) {
 
 	if a.Name == "" || a.Passwd == "" {
 		return error.Error("username or passwd can't be null.")
@@ -39,7 +40,22 @@ func (a *Admin) SignIn() (Admin, error) {
 		return admin, error.Error("login failed.")
 	}
 
+	if admin.Lock > 0 {
+		return admin, error.Error("login failed, the account is lock.")
+	}
+
 	if strings.EqualFold(a.Name, admin.Name) && strings.EqualFold(a.Passwd, admin.Passwd) {
+		lastIp := support.GetRequestIP(request)
+
+		ad := new(Admin)
+		ad.LastIp = lastIp
+		ad.LastLogin = time.Time.UTC()
+		_, e1 := support.Xorm.Id(admin.Id).Get(ad)
+
+		if e1 != nil {
+			log4go.Error(e1)
+		}
+
 		return admin, nil
 	}
 

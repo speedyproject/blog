@@ -4,18 +4,6 @@ package routes
 import "github.com/revel/revel"
 
 
-type tApp struct {}
-var App tApp
-
-
-func (_ tApp) Index(
-		) string {
-	args := make(map[string]string)
-	
-	return revel.MainRouter.Reverse("App.Index", args).Url
-}
-
-
 type tLogin struct {}
 var Login tLogin
 
@@ -42,6 +30,13 @@ func (_ tLogin) SignInHandler(
 type tMain struct {}
 var Main tMain
 
+
+func (_ tMain) Main(
+		) string {
+	args := make(map[string]string)
+	
+	return revel.MainRouter.Reverse("Main.Main", args).Url
+}
 
 
 type tStatic struct {}

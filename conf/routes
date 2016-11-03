@@ -4,12 +4,19 @@
 
 module:testrunner
 
-GET     /                                       App.Index
+#GET     /                                       App.Index
 
 # Sign In / Sign Up
 
 GET     /login                                  Login.SignIn
 POST    /login                                  Login.SignInHandler
+
+# Main page / Post page
+
+GET     /                                       Main.Main
+GET     /main                                   Main.Main
+
+
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

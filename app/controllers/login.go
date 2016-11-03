@@ -40,8 +40,7 @@ func (l Login) SignInHandler(name, passwd string) revel.Result {
 	data, _ := json.Marshal(&admin)
 	support.Cache.Set(support.SPY_ADMIN_INFO+strconv.Itoa(admin.Id), string(data), time.Minute*30)
 
-	l.Flash.Success("msg", "success")
-	return l.RenderHtml(l.Session.Id())
+	return l.Redirect(routes.Admin.Main())
 }
 
 //SignUp page.

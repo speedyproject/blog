@@ -51,7 +51,7 @@ func (a *Admin) SignIn(request *revel.Request) (*Admin, string) {
 		ad := new(Admin)
 		ad.LastIp = lastIP
 		ad.LastLogin = time.Now()
-		_, e1 := support.Xorm.Id(admin.Id).Get(ad)
+		_, e1 := support.Xorm.Id(admin.Id).Update(ad)
 
 		if e1 != nil {
 			revel.ERROR.Println(e1)

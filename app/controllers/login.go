@@ -11,16 +11,17 @@ import (
 	"github.com/revel/revel"
 )
 
+//Login controller
 type Login struct {
 	*revel.Controller
 }
 
-//Sign In page.
+//SignIn page.
 func (l Login) SignIn() revel.Result {
 	return l.Render()
 }
 
-//Sign In handler.
+//SignInHandler handle Sign
 func (l Login) SignInHandler(name, passwd string) revel.Result {
 
 	model := &models.Admin{Name: name, Passwd: passwd}

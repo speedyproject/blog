@@ -12,6 +12,7 @@ GET     /login                                  Login.SignIn
 POST    /login                                  Login.SignInHandler
 
 GET     /create                                 Login.SignUp
+POST    /create                                 Login.SignUpHandler
 
 # Main page / Post page
 

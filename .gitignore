@@ -23,3 +23,9 @@ _testmain.go
 *.test
 *.prof
 .idea/*.xml
+
+.idea/workspace.xml
+
+app/routes/routes.go
+
+app/tmp/main.go

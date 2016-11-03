@@ -16,33 +16,32 @@ func (_ tApp) Index(
 }
 
 
-type tStatic struct {}
-var Static tStatic
+type tLogin struct {}
+var Login tLogin
 
 
-func (_ tStatic) Serve(
-		prefix string,
-		filepath string,
+func (_ tLogin) SignIn(
 		) string {
 	args := make(map[string]string)
 	
-	revel.Unbind(args, "prefix", prefix)
-	revel.Unbind(args, "filepath", filepath)
-	return revel.MainRouter.Reverse("Static.Serve", args).Url
+	return revel.MainRouter.Reverse("Login.SignIn", args).Url
 }
 
-func (_ tStatic) ServeModule(
-		moduleName string,
-		prefix string,
-		filepath string,
+func (_ tLogin) SignInHandler(
+		name string,
+		passwd string,
 		) string {
 	args := make(map[string]string)
 	
-	revel.Unbind(args, "moduleName", moduleName)
-	revel.Unbind(args, "prefix", prefix)
-	revel.Unbind(args, "filepath", filepath)
-	return revel.MainRouter.Reverse("Static.ServeModule", args).Url
+	revel.Unbind(args, "name", name)
+	revel.Unbind(args, "passwd", passwd)
+	return revel.MainRouter.Reverse("Login.SignInHandler", args).Url
 }
+
+
+type tMain struct {}
+var Main tMain
+
 
 
 type tTestRunner struct {}
@@ -81,6 +80,35 @@ func (_ tTestRunner) List(
 	args := make(map[string]string)
 	
 	return revel.MainRouter.Reverse("TestRunner.List", args).Url
+}
+
+
+type tStatic struct {}
+var Static tStatic
+
+
+func (_ tStatic) Serve(
+		prefix string,
+		filepath string,
+		) string {
+	args := make(map[string]string)
+	
+	revel.Unbind(args, "prefix", prefix)
+	revel.Unbind(args, "filepath", filepath)
+	return revel.MainRouter.Reverse("Static.Serve", args).Url
+}
+
+func (_ tStatic) ServeModule(
+		moduleName string,
+		prefix string,
+		filepath string,
+		) string {
+	args := make(map[string]string)
+	
+	revel.Unbind(args, "moduleName", moduleName)
+	revel.Unbind(args, "prefix", prefix)
+	revel.Unbind(args, "filepath", filepath)
+	return revel.MainRouter.Reverse("Static.ServeModule", args).Url
 }
 
 

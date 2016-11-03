@@ -21,7 +21,7 @@ func (l Login) SignIn() revel.Result {
 	return l.Render()
 }
 
-//SignInHandler handle Sign
+//SignInHandler -> handle Sign
 func (l Login) SignInHandler(name, passwd string) revel.Result {
 
 	model := &models.Admin{Name: name, Passwd: passwd}
@@ -40,5 +40,27 @@ func (l Login) SignInHandler(name, passwd string) revel.Result {
 	data, _ := json.Marshal(&admin)
 	support.Cache.Set(support.SPY_ADMIN_INFO+strconv.Itoa(admin.Id), string(data), time.Minute*30)
 
+	l.Flash.Success("msg", "success")
 	return l.RenderHtml(l.Session.Id())
+}
+
+//SignUp page.
+func (l Login) SignUp() revel.Result {
+	return l.Render()
+}
+
+//SignUpHandler -> handle sign up.
+func (l Login) SignUpHandler(name, email, passwd string) revel.Result {
+
+	model := &models.Admin{Name: name, Email: email, Passwd: passwd}
+	has, err := model.New()
+
+	if err != "" && has <= 0 {
+		revel.ERROR.Println(err)
+		l.Flash.Error("msg", err)
+		return l.Redirect(routes.Login.SignUp())
+	}
+
+	l.Flash.Success("msg", "success")
+	return l.RenderHtml("ok")
 }

@@ -11,6 +11,8 @@ module:testrunner
 GET     /login                                  Login.SignIn
 POST    /login                                  Login.SignInHandler
 
+GET     /create                                 Login.SignUp
+
 # Main page / Post page
 
 GET     /                                       Main.Main

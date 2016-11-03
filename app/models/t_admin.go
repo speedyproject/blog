@@ -4,9 +4,11 @@ import (
 	"blog/app/support"
 	"strings"
 	"time"
+
 	"github.com/revel/revel"
 )
 
+//Admin model
 type Admin struct {
 	Id        int       `xorm:"not null pk autoincr INT(11)"`
 	Name      string    `xorm:"not null VARCHAR(15)"`
@@ -18,7 +20,7 @@ type Admin struct {
 	LastLogin time.Time `xorm:"TIMESTAMP"`
 }
 
-//Admin sign in.
+//SignIn -> Admin sign in.
 func (a *Admin) SignIn(request *revel.Request) (*Admin, string) {
 
 	admin := new(Admin)
@@ -28,8 +30,8 @@ func (a *Admin) SignIn(request *revel.Request) (*Admin, string) {
 	}
 
 	//Get MD5 key in cache
-	sign_key := support.Cache.Get(support.SPY_CONF_MD5_KEY).String()
-	sign := &support.Sign{Src:a.Passwd, Key: sign_key}
+	signKey := support.Cache.Get(support.SPY_CONF_MD5_KEY).String()
+	sign := &support.Sign{Src: a.Passwd, Key: signKey}
 	a.Passwd = sign.GetMd5()
 
 	_, err := support.Xorm.Where("name = ? and passwd = ?", a.Name, a.Passwd).Get(admin)
@@ -43,10 +45,10 @@ func (a *Admin) SignIn(request *revel.Request) (*Admin, string) {
 	}
 
 	if strings.EqualFold(a.Name, admin.Name) && strings.EqualFold(a.Passwd, admin.Passwd) {
-		lastIp := support.GetRequestIP(request)
+		lastIP := support.GetRequestIP(request)
 
 		ad := new(Admin)
-		ad.LastIp = lastIp
+		ad.LastIp = lastIP
 		ad.LastLogin = time.Now()
 		_, e1 := support.Xorm.Id(admin.Id).Get(ad)
 
@@ -60,20 +62,20 @@ func (a *Admin) SignIn(request *revel.Request) (*Admin, string) {
 	return admin, "login failed."
 }
 
-//Add new admin user.
+//New -> Add new admin user.
 func (a *Admin) New() (int64, string) {
 
-	if a.Name == "" || a.Passwd == "" {
+	if a.Name == "" || a.Passwd == "" || a.Email == "" {
 		return 0, "username or passwd can't be null."
 	}
 	//Get MD5/Sign key in cache
-	md5_key := support.Cache.Get(support.SPY_CONF_MD5_KEY).String()
-	sign_key := support.Cache.Get(support.SPY_CONF_SIGN_KEY).String()
+	md5Key := support.Cache.Get(support.SPY_CONF_MD5_KEY).String()
+	signKyey := support.Cache.Get(support.SPY_CONF_SIGN_KEY).String()
 
-	revel.INFO.Printf("MD5_Key: %s, Sign_Key: %s", md5_key, sign_key)
+	revel.INFO.Printf("MD5_Key: %s, Sign_Key: %s", md5Key, signKyey)
 
-	passwd := &support.Sign{Src: a.Passwd, Key: md5_key}
-	sign := &support.Sign{Src: a.Name + a.Passwd, Key: sign_key}
+	passwd := &support.Sign{Src: a.Passwd, Key: md5Key}
+	sign := &support.Sign{Src: a.Name + a.Passwd, Key: signKyey}
 
 	a.Sign = sign.GetMd5()
 	a.Passwd = passwd.GetMd5()
@@ -90,20 +92,20 @@ func (a *Admin) New() (int64, string) {
 	return res, ""
 }
 
-//Admin change password.
-func (a *Admin) ChangePasswd(old_pwd, new_pwd string) (bool, string) {
+//ChangePasswd -> Admin change password.
+func (a *Admin) ChangePasswd(oldPwd, newPwd string) (bool, string) {
 
-	if old_pwd == "" || new_pwd == "" {
+	if oldPwd == "" || newPwd == "" {
 		return false, "old passwd or new passwd can't be null."
 	}
 	//Get MD5 key in cache
 	key := support.Cache.Get(support.SPY_CONF_MD5_KEY).String()
 
-	o := &support.Sign{Src: old_pwd, Key: key}
-	n := &support.Sign{Src: new_pwd, Key: key}
+	o := &support.Sign{Src: oldPwd, Key: key}
+	n := &support.Sign{Src: newPwd, Key: key}
 
-	old_pwd = o.GetMd5()
-	new_pwd = n.GetMd5()
+	oldPwd = o.GetMd5()
+	newPwd = n.GetMd5()
 
 	admin := new(Admin)
 	_, e1 := support.Xorm.Id(a.Id).Get(admin)
@@ -112,12 +114,12 @@ func (a *Admin) ChangePasswd(old_pwd, new_pwd string) (bool, string) {
 		return false, e1.Error()
 	}
 
-	if !strings.EqualFold(old_pwd, admin.Passwd) {
+	if !strings.EqualFold(oldPwd, admin.Passwd) {
 		return false, "change passwd failed, old passwd error."
 	}
 
 	admin = new(Admin)
-	admin.Passwd = new_pwd
+	admin.Passwd = newPwd
 	has, e2 := support.Xorm.Id(a.Id).Update(&admin)
 
 	if e2 != nil {

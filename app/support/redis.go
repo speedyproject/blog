@@ -51,4 +51,5 @@ func LoadCache() {
 
 	Cache.Set(SPY_CONF_MD5_KEY, md5_key, 0)
 	Cache.Set(SPY_CONF_SIGN_KEY, sign_key, 0)
+
 }

@@ -13,6 +13,8 @@ const (
 	SPY_CONF_SIGN_KEY = "speedy:conf:sign:key"
 
 	SPY_ADMIN_INFO = "admin:info:id:"
+
+	SPY_BLOGGER_LIST = "speedy:blogger:list"
 )
 
 //Init the redis client.

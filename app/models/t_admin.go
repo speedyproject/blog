@@ -21,7 +21,7 @@ type Admin struct {
 	LastLogin time.Time `xorm:"default 'CURRENT_TIMESTAMP' TIMESTAMP"`
 }
 
-//SignIn -> Admin sign in.
+//Admin sign in.
 func (a *Admin) SignIn(request *revel.Request) (*Admin, string) {
 
 	admin := new(Admin)
@@ -65,7 +65,7 @@ func (a *Admin) SignIn(request *revel.Request) (*Admin, string) {
 	return admin, "login failed."
 }
 
-//New -> Add new admin user.
+//Add new admin user.
 func (a *Admin) New() (int64, string) {
 
 	if a.Name == "" || a.Passwd == "" || a.Email == "" {
@@ -100,7 +100,7 @@ func (a *Admin) New() (int64, string) {
 	return res, ""
 }
 
-//ChangePasswd -> Admin change password.
+//Admin change password.
 func (a *Admin) ChangePasswd(oldPwd, newPwd string) (bool, string) {
 
 	if oldPwd == "" || newPwd == "" {

@@ -3,7 +3,7 @@
 [![codebeat badge](https://codebeat.co/badges/0049b907-72aa-4fc5-8e7e-ee12fd8c4464)](https://codebeat.co/projects/github-com-speedyproject-blog)
 [![AUR](https://img.shields.io/aur/license/yaourt.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
 [![Build Status](https://travis-ci.org/speedyproject/blog.svg?branch=master)](https://travis-ci.org/speedyproject/blog)
-[![Gitter](https://img.shields.io/badge/chat-on%20gitter-blue.svg)](https://gitter.im/speedyblog/Lobby)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/speedyblog/Lobby)
   
 *	Speedy blog 遵循GPL-3.0条例开源 基于 revel + xorm 为基础搭建
 *	使用mysql／mariadb + redis作为持久层

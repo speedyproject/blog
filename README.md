@@ -10,8 +10,8 @@
 
 ## 快速体验
   
-  导入SQL文件（目前开发使用的是mysql／mariadb），配置/conf目录下的speedy.conf文件将Redis 和mysql／mariadb <br/>
-  地址以及相关修改成自己本地的。执行 ``` $ ./revel run blog ``` 即可
+&#12288;&#12288;导入SQL文件（目前开发使用的是mysql／mariadb），配置/conf目录下的speedy.conf文件 <br/>
+将Redis和mysql／mariadb 地址以及相关修改成自己本地的。执行 ``` $ ./revel run blog ``` 即可
   
 
 ## 依赖

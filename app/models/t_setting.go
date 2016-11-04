@@ -22,10 +22,14 @@ func LoadCache() {
 		return
 	}
 	if len(res) > 0 {
+		//select db 1
+		support.Cache.Pipeline().Select(1)
 		for i := 0; i < len(res); i++ {
 			s := res[0]
 			support.Cache.Set(s.Key, s.Value, 0)
 		}
+		//select db 0
+		support.Cache.Pipeline().Select(0)
 	}
 }
 
@@ -41,4 +45,48 @@ func (s *Setting) FindAll() ([]Setting, string) {
 	}
 
 	return set, ""
+}
+
+//Get setting value for key.
+func (s *Setting) Get() (string, error) {
+	//select db 1
+	support.Cache.Pipeline().Select(1)
+	res, err := support.Cache.Get(s.Key).Result()
+	//select db 0
+	support.Cache.Pipeline().Select(0)
+	return res, err
+}
+
+//Put setting K,V in cache and db.
+func (s *Setting) Put() (bool, error) {
+	//select db 1
+	support.Cache.Pipeline().Select(1)
+
+	has, err := support.Xorm.InsertOne(s)
+
+	if err == nil && has > 0 {
+		support.Cache.Set(s.Key, s.Value, 0)
+	}
+	//select db 0
+	support.Cache.Pipeline().Select(0)
+	return has > 0, err
+}
+
+//Update value for key.
+func (s *Setting) Update() (bool, error) {
+	//select db 1
+	support.Cache.Pipeline().Select(1)
+
+	set := new(Setting)
+	set.Value = s.Value
+	has, err := support.Xorm.Where("key = ?", s.Key).Update(&set)
+
+	if err == nil && has > 0 {
+		support.Cache.Del(s.Key)
+		support.Cache.Set(s.Key, s.Value, 0)
+	}
+
+	//select db 0
+	support.Cache.Pipeline().Select(0)
+	return has > 0, err
 }

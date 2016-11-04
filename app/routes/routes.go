@@ -4,15 +4,15 @@ package routes
 import "github.com/revel/revel"
 
 
-type tApp struct {}
-var App tApp
+type tAdmin struct {}
+var Admin tAdmin
 
 
-func (_ tApp) Index(
+func (_ tAdmin) Main(
 		) string {
 	args := make(map[string]string)
 	
-	return revel.MainRouter.Reverse("App.Index", args).Url
+	return revel.MainRouter.Reverse("Admin.Main", args).Url
 }
 
 
@@ -38,10 +38,37 @@ func (_ tLogin) SignInHandler(
 	return revel.MainRouter.Reverse("Login.SignInHandler", args).Url
 }
 
+func (_ tLogin) SignUp(
+		) string {
+	args := make(map[string]string)
+	
+	return revel.MainRouter.Reverse("Login.SignUp", args).Url
+}
+
+func (_ tLogin) SignUpHandler(
+		name string,
+		email string,
+		passwd string,
+		) string {
+	args := make(map[string]string)
+	
+	revel.Unbind(args, "name", name)
+	revel.Unbind(args, "email", email)
+	revel.Unbind(args, "passwd", passwd)
+	return revel.MainRouter.Reverse("Login.SignUpHandler", args).Url
+}
+
 
 type tMain struct {}
 var Main tMain
 
+
+func (_ tMain) Main(
+		) string {
+	args := make(map[string]string)
+	
+	return revel.MainRouter.Reverse("Main.Main", args).Url
+}
 
 
 type tTestRunner struct {}

@@ -2,6 +2,9 @@ package app
 
 import (
 	"blog/app/support"
+
+	"blog/app/controllers"
+
 	"github.com/revel/revel"
 )
 
@@ -30,6 +33,9 @@ func init() {
 	revel.OnAppStart(support.InitXorm)
 	revel.OnAppStart(support.InitRedis)
 	revel.OnAppStart(support.LoadCache)
+
+	//Login status check
+	revel.InterceptFunc(support.LoginFilter, revel.BEFORE, controllers.Admin{})
 }
 
 // TODO turn this into revel.HeaderFilter

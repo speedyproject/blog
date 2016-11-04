@@ -4,21 +4,24 @@ import (
 	"blog/app/support"
 	"strings"
 	"time"
+
 	"github.com/revel/revel"
 )
 
+//Admin model
 type Admin struct {
 	Id        int       `xorm:"not null pk autoincr INT(11)"`
 	Name      string    `xorm:"not null VARCHAR(15)"`
 	Passwd    string    `xorm:"not null VARCHAR(64)"`
 	Email     string    `xorm:"VARCHAR(45)"`
-	Sign      string    `xorm:"not null VARCHAR(64)"`
+	Skey      string    `xorm:"not null VARCHAR(64)"`
 	Lock      int       `xorm:"default 0 INT(11)"`
+	RoleId    int       `xorm:"default 1001 INT(11)"`
 	LastIp    string    `xorm:"default '0.0.0.0' VARCHAR(20)"`
-	LastLogin time.Time `xorm:"TIMESTAMP"`
+	LastLogin time.Time `xorm:"default 'CURRENT_TIMESTAMP' TIMESTAMP"`
 }
 
-//Admin sign in.
+//SignIn -> Admin sign in.
 func (a *Admin) SignIn(request *revel.Request) (*Admin, string) {
 
 	admin := new(Admin)
@@ -27,28 +30,30 @@ func (a *Admin) SignIn(request *revel.Request) (*Admin, string) {
 		return admin, "username or passwd can't be null."
 	}
 
-	sign_key := support.Cache.Get(support.SPY_CONF_MD5_KEY).String()
-	sign := &support.Sign{Src:a.Passwd, Key: sign_key}
-
+	//Get MD5 key in cache
+	signKey, _ := support.Cache.Get(support.SPY_CONF_MD5_KEY).Result()
+	sign := &support.Sign{Src: a.Passwd, Key: signKey}
 	a.Passwd = sign.GetMd5()
 
 	_, err := support.Xorm.Where("name = ? and passwd = ?", a.Name, a.Passwd).Get(admin)
 
 	if err != nil {
-		return admin, "login failed."
+		return admin, err.Error()
 	}
+
+	revel.INFO.Printf("Admin user info: %v", admin)
 
 	if admin.Lock > 0 {
 		return admin, "login failed, the account is lock."
 	}
 
 	if strings.EqualFold(a.Name, admin.Name) && strings.EqualFold(a.Passwd, admin.Passwd) {
-		lastIp := support.GetRequestIP(request)
+		lastIP := support.GetRequestIP(request)
 
 		ad := new(Admin)
-		ad.LastIp = lastIp
+		ad.LastIp = lastIP
 		ad.LastLogin = time.Now()
-		_, e1 := support.Xorm.Id(admin.Id).Get(ad)
+		_, e1 := support.Xorm.Id(admin.Id).Update(ad)
 
 		if e1 != nil {
 			revel.ERROR.Println(e1)
@@ -60,23 +65,28 @@ func (a *Admin) SignIn(request *revel.Request) (*Admin, string) {
 	return admin, "login failed."
 }
 
-//Add new admin user.
+//New -> Add new admin user.
 func (a *Admin) New() (int64, string) {
 
-	if a.Name == "" || a.Passwd == "" {
+	if a.Name == "" || a.Passwd == "" || a.Email == "" {
 		return 0, "username or passwd can't be null."
 	}
+	//Get MD5/Sign key in cache
+	md5Key, _ := support.Cache.Get(support.SPY_CONF_MD5_KEY).Result()
+	signKyey, _ := support.Cache.Get(support.SPY_CONF_SIGN_KEY).Result()
 
-	md5_key := support.Cache.Get(support.SPY_CONF_MD5_KEY).String()
-	sign_key := support.Cache.Get(support.SPY_CONF_SIGN_KEY).String()
+	revel.INFO.Printf("MD5_Key: %s, Sign_Key: %s", md5Key, signKyey)
 
-	revel.INFO.Printf("MD5_Key: %s, Sign_Key: %s", md5_key, sign_key)
+	passwd := &support.Sign{Src: a.Passwd, Key: md5Key}
+	sign := &support.Sign{Src: a.Name + a.Passwd, Key: signKyey}
 
-	passwd := &support.Sign{Src: a.Passwd, Key: md5_key}
-	sign := &support.Sign{Src: a.Name + a.Passwd, Key: sign_key}
-
-	a.Sign = sign.GetMd5()
+	a.Skey = sign.GetMd5()
 	a.Passwd = passwd.GetMd5()
+	a.LastLogin = time.Now()
+
+	if a.RoleId <= 0 {
+		a.RoleId = 1003
+	}
 
 	revel.INFO.Println(a)
 
@@ -90,20 +100,20 @@ func (a *Admin) New() (int64, string) {
 	return res, ""
 }
 
-//Admin change password.
-func (a *Admin) ChangePasswd(old_pwd, new_pwd string) (bool, string) {
+//ChangePasswd -> Admin change password.
+func (a *Admin) ChangePasswd(oldPwd, newPwd string) (bool, string) {
 
-	if old_pwd == "" || new_pwd == "" {
+	if oldPwd == "" || newPwd == "" {
 		return false, "old passwd or new passwd can't be null."
 	}
+	//Get MD5 key in cache
+	key, _ := support.Cache.Get(support.SPY_CONF_MD5_KEY).Result()
 
-	key := support.Cache.Get(support.SPY_CONF_MD5_KEY).String()
+	o := &support.Sign{Src: oldPwd, Key: key}
+	n := &support.Sign{Src: newPwd, Key: key}
 
-	o := &support.Sign{Src: old_pwd, Key: key}
-	n := &support.Sign{Src: new_pwd, Key: key}
-
-	old_pwd = o.GetMd5()
-	new_pwd = n.GetMd5()
+	oldPwd = o.GetMd5()
+	newPwd = n.GetMd5()
 
 	admin := new(Admin)
 	_, e1 := support.Xorm.Id(a.Id).Get(admin)
@@ -112,12 +122,12 @@ func (a *Admin) ChangePasswd(old_pwd, new_pwd string) (bool, string) {
 		return false, e1.Error()
 	}
 
-	if !strings.EqualFold(old_pwd, admin.Passwd) {
+	if !strings.EqualFold(oldPwd, admin.Passwd) {
 		return false, "change passwd failed, old passwd error."
 	}
 
 	admin = new(Admin)
-	admin.Passwd = new_pwd
+	admin.Passwd = newPwd
 	has, e2 := support.Xorm.Id(a.Id).Update(&admin)
 
 	if e2 != nil {

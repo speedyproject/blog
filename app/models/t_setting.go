@@ -19,6 +19,7 @@ func LoadCache() {
 
 	if err != "" {
 		revel.ERROR.Printf("Loaded setting info to cache error: %v", err)
+		return
 	}
 	if len(res) > 0 {
 		for i := 0; i < len(res); i++ {

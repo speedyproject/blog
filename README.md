@@ -3,6 +3,7 @@
 [![codebeat badge](https://codebeat.co/badges/0049b907-72aa-4fc5-8e7e-ee12fd8c4464)](https://codebeat.co/projects/github-com-speedyproject-blog)
 [![AUR](https://img.shields.io/aur/license/yaourt.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
 [![Build Status](https://travis-ci.org/speedyproject/blog.svg?branch=master)](https://travis-ci.org/speedyproject/blog)
+[![Coverage Status](https://coveralls.io/repos/github/speedyproject/blog/badge.svg?branch=master)](https://coveralls.io/github/speedyproject/blog?branch=master)
 
   
 *	Speedy blog 遵循GPL-3.0条例开源 基于 revel + xorm 为基础搭建

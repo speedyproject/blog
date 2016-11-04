@@ -14,7 +14,8 @@ const (
 
 	SPY_ADMIN_INFO = "admin:info:id:"
 
-	SPY_BLOGGER_LIST = "speedy:blogger:list"
+	SPY_BLOGGER_LIST   = "speedy:blogger:list"
+	SPY_BLOGGER_SINGLE = "speedy:blogger:id:"
 )
 
 //Init the redis client.

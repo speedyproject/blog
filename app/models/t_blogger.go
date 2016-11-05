@@ -10,7 +10,8 @@ type Blogger struct {
 	Id         int       `xorm:"not null pk autoincr INT(11)"`
 	Title      string    `xorm:"not null VARCHAR(50)"`
 	Context    string    `xorm:"not null TEXT"`
-	LabelId    int       `xorm:"default 0 INT(11)"`
+	TagId      string    `xorm:"VARCHAR(20)"`
+	LabelId    string    `xorm:"VARCHAR(20)"`
 	Passwd     string    `xorm:"VARCHAR(64)"`
 	CreateTime time.Time `xorm:"default 'CURRENT_TIMESTAMP' TIMESTAMP"`
 	CreateBy   int       `xorm:"not null INT(11)"`
@@ -54,6 +55,7 @@ func (b *Blogger) New() (bool, error) {
 	blog.CreateTime = time.Now()
 	blog.Passwd = b.Passwd
 	blog.LabelId = b.LabelId
+	blog.TagId = b.TagId
 
 	has, err := support.Xorm.InsertOne(&blog)
 

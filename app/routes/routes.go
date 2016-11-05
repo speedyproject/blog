@@ -169,4 +169,32 @@ func (_ tUser) Main(
 	return revel.MainRouter.Reverse("User.Main", args).Url
 }
 
+func (_ tUser) Edit(
+		) string {
+	args := make(map[string]string)
+	
+	return revel.MainRouter.Reverse("User.Edit", args).Url
+}
+
+func (_ tUser) Create(
+		) string {
+	args := make(map[string]string)
+	
+	return revel.MainRouter.Reverse("User.Create", args).Url
+}
+
+func (_ tUser) Update(
+		) string {
+	args := make(map[string]string)
+	
+	return revel.MainRouter.Reverse("User.Update", args).Url
+}
+
+func (_ tUser) Delete(
+		) string {
+	args := make(map[string]string)
+	
+	return revel.MainRouter.Reverse("User.Delete", args).Url
+}
+
 

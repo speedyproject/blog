@@ -32,11 +32,18 @@ func main() {
 	revel.RegisterController((*controllers.Admin)(nil),
 		[]*revel.MethodType{
 			&revel.MethodType{
+				Name: "AdminChecker",
+				Args: []*revel.MethodArg{ 
+				},
+				RenderArgNames: map[int][]string{ 
+				},
+			},
+			&revel.MethodType{
 				Name: "Main",
 				Args: []*revel.MethodArg{ 
 				},
 				RenderArgNames: map[int][]string{ 
-					14: []string{ 
+					30: []string{ 
 					},
 				},
 			},
@@ -113,18 +120,6 @@ func main() {
 			
 		})
 	
-	revel.RegisterController((*controllers.User)(nil),
-		[]*revel.MethodType{
-			&revel.MethodType{
-				Name: "Main",
-				Args: []*revel.MethodArg{ 
-				},
-				RenderArgNames: map[int][]string{ 
-				},
-			},
-			
-		})
-	
 	revel.RegisterController((*controllers0.Static)(nil),
 		[]*revel.MethodType{
 			&revel.MethodType{
@@ -182,6 +177,18 @@ func main() {
 			},
 			&revel.MethodType{
 				Name: "List",
+				Args: []*revel.MethodArg{ 
+				},
+				RenderArgNames: map[int][]string{ 
+				},
+			},
+			
+		})
+	
+	revel.RegisterController((*controllers.User)(nil),
+		[]*revel.MethodType{
+			&revel.MethodType{
+				Name: "Main",
 				Args: []*revel.MethodArg{ 
 				},
 				RenderArgNames: map[int][]string{ 

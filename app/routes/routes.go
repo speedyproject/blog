@@ -8,6 +8,13 @@ type tAdmin struct {}
 var Admin tAdmin
 
 
+func (_ tAdmin) AdminChecker(
+		) string {
+	args := make(map[string]string)
+	
+	return revel.MainRouter.Reverse("Admin.AdminChecker", args).Url
+}
+
 func (_ tAdmin) Main(
 		) string {
 	args := make(map[string]string)
@@ -83,18 +90,6 @@ func (_ tMain) Main(
 }
 
 
-type tUser struct {}
-var User tUser
-
-
-func (_ tUser) Main(
-		) string {
-	args := make(map[string]string)
-	
-	return revel.MainRouter.Reverse("User.Main", args).Url
-}
-
-
 type tStatic struct {}
 var Static tStatic
 
@@ -160,6 +155,18 @@ func (_ tTestRunner) List(
 	args := make(map[string]string)
 	
 	return revel.MainRouter.Reverse("TestRunner.List", args).Url
+}
+
+
+type tUser struct {}
+var User tUser
+
+
+func (_ tUser) Main(
+		) string {
+	args := make(map[string]string)
+	
+	return revel.MainRouter.Reverse("User.Main", args).Url
 }
 
 

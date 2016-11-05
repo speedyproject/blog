@@ -136,3 +136,22 @@ func (a *Admin) ChangePasswd(oldPwd, newPwd string) (bool, string) {
 
 	return has > 0, ""
 }
+
+//Group show user's admin Group
+func (a *Admin) Group() string {
+	if a.RoleId == 1001 {
+		return "管理员"
+	}
+	return ""
+}
+
+// List all user
+func (a *Admin) List() ([]Admin, error) {
+	return a.listByDB()
+}
+
+func (a *Admin) listByDB() ([]Admin, error) {
+	users := make([]Admin, 0)
+	err := support.Xorm.Find(&users)
+	return users, err
+}

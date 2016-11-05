@@ -1,6 +1,36 @@
+{{append . "moreStyles" "css/admin/admin-user.css"}}
 {{template "Layout/AdminHeader.html" .}}
-<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main admin-index">
-  <h1 class="page-header">用户管理</h1>
-    this is user management page
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main admin-user">
+  <h2 class="page-header title">用户管理 <span class="add">新增用户</span></h2>
+  <div>
+      <div>
+        {{if gt (len .users) 0}}
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th><input type="checkbox"></th>
+              <th>用户名</th>
+              <th>昵称</th>
+              <th>邮箱</th>
+              <th>管理组</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="checkbox"></td>
+              {{range .users}}
+                <td>{{.Name}}</td>
+                <td>{{.Email}}</td>
+                <td>{{.Email}}</td>
+                <td>{{.Group}}</td>
+              {{end}}
+            </tr>
+          </tbody>
+          {{else}}
+            没有用户
+          {{end}}
+        </table>
+      </div>
+  </div>
 </div>
 {{template "Layout/AdminFooter.html" .}}

@@ -26,6 +26,9 @@ GET     /p                                      Blogger.BloggerPage
 GET     /admin/                                 Admin.Main
 GET     /admin/main                             Admin.Main
 
+# User Management
+GET     /user/                                  User.Main
+GET     /user/main                              User.Main
 
 
 # Ignore favicon requests

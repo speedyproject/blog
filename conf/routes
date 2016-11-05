@@ -26,6 +26,8 @@ GET     /p                                      Blogger.BloggerPage
 GET     /admin/                                 Admin.Main
 GET     /admin/main                             Admin.Main
 
+POST    /admin/article                          Admin.NewArticleHandler 
+
 # User Management
 GET     /admin/user/                            User.Main
 GET     /admin/user/main                        User.Main

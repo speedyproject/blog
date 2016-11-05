@@ -34,6 +34,7 @@ func (a *Admin) Main() revel.Result {
 	return a.Render()
 }
 
+//PostData model.
 type PostData struct {
 	Title    string
 	Context  string
@@ -44,8 +45,8 @@ type PostData struct {
 	passwd   string
 }
 
-// Add new post.
-func (a *Admin) NewPostHandler() revel.Result {
+// Add new article.
+func (a *Admin) NewArticleHandler() revel.Result {
 
 	data := new(PostData)
 	a.Params.Bind(&data, "data")

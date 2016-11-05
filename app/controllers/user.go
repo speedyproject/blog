@@ -7,7 +7,7 @@ type User struct {
 	*revel.Controller
 }
 
-// Index to list all users
+// Main to list all users
 func (user *User) Main() revel.Result {
-	return user.Render()
+	return user.RenderTemplate("Admin/User/Main.html")
 }

@@ -16,15 +16,15 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td><input type="checkbox"></td>
               {{range .users}}
-                <td>{{.Name}}</td>
-                <td>{{.Email}}</td>
-                <td>{{.Email}}</td>
-                <td>{{.Group}}</td>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>{{.Name}}</td>
+                    <td>{{.Email}}</td>
+                    <td>{{.Email}}</td>
+                    <td>{{.Group}}</td>
+                </tr>
               {{end}}
-            </tr>
           </tbody>
           {{else}}
             没有用户

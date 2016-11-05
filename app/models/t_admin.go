@@ -141,8 +141,11 @@ func (a *Admin) ChangePasswd(oldPwd, newPwd string) (bool, string) {
 func (a *Admin) Group() string {
 	if a.RoleId == 1001 {
 		return "管理员"
+	} else if a.RoleId == 1002 {
+		return "发布者"
+	} else {
+		return "订阅者"
 	}
-	return ""
 }
 
 // List all user

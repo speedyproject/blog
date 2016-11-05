@@ -1,0 +1,11 @@
+[0;37mINFO  2016/11/04 21:00:16 revel.go:365: Loaded module testrunner
+[0m[0;37mINFO  2016/11/04 21:00:16 revel.go:365: Loaded module static
+[0m[0;37mINFO  2016/11/04 21:00:16 revel.go:230: Initialized Revel v0.13.1 (2016-06-06) for >= go1.4
+[0m[0;37mINFO  2016/11/04 21:00:16 main.go:30: Running revel server
+[0m[0;37mINFO  2016/11/04 21:00:16 redis.go:40: PONG
+[0m2016/11/04 21:00:17.129 127.0.0.1 200 5.945458ms GET /@tests.list
+[0mSet up
+2016/11/04 21:00:17.140 127.0.0.1 200   769.97µs GET /
+[0mTear down
+2016/11/04 21:00:17.139 127.0.0.1 200 2.326467ms GET /@tests/AppTest/TestThatIndexPageWorks
+[0m

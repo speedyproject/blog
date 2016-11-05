@@ -21,7 +21,7 @@ func (l Login) SignIn() revel.Result {
 	return l.Render()
 }
 
-//SignInHandler -> handle Sign
+//handle Sign
 func (l Login) SignInHandler(name, passwd string) revel.Result {
 
 	model := &models.Admin{Name: name, Passwd: passwd}
@@ -49,7 +49,7 @@ func (l Login) SignUp() revel.Result {
 	return l.Render()
 }
 
-//SignUpHandler -> handle sign up.
+//handle sign up.
 func (l Login) SignUpHandler(name, email, passwd string) revel.Result {
 
 	model := &models.Admin{Name: name, Email: email, Passwd: passwd}

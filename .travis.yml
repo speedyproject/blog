@@ -1,0 +1,14 @@
+language: go
+
+go:
+  - 1.7
+  - master
+  
+script: mv $HOME/gopath/src/github.com/speedyproject/blog $HOME/gopath/src/ && cd $HOME/gopath/bin && ./revel build blog /tmp/blog
+
+install:
+  - go get github.com/revel/revel
+  - go get github.com/revel/cmd/revel
+  - go get github.com/go-xorm/xorm
+  - go get gopkg.in/redis.v5
+  - go get github.com/go-sql-driver/mysql

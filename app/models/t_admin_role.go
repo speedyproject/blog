@@ -10,7 +10,7 @@ type AdminRole struct {
 	RoleType int    `xorm:"INT(11)"`
 }
 
-//FindByType -> find role data for type
+//find role data for type
 func (a *AdminRole) FindByType(id int) (*AdminRole, string) {
 
 	ar := new(AdminRole)

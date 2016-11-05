@@ -5,6 +5,8 @@ import (
 
 	"blog/app/controllers"
 
+	"blog/app/models"
+
 	"github.com/revel/revel"
 )
 
@@ -29,10 +31,12 @@ func init() {
 	// ( order dependent )
 	// revel.OnAppStart(InitDB)
 	// revel.OnAppStart(FillCache)
-
 	revel.OnAppStart(support.InitXorm)
 	revel.OnAppStart(support.InitRedis)
 	revel.OnAppStart(support.LoadCache)
+
+	//models cache
+	revel.OnAppStart(models.LoadCache)
 
 	//Login status check
 	revel.InterceptFunc(support.LoginFilter, revel.BEFORE, controllers.Admin{})

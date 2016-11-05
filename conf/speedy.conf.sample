@@ -1,0 +1,16 @@
+[redis]
+redis.host=127.0.0.1:6379
+redis.password=
+redis.poolsize=10
+
+[database]
+database.driver=
+database.dbname=
+database.user=
+database.password=
+database.host=localhost:3306
+database.prefix=t_
+
+[secret]
+secret.md5.key=
+secret.sign.key=

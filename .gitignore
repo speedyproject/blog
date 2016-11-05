@@ -28,5 +28,6 @@ _testmain.go
 .vscode
 
 app/routes/routes.go
+public/node_modules/
 
 app/tmp/main.go

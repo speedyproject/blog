@@ -1,13 +1,33 @@
+{{append . "moreStyles" "css/admin/admin-index.css"}}
 {{template "Layout/AdminHeader.html" .}}
-<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main admin-index">
   <h1 class="page-header">网站概览</h1>
   <div class="">
     目前有 117 篇文章, 并有 5 条关于你的评论在 14 个分类中.
   </div>
-  <div>
-    <div></div>
-    <div></div>
-    <div></div>
+  <div class="show-area">
+    <div class="latest-post">
+      <h4>最近的文章</h4>
+      <div class="list">
+        <div><span class="time">7.16</span><span class="content"> CentOS 7 RPM 安装 MySQL5.7</span></div>
+        <div><span class="time">7.16</span><span class="content"> CentOS 7 yum 安装 MySQL5.7</span></div>
+        <div><span class="time">7.16</span><span class="content"> MySQL5.7 修改 root 密码</span></div>
+        <div><span class="time">7.16</span><span class="content"> MySQL 连接错误 Can't connect to MySQL server on '<remote-ip>' (61)</span></div>
+        <div><span class="time">4.12</span><span class="content"> 浅谈CSRF攻击方式</span></div>
+        <div><span class="time">9.7 </span><span class="content">“协议森林”系列文章</span></div>
+      </div>
+    </div>
+    <div class="latest-reply">
+      <h4>最近的回复</h4>
+      <div class="list">
+        <div><span class="time">7.16</span><span class="content"> CentOS 7 RPM 安装 MySQL5.7</span></div>
+        <div><span class="time">7.16</span><span class="content"> CentOS 7 yum 安装 MySQL5.7</span></div>
+        <div><span class="time">7.16</span><span class="content"> MySQL5.7 修改 root 密码</span></div>
+        <div><span class="time">7.16</span><span class="content"> MySQL 连接错误 Can't connect to MySQL server on '<remote-ip>' (61)</span></div>
+        <div><span class="time">4.12</span><span class="content"> 浅谈CSRF攻击方式</span></div>
+        <div><span class="time">9.7 </span><span class="content">“协议森林”系列文章</span></div>
+      </div>
+    </div>
   </div>
 </div>
 

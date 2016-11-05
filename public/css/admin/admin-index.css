@@ -1,0 +1,17 @@
+.admin-index .show-area {
+  display: flex;
+  margin-top: 4em; }
+  .admin-index .show-area .latest-post, .admin-index .show-area .latest-reply {
+    flex: 1; }
+    .admin-index .show-area .latest-post .list > div, .admin-index .show-area .latest-reply .list > div {
+      line-height: 1.5em; }
+      .admin-index .show-area .latest-post .list > div .time, .admin-index .show-area .latest-reply .list > div .time {
+        display: inline-block;
+        width: 3em; }
+      .admin-index .show-area .latest-post .list > div .content, .admin-index .show-area .latest-reply .list > div .content {
+        display: inline-block;
+        max-width: 400px;
+        white-space: nowrap;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+        vertical-align: bottom; }

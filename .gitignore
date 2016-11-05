@@ -25,6 +25,7 @@ _testmain.go
 .idea/*.xml
 
 .idea/workspace.xml
+.vscode
 
 app/routes/routes.go
 

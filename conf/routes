@@ -27,8 +27,9 @@ GET     /admin/                                 Admin.Main
 GET     /admin/main                             Admin.Main
 
 # User Management
-GET     /user/                                  User.Main
-GET     /user/main                              User.Main
+GET     /admin/user/                            User.Main
+GET     /admin/user/main                        User.Main
+GET     /admin/user/index                       User.Main
 
 
 # Ignore favicon requests

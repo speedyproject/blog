@@ -40,6 +40,8 @@ func init() {
 
 	//Login status check
 	revel.InterceptFunc(support.LoginFilter, revel.BEFORE, controllers.Admin{})
+
+	revel.InterceptMethod((*controllers.Admin).AdminChecker, revel.AFTER)
 }
 
 // TODO turn this into revel.HeaderFilter

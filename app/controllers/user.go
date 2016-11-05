@@ -4,7 +4,7 @@ import "github.com/revel/revel"
 
 // User for User Controller
 type User struct {
-	*revel.Controller
+	Admin
 }
 
 // Main to list all users

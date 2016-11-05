@@ -1,0 +1,22 @@
+{
+    "name": "blog",
+    "description": "Blog frontend",
+    "version": "0.0.1",
+    "private": true,
+    "readme": "README",
+    "author": "Laily",
+    "homepage": "",
+    "engines": {
+        "node": ">=6.2.2"
+    },
+    "main": "Gulpfile.js",
+    "dependencies": {
+        "gulp": "~3.9.1",
+        "gulp-sass": "^2.3.2",
+        "gulp-uglify": "~2.0.0",
+        "gulp-inline-js": "~0.0.1"
+    },
+    "devDependencies": {
+        "gulp-util": "^3.0.7"
+    }
+}

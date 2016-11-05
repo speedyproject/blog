@@ -1,0 +1,24 @@
+.admin-index{
+    .show-area{
+        display: flex;
+        margin-top: 4em;
+        .latest-post,.latest-reply{
+            flex: 1;
+            .list>div{
+                line-height: 1.5em;
+                .time{
+                    display: inline-block;
+                    width: 3em;
+                }
+                .content{
+                    display: inline-block;
+                    max-width: 400px;
+                    white-space: nowrap;
+                    overflow-x: hidden;
+                    text-overflow: ellipsis;
+                    vertical-align: bottom;
+                }
+            }
+        }
+    }
+}

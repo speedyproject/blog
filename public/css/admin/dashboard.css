@@ -6,7 +6,9 @@
 body {
   padding-top: 50px;
 }
-
+.my-container{
+  max-width: 300px;
+}
 
 /*
  * Global add-ons
@@ -35,7 +37,7 @@ body {
 }
 @media (min-width: 768px) {
   .sidebar {
-    position: fixed;
+    position: fixed !important;
     top: 51px;
     bottom: 0;
     left: 0;
@@ -51,13 +53,13 @@ body {
 
 /* Sidebar navigation */
 .nav-sidebar {
-  margin-right: -21px; /* 20px padding + 1px border */
-  margin-bottom: 20px;
-  margin-left: -20px;
+  margin-right: -15px; /* 20px padding + 1px border */
+  margin-bottom: 20px !important;
+  margin-left: -15px;
 }
 .nav-sidebar > li > a {
-  padding-right: 20px;
-  padding-left: 20px;
+  padding-right: 20px !important;
+  padding-left: 25px !important;
 }
 .nav-sidebar > .active > a,
 .nav-sidebar > .active > a:hover,
@@ -72,12 +74,12 @@ body {
  */
 
 .main {
-  padding: 20px;
+  padding: 20px!important;
 }
 @media (min-width: 768px) {
   .main {
-    padding-right: 40px;
-    padding-left: 40px;
+    padding-right: 40px !important;
+    padding-left: 40px!important;
   }
 }
 .main .page-header {

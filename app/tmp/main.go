@@ -29,6 +29,37 @@ func main() {
 	revel.Init(*runMode, *importPath, *srcPath)
 	revel.INFO.Println("Running revel server")
 	
+<<<<<<< HEAD
+=======
+	revel.RegisterController((*controllers.Admin)(nil),
+		[]*revel.MethodType{
+			&revel.MethodType{
+				Name: "Main",
+				Args: []*revel.MethodArg{ 
+				},
+				RenderArgNames: map[int][]string{ 
+					14: []string{ 
+					},
+				},
+			},
+			
+		})
+	
+	revel.RegisterController((*controllers.Blogger)(nil),
+		[]*revel.MethodType{
+			&revel.MethodType{
+				Name: "BloggerPage",
+				Args: []*revel.MethodArg{ 
+				},
+				RenderArgNames: map[int][]string{ 
+					14: []string{ 
+					},
+				},
+			},
+			
+		})
+	
+>>>>>>> b29287167e7f6c1415db2febacc2406d8cdaa9a3
 	revel.RegisterController((*controllers.Login)(nil),
 		[]*revel.MethodType{
 			&revel.MethodType{
@@ -85,15 +116,13 @@ func main() {
 			
 		})
 	
-	revel.RegisterController((*controllers.Admin)(nil),
+	revel.RegisterController((*controllers.User)(nil),
 		[]*revel.MethodType{
 			&revel.MethodType{
 				Name: "Main",
 				Args: []*revel.MethodArg{ 
 				},
 				RenderArgNames: map[int][]string{ 
-					14: []string{ 
-					},
 				},
 			},
 			

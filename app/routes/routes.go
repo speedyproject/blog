@@ -4,6 +4,33 @@ package routes
 import "github.com/revel/revel"
 
 
+<<<<<<< HEAD
+=======
+type tAdmin struct {}
+var Admin tAdmin
+
+
+func (_ tAdmin) Main(
+		) string {
+	args := make(map[string]string)
+	
+	return revel.MainRouter.Reverse("Admin.Main", args).Url
+}
+
+
+type tBlogger struct {}
+var Blogger tBlogger
+
+
+func (_ tBlogger) BloggerPage(
+		) string {
+	args := make(map[string]string)
+	
+	return revel.MainRouter.Reverse("Blogger.BloggerPage", args).Url
+}
+
+
+>>>>>>> b29287167e7f6c1415db2febacc2406d8cdaa9a3
 type tLogin struct {}
 var Login tLogin
 
@@ -59,15 +86,15 @@ func (_ tMain) Main(
 }
 
 
-type tAdmin struct {}
-var Admin tAdmin
+type tUser struct {}
+var User tUser
 
 
-func (_ tAdmin) Main(
+func (_ tUser) Main(
 		) string {
 	args := make(map[string]string)
 	
-	return revel.MainRouter.Reverse("Admin.Main", args).Url
+	return revel.MainRouter.Reverse("User.Main", args).Url
 }
 
 

@@ -22,6 +22,13 @@ func (_ tAdmin) Main(
 	return revel.MainRouter.Reverse("Admin.Main", args).Url
 }
 
+func (_ tAdmin) NewArticleHandler(
+		) string {
+	args := make(map[string]string)
+	
+	return revel.MainRouter.Reverse("Admin.NewArticleHandler", args).Url
+}
+
 
 type tBlogger struct {}
 var Blogger tBlogger

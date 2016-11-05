@@ -43,8 +43,15 @@ func main() {
 				Args: []*revel.MethodArg{ 
 				},
 				RenderArgNames: map[int][]string{ 
-					30: []string{ 
+					34: []string{ 
 					},
+				},
+			},
+			&revel.MethodType{
+				Name: "NewArticleHandler",
+				Args: []*revel.MethodArg{ 
+				},
+				RenderArgNames: map[int][]string{ 
 				},
 			},
 			
@@ -226,6 +233,11 @@ func main() {
 		})
 	
 	revel.DefaultValidationKeys = map[string]map[int]string{ 
+		"blog/app/controllers.(*Admin).NewArticleHandler": { 
+			54: "data.Title",
+			55: "data.Context",
+			56: "data.Date",
+		},
 	}
 	testing.TestSuites = []interface{}{ 
 		(*tests.AppTest)(nil),

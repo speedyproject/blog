@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-
 <html>
-  <head>
+
+<head>
     <title>{{.title}}</title>
     <!-- Custom CSS -->
-    <link href="/public/css/common/blog-home.css" rel="stylesheet">
-    <link rel="shortcut icon" type="image/png" href="/public/img/favicon.png">
+    <link href="/public/css/home/blog-home.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="/public/img/favicon.png"> {{template "Common/Head.html" .}}
 
-    {{template "Common/Head.html"}}
-   
-  </head>
-  <body>
+</head>
+
+<body>
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
@@ -42,3 +41,4 @@
         </div>
         <!-- /.container -->
     </nav>
+    <div class="container my-container">

@@ -1,7 +1,8 @@
 {{append . "moreStyles" "css/admin/admin-index.css"}}
+{{set . "title" "网站概览"}}
 {{template "Layout/AdminHeader.html" .}}
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main admin-index">
-  <h2 class="page-header">网站概览</h2>
+  <h2 class="page-header">{{.title}}</h2>
   <div class="">
     目前有 117 篇文章, 并有 5 条关于你的评论在 14 个分类中.
   </div>

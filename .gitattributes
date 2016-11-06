@@ -1,1 +1,1 @@
-app/views/* linguist-vendored=false
+*.html linguist-language=go

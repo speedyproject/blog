@@ -4,7 +4,7 @@
 
 module:testrunner
 
-#GET     /                                       App.Index
+#GET     /                                      App.Index
 
 # Sign In / Sign Up
 
@@ -29,7 +29,7 @@ GET     /admin/main                             Admin.Main
 POST    /admin/article                          Admin.NewArticleHandler 
 
 # User Management
-GET     /admin/user                            User.Main
+GET     /admin/user                             User.Main
 GET     /admin/user/main                        User.Main
 GET     /admin/user/index                       User.Main
 GET     /admin/user/create                      User.Create
@@ -41,6 +41,7 @@ POST    /admin/user/del                         User.Delete
 # Admin setting
 
 GET     /admin/site                             Setting.SiteSetPage
+POST    /admin/site                             Setting.SiteSetHandler
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

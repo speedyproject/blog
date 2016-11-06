@@ -1,0 +1,38 @@
+{{append . "moreStyles" "css/admin/admin-user-create.css"}}
+{{append . "moreScripts" "js/admin/admin-user-create.js"}}
+{{set . "title" "编辑用户"}}
+{{template "Layout/AdminHeader.html" .}}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main admin-user">
+  <h2 class="page-header title">{{.title}}</h2>
+  <div class="add-user-area">
+        <form role="form" >
+            <div class="form-group">
+                <label for="input-username">用户名</label>
+                <input type="text" class="form-control" id="input-username" value="{{.user.Name}}">
+            </div>
+            <div class="form-group">
+                <label for="input-nickname">昵称</label>
+                <input type="text" class="form-control" id="input-nickname" value="{{.user.Nickname}}">
+            </div>
+            <div class="form-group">
+                <label for="input-password">密码</label>
+                <input type="password" class="form-control" id="input-password" placeholder="keep empty means not modify it">
+            </div>
+            <div class="form-group">
+                <label for="input-email">邮箱</label>
+                <input type="text" class="form-control" id="input-email" value="{{.user.Email}}">
+            </div>
+            <div class="form-group">
+                <label >用户组</label>
+                <select id="input-group" class="form-control">
+                    <option value="1001" {{if eq .user.RoleId 1001}}selected{{end}}>管理员</option>
+                    <option value="1002" {{if eq .user.RoleId 1002}}selected{{end}}>发布者</option>
+                    <option value="1003" {{if eq .user.RoleId 1003}}selected{{end}}>订阅者</option>
+                </select>
+            </div>
+            <input type="hidden" id="user-id" value="{{.user.Id}}">
+            <button type="button" class="btn btn-primary" onclick="updateit()">更新</button>
+        </form>
+  </div>
+</div>
+{{template "Layout/AdminFooter.html" .}}

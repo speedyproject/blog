@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>{{.title}}</title>
+  <title>后台管理 － {{.title}}</title>
   <!-- Custom styles for this template -->
   <link href="/public/css/admin/dashboard.css" rel="stylesheet"> 
   {{template "Common/Head.html" .}}
@@ -31,31 +31,30 @@
       </div>
     </div>
   </nav>
-
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-3 col-md-2 sidebar">
         <ul class="nav nav-sidebar">
-          <li class="active"><a href="#">网站概览</a></li>
+          <li class=' {{if eq .managementPage "index"}} active {{end}}'><a href="/admin/">网站概览</a></li>
         </ul>
         <ul class="nav nav-sidebar">
-          <li><a href="">撰写文章</a></li>
-          <li><a href="">创建页面</a></li>
+          <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">撰写文章</a></li>
+          <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">创建页面</a></li>
         </ul>
         <ul class="nav nav-sidebar">
-          <li><a href="">管理文章</a></li>
-          <li><a href="">管理页面</a></li>
-          <li><a href="">管理评论</a></li>
-          <li><a href="">管理分类</a></li>
-          <li><a href="">管理标签</a></li>
-          <li><a href="">管理文件</a></li>
-          <li><a href="">管理友链</a></li>
-          <li><a href="">管理用户</a></li>
+          <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">管理文章</a></li>
+          <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">管理页面</a></li>
+          <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">管理评论</a></li>
+          <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">管理分类</a></li>
+          <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">管理标签</a></li>
+          <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">管理文件</a></li>
+          <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">管理友链</a></li>
+          <li class=' {{if eq .managementPage "user"}} active {{end}}'><a href="/admin/user/">管理用户</a></li>
 
         </ul>
         <ul class="nav nav-sidebar">
-          <li><a href="">基本设置</a></li>
-          <li><a href="">主题设置</a></li>
-          <li><a href="">个人设置</a></li>
+          <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">基本设置</a></li>
+          <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">主题设置</a></li>
+          <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">个人设置</a></li>
         </ul>
       </div>

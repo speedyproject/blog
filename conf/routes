@@ -26,6 +26,17 @@ GET     /p                                      Blogger.BloggerPage
 GET     /admin/                                 Admin.Main
 GET     /admin/main                             Admin.Main
 
+POST    /admin/article                          Admin.NewArticleHandler 
+
+# User Management
+GET     /admin/user/                            User.Main
+GET     /admin/user/main                        User.Main
+GET     /admin/user/index                       User.Main
+GET     /admin/user/create                      User.Create
+POST    /admin/user/create                      User.CreateHandler
+GET     /admin/user/edit/:id                    User.Edit
+POST    /admin/user/edit                        User.EditHandler
+POST    /admin/user/del                         User.Delete
 
 
 # Ignore favicon requests

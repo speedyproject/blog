@@ -16,28 +16,26 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `t_admin_role`
+-- Table structure for table `t_blogger_tag`
 --
 
-DROP TABLE IF EXISTS `t_admin_role`;
+DROP TABLE IF EXISTS `t_blogger_tag`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `t_admin_role` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `role_des` varchar(20) CHARACTER SET utf8 DEFAULT NULL COMMENT '''角色描述''',
-  `role_type` int(11) DEFAULT NULL COMMENT '角色类型',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+CREATE TABLE `t_blogger_tag` (
+  `type` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `name` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '描述',
+  PRIMARY KEY (`type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `t_admin_role`
+-- Dumping data for table `t_blogger_tag`
 --
 
-LOCK TABLES `t_admin_role` WRITE;
-/*!40000 ALTER TABLE `t_admin_role` DISABLE KEYS */;
-INSERT INTO `t_admin_role` VALUES (1,'超级管理员',1001),(2,'订阅者',1003),(3,'发布者',1002);
-/*!40000 ALTER TABLE `t_admin_role` ENABLE KEYS */;
+LOCK TABLES `t_blogger_tag` WRITE;
+/*!40000 ALTER TABLE `t_blogger_tag` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_blogger_tag` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -49,4 +47,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-05 20:30:11
+-- Dump completed on 2016-11-05 20:30:10

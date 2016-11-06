@@ -2,6 +2,7 @@ package support
 
 import (
 	"fmt"
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/core"
 	"github.com/go-xorm/xorm"
@@ -21,7 +22,7 @@ func InitXorm() {
 	dbname, _ := data.String("database", "database.dbname")
 	user, _ := data.String("database", "database.user")
 	passwd, _ := data.String("database", "database.password")
-	host, _ := data.String("database", "database.read.host")
+	host, _ := data.String("database", "database.host")
 	prefix, _ := data.String("database", "database.prefix")
 
 	var err error

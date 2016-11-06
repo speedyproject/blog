@@ -29,5 +29,6 @@ _testmain.go
 
 app/routes/routes.go
 public/node_modules/
+conf/speedy.conf
 
 app/tmp/main.go

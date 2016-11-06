@@ -24,6 +24,15 @@ func (l Login) SignIn() revel.Result {
 //handle Sign
 func (l Login) SignInHandler(name, passwd string) revel.Result {
 
+	l.Validation.Required(name).Message("username can't be null.")
+	l.Validation.Required(passwd).Message("passwd can't be null.")
+
+	if l.Validation.HasErrors() {
+		l.Validation.Keep()
+		l.FlashParams()
+		return l.Redirect(routes.Login.SignIn())
+	}
+
 	model := &models.Admin{Name: name, Passwd: passwd}
 	admin, err := model.SignIn(l.Request)
 
@@ -51,6 +60,16 @@ func (l Login) SignUp() revel.Result {
 
 //handle sign up.
 func (l Login) SignUpHandler(name, email, passwd string) revel.Result {
+
+	l.Validation.Required(name).Message("username can't be null.")
+	l.Validation.Required(email).Message("email can't be null.")
+	l.Validation.Required(passwd).Message("passwd can't be null.")
+
+	if l.Validation.HasErrors() {
+		l.Validation.Keep()
+		l.FlashParams()
+		return l.Redirect(routes.Login.SignUp())
+	}
 
 	model := &models.Admin{Name: name, Email: email, Passwd: passwd}
 	has, err := model.New()

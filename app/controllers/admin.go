@@ -21,12 +21,30 @@ type Admin struct {
 // TODO:Laily check if it is a admin user
 func (admin *Admin) AdminChecker() revel.Result {
 	url := fmt.Sprintf("%s", admin.Request.URL.Path)
-	if strings.Contains(url, "admin/user") {
-		admin.RenderArgs["managementPage"] = "user"
-	} else {
-		admin.RenderArgs["managementPage"] = "index"
-	}
+	//if strings.Contains(url, "admin/user") {
+	//admin.RenderArgs["managementPage"] = "user"
+	//} else {
+	//admin.RenderArgs["managementPage"] = "index"
+	//}
 	revel.INFO.Println(url)
+	uriStr := strings.Split(url, "/")
+
+	if len(uriStr) > 0 {
+		revel.INFO.Printf("Admin::AdminChecker len -> %v", len(uriStr))
+		if len(uriStr) == 4 {
+			uri := uriStr[len(uriStr)-2]
+			admin.RenderArgs["managementPage"] = uri
+			revel.INFO.Printf("Admin::AdminChecker uri -> %s", uri)
+		} else {
+			uri := uriStr[len(uriStr)-1]
+			if uri == "" || uri == "main" {
+				admin.RenderArgs["managementPage"] = "index"
+			} else {
+				admin.RenderArgs["managementPage"] = uri
+			}
+			revel.INFO.Printf("Admin::AdminChecker uri -> %s", uri)
+		}
+	}
 	return nil
 }
 

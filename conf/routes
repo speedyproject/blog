@@ -29,7 +29,7 @@ GET     /admin/main                             Admin.Main
 POST    /admin/article                          Admin.NewArticleHandler 
 
 # User Management
-GET     /admin/user/                            User.Main
+GET     /admin/user                            User.Main
 GET     /admin/user/main                        User.Main
 GET     /admin/user/index                       User.Main
 GET     /admin/user/create                      User.Create
@@ -38,6 +38,9 @@ GET     /admin/user/edit/:id                    User.Edit
 POST    /admin/user/edit                        User.EditHandler
 POST    /admin/user/del                         User.Delete
 
+# Admin setting
+
+GET     /admin/site                             Setting.SiteSetPage
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

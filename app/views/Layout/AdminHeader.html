@@ -35,7 +35,7 @@
     <div class="row">
       <div class="col-sm-3 col-md-2 sidebar">
         <ul class="nav nav-sidebar">
-          <li class=' {{if eq .managementPage "index"}} active {{end}}'><a href="/admin/">网站概览</a></li>
+          <li class=' {{if eq .managementPage "index"}} active {{end}}'><a href="/admin/main">网站概览</a></li>
         </ul>
         <ul class="nav nav-sidebar">
           <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">撰写文章</a></li>
@@ -49,11 +49,11 @@
           <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">管理标签</a></li>
           <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">管理文件</a></li>
           <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">管理友链</a></li>
-          <li class=' {{if eq .managementPage "user"}} active {{end}}'><a href="/admin/user/">管理用户</a></li>
+          <li class=' {{if eq .managementPage "user"}} active {{end}}'><a href="/admin/user">管理用户</a></li>
 
         </ul>
         <ul class="nav nav-sidebar">
-          <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">基本设置</a></li>
+          <li class=' {{if eq .managementPage "site"}} active {{end}}'><a href="/admin/site">基本设置</a></li>
           <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">主题设置</a></li>
           <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">个人设置</a></li>
         </ul>

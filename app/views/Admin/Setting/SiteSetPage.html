@@ -1,0 +1,48 @@
+{{append . "moreStyles" "css/admin/admin-user-create.css"}}
+{{append . "moreScripts" "js/admin/admin-user-create.js"}}
+{{set . "title" "站点设置"}}
+{{template "Layout/AdminHeader.html" .}}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main admin-user">
+  <h2 class="page-header title">{{.title}}</h2>
+  <div class="add-user-area">
+        <form role="form" >
+            <div class="form-group">
+                <label for="site-title">站点标题</label>
+                <input type="text" class="form-control" id="site-title" placeholder="输入站点标题">
+            </div>
+            <div class="form-group">
+                <label for="site-subtitle">站点描述</label>
+                <input type="text" class="form-control" id="site-subtitle" placeholder="输入站点副标题">
+            </div>
+            <div class="form-group">
+                <label for="site-url">站点地址</label>
+                <input type="text" class="form-control" id="site-url" placeholder="输入站点地址">
+            </div>
+            <div class="form-group">
+                <label for="site-seo">SEO优化</label>
+                <input type="text" class="form-control" id="site-seo" placeholder="SEO优化">
+            </div>
+             <div class="form-group">
+                <label>用户注册</label> <br/>
+                <input type="radio" name="site-reg" id="site-reg-1" value="3001" checked> 开启
+                <input type="radio" name="site-reg" id="site-reg-2" value="3002" checked> 关闭
+            </div>
+            <div class="form-group">
+                <label for="site-foot">底部信息</label>
+                <input type="text" class="form-control" id="site-foot" placeholder="底部信息">
+            </div>
+            <div class="form-group">
+                <label for="site-statistics">统计代码</label>
+                <input type="text" class="form-control" id="site-statistics" placeholder="统计代码">
+            </div>
+             <div class="form-group">
+                <label>站点状态</label> <br/>
+                <input type="radio" name="site-status" id="site-status-1" value="2001" checked> 运营
+                <input type="radio" name="site-status" id="site-status-2" value="2002" checked> 维护
+                <input type="radio" name="site-status" id="site-status-3" value="2003" checked> 关闭
+            </div>
+            <button type="button" class="btn btn-primary">保存</button>
+        </form>
+  </div>
+</div>
+{{template "Layout/AdminFooter.html" .}}

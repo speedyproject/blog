@@ -1,7 +1,9 @@
+{{set . "title" "用户管理"}}
 {{append . "moreStyles" "css/admin/admin-user.css"}}
+{{append . "moreScripts" "js/admin/admin-user-create.js"}}
 {{template "Layout/AdminHeader.html" .}}
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main admin-user">
-  <h2 class="page-header title">用户管理 <span class="add">新增用户</span></h2>
+  <h2 class="page-header title">{{.title}} <span class="add"><a href="/admin/user/create">新增用户</a></span></h2>
   <div>
       <div>
         {{if gt (len .users) 0}}
@@ -18,9 +20,9 @@
           <tbody>
               {{range .users}}
                 <tr>
-                    <td><input type="checkbox"></td>
-                    <td>{{.Name}}</td>
-                    <td>{{.Email}}</td>
+                    <td><input class="mul-check" value="{{.Id}}" type="checkbox"></td>
+                    <td><a href="/admin/user/edit/{{.Id}}">{{.Name}}</a></td>
+                    <td>{{.Nickname}}</td>
                     <td>{{.Email}}</td>
                     <td>{{.Group}}</td>
                 </tr>
@@ -30,6 +32,7 @@
             没有用户
           {{end}}
         </table>
+        <input type="checkbox"> <a href="javascript:void(0)" onclick="deletethem()">删除</a> 选中项
       </div>
   </div>
 </div>

@@ -12,6 +12,7 @@ import (
 type Admin struct {
 	Id        int       `xorm:"not null pk autoincr INT(11)"`
 	Name      string    `xorm:"not null VARCHAR(15)"`
+	Nickname  string    `xorm:"not null VARCHAR(20)"`
 	Passwd    string    `xorm:"not null VARCHAR(64)"`
 	Email     string    `xorm:"VARCHAR(45)"`
 	Skey      string    `xorm:"not null VARCHAR(64)"`
@@ -70,6 +71,9 @@ func (a *Admin) New() (int64, string) {
 
 	if a.Name == "" || a.Passwd == "" || a.Email == "" {
 		return 0, "username or passwd can't be null."
+	}
+	if a.Nickname == "" {
+		a.Nickname = a.Name
 	}
 	//Get MD5/Sign key in cache
 	md5Key, _ := support.Cache.Get(support.SPY_CONF_MD5_KEY).Result()
@@ -137,6 +141,28 @@ func (a *Admin) ChangePasswd(oldPwd, newPwd string) (bool, string) {
 	return has > 0, ""
 }
 
+func (a *Admin) UpdateAdmin(id int64, u *Admin) (bool, string) {
+	old := &Admin{}
+	support.Xorm.Id(id).Get(old)
+	if u.Passwd == "" {
+		u.Passwd = old.Passwd
+	} else {
+		u.Passwd = encodePWD(u.Passwd)
+	}
+	has, e2 := support.Xorm.Id(id).Update(u)
+	revel.INFO.Println(id, u)
+	if e2 != nil {
+		return false, e2.Error()
+	}
+	return has > 0, ""
+}
+
+func encodePWD(pwd string) string {
+	key, _ := support.Cache.Get(support.SPY_CONF_MD5_KEY).Result()
+	n := &support.Sign{Src: pwd, Key: key}
+	return n.GetMd5()
+}
+
 //Group show user's admin Group
 func (a *Admin) Group() string {
 	if a.RoleId == 1001 {
@@ -148,7 +174,23 @@ func (a *Admin) Group() string {
 	}
 }
 
+// GetUserByID just as you see
+func (a *Admin) GetUserByID(id int64) (*Admin, error) {
+	admin := new(Admin)
+	_, err := support.Xorm.Id(id).Get(admin)
+	if err != nil {
+		return nil, err
+	}
+	return admin, nil
+}
+
+// DeleteAdmin .
+func (a *Admin) DeleteAdmin(id int64) {
+	support.Xorm.Id(id).Delete(a)
+}
+
 // List all user
+// TODO:Laily need to spilit for page
 func (a *Admin) List() ([]Admin, error) {
 	return a.listByDB()
 }

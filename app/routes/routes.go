@@ -4,25 +4,6 @@ package routes
 import "github.com/revel/revel"
 
 
-type tAdmin struct {}
-var Admin tAdmin
-
-
-func (_ tAdmin) AdminChecker(
-		) string {
-	args := make(map[string]string)
-	
-	return revel.MainRouter.Reverse("Admin.AdminChecker", args).Url
-}
-
-func (_ tAdmin) Main(
-		) string {
-	args := make(map[string]string)
-	
-	return revel.MainRouter.Reverse("Admin.Main", args).Url
-}
-
-
 type tBlogger struct {}
 var Blogger tBlogger
 
@@ -90,32 +71,29 @@ func (_ tMain) Main(
 }
 
 
-type tStatic struct {}
-var Static tStatic
+type tAdmin struct {}
+var Admin tAdmin
 
 
-func (_ tStatic) Serve(
-		prefix string,
-		filepath string,
+func (_ tAdmin) AdminChecker(
 		) string {
 	args := make(map[string]string)
 	
-	revel.Unbind(args, "prefix", prefix)
-	revel.Unbind(args, "filepath", filepath)
-	return revel.MainRouter.Reverse("Static.Serve", args).Url
+	return revel.MainRouter.Reverse("Admin.AdminChecker", args).Url
 }
 
-func (_ tStatic) ServeModule(
-		moduleName string,
-		prefix string,
-		filepath string,
+func (_ tAdmin) Main(
 		) string {
 	args := make(map[string]string)
 	
-	revel.Unbind(args, "moduleName", moduleName)
-	revel.Unbind(args, "prefix", prefix)
-	revel.Unbind(args, "filepath", filepath)
-	return revel.MainRouter.Reverse("Static.ServeModule", args).Url
+	return revel.MainRouter.Reverse("Admin.Main", args).Url
+}
+
+func (_ tAdmin) NewArticleHandler(
+		) string {
+	args := make(map[string]string)
+	
+	return revel.MainRouter.Reverse("Admin.NewArticleHandler", args).Url
 }
 
 
@@ -158,6 +136,35 @@ func (_ tTestRunner) List(
 }
 
 
+type tStatic struct {}
+var Static tStatic
+
+
+func (_ tStatic) Serve(
+		prefix string,
+		filepath string,
+		) string {
+	args := make(map[string]string)
+	
+	revel.Unbind(args, "prefix", prefix)
+	revel.Unbind(args, "filepath", filepath)
+	return revel.MainRouter.Reverse("Static.Serve", args).Url
+}
+
+func (_ tStatic) ServeModule(
+		moduleName string,
+		prefix string,
+		filepath string,
+		) string {
+	args := make(map[string]string)
+	
+	revel.Unbind(args, "moduleName", moduleName)
+	revel.Unbind(args, "prefix", prefix)
+	revel.Unbind(args, "filepath", filepath)
+	return revel.MainRouter.Reverse("Static.ServeModule", args).Url
+}
+
+
 type tUser struct {}
 var User tUser
 
@@ -170,10 +177,31 @@ func (_ tUser) Main(
 }
 
 func (_ tUser) Edit(
+		id int64,
 		) string {
 	args := make(map[string]string)
 	
+	revel.Unbind(args, "id", id)
 	return revel.MainRouter.Reverse("User.Edit", args).Url
+}
+
+func (_ tUser) EditHandler(
+		username string,
+		nickname string,
+		password string,
+		email string,
+		group int,
+		id int64,
+		) string {
+	args := make(map[string]string)
+	
+	revel.Unbind(args, "username", username)
+	revel.Unbind(args, "nickname", nickname)
+	revel.Unbind(args, "password", password)
+	revel.Unbind(args, "email", email)
+	revel.Unbind(args, "group", group)
+	revel.Unbind(args, "id", id)
+	return revel.MainRouter.Reverse("User.EditHandler", args).Url
 }
 
 func (_ tUser) Create(
@@ -183,17 +211,29 @@ func (_ tUser) Create(
 	return revel.MainRouter.Reverse("User.Create", args).Url
 }
 
-func (_ tUser) Update(
+func (_ tUser) CreateHandler(
+		username string,
+		nickname string,
+		password string,
+		email string,
+		group int,
 		) string {
 	args := make(map[string]string)
 	
-	return revel.MainRouter.Reverse("User.Update", args).Url
+	revel.Unbind(args, "username", username)
+	revel.Unbind(args, "nickname", nickname)
+	revel.Unbind(args, "password", password)
+	revel.Unbind(args, "email", email)
+	revel.Unbind(args, "group", group)
+	return revel.MainRouter.Reverse("User.CreateHandler", args).Url
 }
 
 func (_ tUser) Delete(
+		ids string,
 		) string {
 	args := make(map[string]string)
 	
+	revel.Unbind(args, "ids", ids)
 	return revel.MainRouter.Reverse("User.Delete", args).Url
 }
 

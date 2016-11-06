@@ -18,6 +18,7 @@ type Admin struct {
 
 // AdminChecker for get the value of which module user choose,
 // and make the menu selected.
+// TODO:Laily check if it is a admin user
 func (admin *Admin) AdminChecker() revel.Result {
 	url := fmt.Sprintf("%s", admin.Request.URL.Path)
 	if strings.Contains(url, "admin/user") {

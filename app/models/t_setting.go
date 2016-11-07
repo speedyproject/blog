@@ -246,7 +246,7 @@ func (s *Setting) NewSiteInfo(title, subtitle, url, seo, reg, foot,
 	}
 
 	if foot != "" {
-		s.Key = "site-reg"
+		s.Key = "site-foot"
 		res, err := s.Get()
 		if err == nil && res != "" {
 			set.Key = "site-foot"

@@ -22,14 +22,10 @@ func LoadCache() {
 		return
 	}
 	if len(res) > 0 {
-		//select db 1
-		support.Cache.Pipeline().Select(1)
 		for i := 0; i < len(res); i++ {
 			s := res[0]
 			support.Cache.Set(s.Key, s.Value, 0)
 		}
-		//select db 0
-		support.Cache.Pipeline().Select(0)
 	}
 }
 
@@ -49,33 +45,30 @@ func (s *Setting) FindAll() ([]Setting, string) {
 
 //Get setting value for key.
 func (s *Setting) Get() (string, error) {
-	//select db 1
-	support.Cache.Pipeline().Select(1)
 	res, err := support.Cache.Get(s.Key).Result()
-	//select db 0
-	support.Cache.Pipeline().Select(0)
+
+	if res == "" {
+		set := new(Setting)
+		has, err := support.Xorm.Where("key = ?", s.Key).Get(&set)
+		if has && err == nil {
+			return set.Value, err
+		}
+	}
+
 	return res, err
 }
 
 //Put setting K,V in cache and db.
 func (s *Setting) Put() (bool, error) {
-	//select db 1
-	support.Cache.Pipeline().Select(1)
-
 	has, err := support.Xorm.InsertOne(s)
-
 	if err == nil && has > 0 {
 		support.Cache.Set(s.Key, s.Value, 0)
 	}
-	//select db 0
-	support.Cache.Pipeline().Select(0)
 	return has > 0, err
 }
 
 //Update value for key.
 func (s *Setting) Update() (bool, error) {
-	//select db 1
-	support.Cache.Pipeline().Select(1)
 
 	set := new(Setting)
 	set.Value = s.Value
@@ -86,9 +79,54 @@ func (s *Setting) Update() (bool, error) {
 		support.Cache.Set(s.Key, s.Value, 0)
 	}
 
-	//select db 0
-	support.Cache.Pipeline().Select(0)
 	return has > 0, err
+}
+
+//SiteInfo model
+type SiteInfo struct {
+	Title      string
+	SubTitle   string
+	Url        string
+	Seo        string
+	Reg        string
+	Foot       string
+	Statistics string
+	Status     string
+}
+
+//Query site setting info.
+func (s *Setting) GetSiteInfo() (*SiteInfo, string) {
+
+	site := new(SiteInfo)
+	data, err := s.FindAll()
+
+	if err != "" {
+		return site, err
+	}
+
+	if len(data) > 0 {
+		for _, tmp := range data {
+			switch tmp.Key {
+			case "site-foot":
+				site.Foot = tmp.Value
+			case "site-reg":
+				site.Reg = tmp.Value
+			case "site-seo":
+				site.Seo = tmp.Value
+			case "site-status":
+				site.Status = tmp.Value
+			case "site-subtitle":
+				site.SubTitle = tmp.Value
+			case "site-title":
+				site.Title = tmp.Value
+			case "site-url":
+				site.Url = tmp.Value
+			case "site-statistics":
+				site.Statistics = tmp.Value
+			}
+		}
+	}
+	return site, err
 }
 
 //Add new site info
@@ -98,70 +136,171 @@ func (s *Setting) NewSiteInfo(title, subtitle, url, seo, reg, foot,
 	set := new(Setting)
 
 	if title != "" {
-		set.Key = "site-title"
-		set.Value = title
-		has, err := set.Put()
-		revel.INFO.Printf("NewSiteInfo::Put has: %v,error: %v", has, err)
-		if err != nil {
-			return err
+		s.Key = "site-title"
+		res, err := s.Get()
+		if err == nil && res != "" {
+			set.Key = "site-title"
+			set.Value = title
+			has, err := set.Update()
+			revel.INFO.Printf("NewSiteInfo::Put has: %v,error: %v", has, err)
+			if err != nil {
+				return err
+			}
+		} else {
+			set.Key = "site-title"
+			set.Value = title
+			has, err := set.Put()
+			revel.INFO.Printf("NewSiteInfo::Put has: %v,error: %v", has, err)
+			if err != nil {
+				return err
+			}
 		}
 	}
 
 	if subtitle != "" {
-		set.Key = "site-subtitle"
-		set.Value = subtitle
-		has, err := set.Put()
-		revel.INFO.Printf("NewSiteInfo::Put has: %v,error: %v", has, err)
-		if err != nil {
-			return err
+		s.Key = "site-subtitle"
+		res, err := s.Get()
+		if err == nil && res != "" {
+			set.Key = "site-subtitle"
+			set.Value = subtitle
+			has, err := set.Update()
+			revel.INFO.Printf("NewSiteInfo::Put has: %v,error: %v", has, err)
+			if err != nil {
+				return err
+			}
+		} else {
+			set.Key = "site-subtitle"
+			set.Value = subtitle
+			has, err := set.Put()
+			revel.INFO.Printf("NewSiteInfo::Put has: %v,error: %v", has, err)
+			if err != nil {
+				return err
+			}
 		}
 	}
+
 	if url != "" {
-		set.Key = "site-url"
-		set.Value = url
-		has, err := set.Put()
-		revel.INFO.Printf("NewSiteInfo::Put has: %v,error: %v", has, err)
-		if err != nil {
-			return err
+		s.Key = "site-url"
+		res, err := s.Get()
+		if err == nil && res != "" {
+			set.Key = "site-url"
+			set.Value = url
+			has, err := set.Update()
+			revel.INFO.Printf("NewSiteInfo::Put has: %v,error: %v", has, err)
+			if err != nil {
+				return err
+			}
+		} else {
+			set.Key = "site-url"
+			set.Value = url
+			has, err := set.Put()
+			revel.INFO.Printf("NewSiteInfo::Put has: %v,error: %v", has, err)
+			if err != nil {
+				return err
+			}
 		}
 	}
+
 	if seo != "" {
-		set.Key = "site-seo"
-		set.Value = seo
-		has, err := set.Put()
-		revel.INFO.Printf("NewSiteInfo::Put has: %v,error: %v", has, err)
-		if err != nil {
-			return err
+		s.Key = "site-seo"
+		res, err := s.Get()
+		if err == nil && res != "" {
+			set.Key = "site-seo"
+			set.Value = seo
+			has, err := set.Update()
+			revel.INFO.Printf("NewSiteInfo::Put has: %v,error: %v", has, err)
+			if err != nil {
+				return err
+			}
+		} else {
+			set.Key = "site-seo"
+			set.Value = seo
+			has, err := set.Put()
+			revel.INFO.Printf("NewSiteInfo::Put has: %v,error: %v", has, err)
+			if err != nil {
+				return err
+			}
 		}
 	}
+
 	if reg != "" {
-		set.Key = "site-reg"
-		set.Value = reg
-		has, err := set.Put()
-		revel.INFO.Printf("NewSiteInfo::Put has: %v,error: %v", has, err)
-		if err != nil {
-			return err
+		s.Key = "site-reg"
+		res, err := s.Get()
+		if err == nil && res != "" {
+			set.Key = "site-reg"
+			set.Value = reg
+			has, err := set.Update()
+			revel.INFO.Printf("NewSiteInfo::Put has: %v,error: %v", has, err)
+			if err != nil {
+				return err
+			}
+		} else {
+			set.Key = "site-reg"
+			set.Value = reg
+			has, err := set.Put()
+			revel.INFO.Printf("NewSiteInfo::Put has: %v,error: %v", has, err)
+			if err != nil {
+				return err
+			}
 		}
 	}
+
 	if foot != "" {
-		set.Key = "site-foot"
-		set.Value = foot
-		has, err := set.Put()
-		revel.INFO.Printf("NewSiteInfo::Put has: %v,error: %v", has, err)
-		if err != nil {
-			return err
+		s.Key = "site-reg"
+		res, err := s.Get()
+		if err == nil && res != "" {
+			set.Key = "site-foot"
+			set.Value = foot
+			has, err := set.Update()
+			revel.INFO.Printf("NewSiteInfo::Put has: %v,error: %v", has, err)
+			if err != nil {
+				return err
+			}
+		} else {
+			set.Key = "site-foot"
+			set.Value = foot
+			has, err := set.Put()
+			revel.INFO.Printf("NewSiteInfo::Put has: %v,error: %v", has, err)
+			if err != nil {
+				return err
+			}
 		}
 	}
+
 	if statistics != "" {
-		set.Key = "site-statistics"
-		set.Value = statistics
-		has, err := set.Put()
-		revel.INFO.Printf("NewSiteInfo::Put has: %v,error: %v", has, err)
-		if err != nil {
-			return err
+		s.Key = "site-statistics"
+		res, err := s.Get()
+		if err == nil && res != "" {
+			set.Key = "site-statistics"
+			set.Value = statistics
+			has, err := set.Update()
+			revel.INFO.Printf("NewSiteInfo::Put has: %v,error: %v", has, err)
+			if err != nil {
+				return err
+			}
+		} else {
+			set.Key = "site-statistics"
+			set.Value = statistics
+			has, err := set.Put()
+			revel.INFO.Printf("NewSiteInfo::Put has: %v,error: %v", has, err)
+			if err != nil {
+				return err
+			}
 		}
 	}
+
 	if status != "" {
+		s.Key = "site-status"
+		res, err := s.Get()
+		if err == nil && res != "" {
+			set.Key = "site-status"
+			set.Value = status
+			has, err := set.Update()
+			revel.INFO.Printf("NewSiteInfo::Put has: %v,error: %v", has, err)
+			if err != nil {
+				return err
+			}
+		}
 		set.Key = "site-status"
 		set.Value = status
 		has, err := set.Put()

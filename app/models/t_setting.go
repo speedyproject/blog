@@ -28,7 +28,6 @@ type SiteInfo struct {
 func LoadCache() {
 	set := new(Setting)
 	res, err := set.FindAll()
-
 	if err != "" {
 		revel.ERROR.Printf("Loaded setting info to cache error: %v", err)
 		return

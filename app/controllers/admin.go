@@ -38,7 +38,6 @@ func (admin *Admin) AdminChecker() revel.Result {
 		} else {
 			admin.RenderArgs["managementPage"] = uri
 		}
-		revel.INFO.Printf("Admin::AdminChecker uri -> %s", uri)
 	}
 	return nil
 }

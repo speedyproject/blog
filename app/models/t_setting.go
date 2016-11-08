@@ -31,22 +31,17 @@ func LoadCache() {
 
 //find all setting info.
 func (s *Setting) FindAll() ([]Setting, string) {
-
 	set := make([]Setting, 0)
-
 	err := support.Xorm.Find(&set)
-
 	if err != nil {
 		return set, err.Error()
 	}
-
 	return set, ""
 }
 
 //Get setting value for key.
 func (s *Setting) Get() (string, error) {
 	res, err := support.Cache.Get(s.Key).Result()
-
 	if res == "" {
 		set := new(Setting)
 		has, err := support.Xorm.Where("key = ?", s.Key).Get(&set)
@@ -54,7 +49,6 @@ func (s *Setting) Get() (string, error) {
 			return set.Value, err
 		}
 	}
-
 	return res, err
 }
 
@@ -69,16 +63,13 @@ func (s *Setting) Put() (bool, error) {
 
 //Update value for key.
 func (s *Setting) Update() (bool, error) {
-
 	set := new(Setting)
 	set.Value = s.Value
-	has, err := support.Xorm.Where("key = ?", s.Key).Update(&set)
-
+	has, err := support.Xorm.Where("`key` = ?", s.Key).Update(set)
 	if err == nil && has > 0 {
 		support.Cache.Del(s.Key)
 		support.Cache.Set(s.Key, s.Value, 0)
 	}
-
 	return has > 0, err
 }
 
@@ -96,14 +87,11 @@ type SiteInfo struct {
 
 //Query site setting info.
 func (s *Setting) GetSiteInfo() (*SiteInfo, string) {
-
 	site := new(SiteInfo)
 	data, err := s.FindAll()
-
 	if err != "" {
 		return site, err
 	}
-
 	if len(data) > 0 {
 		for _, tmp := range data {
 			switch tmp.Key {
@@ -157,64 +145,48 @@ func (s *Setting) InsertAndModify(key, value string) error {
 //Add new site info
 func (s *Setting) NewSiteInfo(title, subtitle, url, seo, reg, foot,
 	statistics, status string) error {
-
 	var err error
-
 	if title != "" {
 		err = s.InsertAndModify("site-title", title)
 		if err != nil {
 			return err
 		}
 	}
-
 	if subtitle != "" {
 		err = s.InsertAndModify("site-subtitle", subtitle)
 		if err != nil {
 			return err
 		}
-	}
-
-	if url != "" {
+	} else if url != "" {
 		err = s.InsertAndModify("site-url", url)
 		if err != nil {
 			return err
 		}
-	}
-
-	if seo != "" {
+	} else if seo != "" {
 		err = s.InsertAndModify("site-seo", seo)
 		if err != nil {
 			return err
 		}
-	}
-
-	if reg != "" {
+	} else if reg != "" {
 		err = s.InsertAndModify("site-reg", reg)
 		if err != nil {
 			return err
 		}
-	}
-
-	if foot != "" {
+	} else if foot != "" {
 		err = s.InsertAndModify("site-foot", foot)
 		if err != nil {
 			return err
 		}
-	}
-
-	if statistics != "" {
+	} else if statistics != "" {
 		err = s.InsertAndModify("site-statistics", statistics)
 		if err != nil {
 			return err
 		}
-	}
-
-	if status != "" {
+	} else if status != "" {
 		err = s.InsertAndModify("site-status", status)
 		if err != nil {
 			return err
 		}
 	}
-
 	return err
 }

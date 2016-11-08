@@ -29,7 +29,7 @@ func InitXorm() {
 	Xorm, err = xorm.NewEngine(driver, fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8", user, passwd, host, dbname))
 	tbMapper := core.NewPrefixMapper(core.SnakeMapper{}, prefix)
 	Xorm.SetTableMapper(tbMapper)
-
+	Xorm.ShowSQL(true)
 	if err != nil {
 		revel.ERROR.Println(err)
 	} else {

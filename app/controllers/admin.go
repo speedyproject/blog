@@ -26,8 +26,6 @@ func (admin *Admin) AdminChecker() revel.Result {
 	if len(uriStr) > 0 {
 		uri := uriStr[len(uriStr)-1]
 		switch len(uriStr) {
-		case 3:
-			uri = uriStr[len(uriStr)-1]
 		case 4:
 			uri = uriStr[len(uriStr)-2]
 		case 5:

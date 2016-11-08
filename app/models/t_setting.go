@@ -12,6 +12,18 @@ type Setting struct {
 	Value string `xorm:"not null VARCHAR(255)"`
 }
 
+//SiteInfo model
+type SiteInfo struct {
+	Title      string
+	SubTitle   string
+	Url        string
+	Seo        string
+	Reg        string
+	Foot       string
+	Statistics string
+	Status     string
+}
+
 //Loaded setting info to cache.
 func LoadCache() {
 	set := new(Setting)
@@ -71,18 +83,6 @@ func (s *Setting) Update() (bool, error) {
 		support.Cache.Set(s.Key, s.Value, 0)
 	}
 	return has > 0, err
-}
-
-//SiteInfo model
-type SiteInfo struct {
-	Title      string
-	SubTitle   string
-	Url        string
-	Seo        string
-	Reg        string
-	Foot       string
-	Statistics string
-	Status     string
 }
 
 //Query site setting info.

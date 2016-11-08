@@ -38,6 +38,8 @@ GET     /admin/user/edit/:id                    User.Edit
 POST    /admin/user/edit                        User.EditHandler
 POST    /admin/user/del                         User.Delete
 
+GET     /admin/post                             Post.Index
+
 # Admin setting
 
 GET     /admin/site                             Setting.SiteSetPage

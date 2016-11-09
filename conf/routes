@@ -40,6 +40,9 @@ POST    /admin/user/del                         User.Delete
 
 GET     /admin/post                             Post.Index
 
+# File Upload
+POST    /upload/simple                                Upload.HandleUpload
+
 # Admin setting
 
 GET     /admin/site                             Setting.SiteSetPage

@@ -1,13 +1,12 @@
 package controllers
 
 import (
+	"blog/app/service"
 	"bytes"
 	"fmt"
 	_ "image/jpeg"
 	_ "image/png"
-	"io"
 	"mime/multipart"
-	"os"
 
 	"github.com/revel/revel"
 )
@@ -30,6 +29,7 @@ type FileInfo struct {
 	Resolution  string `json:",omitempty"`
 	Size        int
 	Status      string `json:",omitempty"`
+	Path        string
 }
 
 func (c *Upload) Before() revel.Result {
@@ -40,35 +40,34 @@ func (c *Upload) Before() revel.Result {
 }
 
 func (c *Upload) HandleUpload() revel.Result {
-	var files [][]byte
-	c.Params.Bind(&files, "file")
-	filesInfo := make([]FileInfo, len(files))
+	fileCount := len(c.Params.Files["file"])
+	filesInfo := make([]FileInfo, fileCount)
 
-	for _, vv := range c.Params.Files["file"] { //此处的file须和view中一致。
+	for kk, vv := range c.Params.Files["file"] { //此处的file须和view中一致。
 		// Create buffer
 		buf := new(bytes.Buffer)
 		// create a tmpfile and assemble your multipart from there (not tested)
 		w := multipart.NewWriter(buf)
 		// Create file field
-		fsrc, _, _ := c.Request.FormFile("file")
-		fdst, err := os.OpenFile(revel.BasePath+"/public/file/"+vv.Filename, os.O_CREATE|os.O_WRONLY, 0677)
+		fsrc, _ := vv.Open()
+		filepath, fsize, err := service.StoreFile(vv.Filename, fsrc)
 		if err != nil {
-			fmt.Println("err ", err)
-			return nil
-		}
-		defer fdst.Close()
-		// Write file field from file to upload
-		_, err = io.Copy(fdst, fsrc)
-		if err != nil {
-			fmt.Println("e")
-			return nil
+			revel.ERROR.Println("store file error: ", err)
 		}
 		fsrc.Close()
 		w.Close()
+		fmt.Println("index ", filepath)
+
+		filesInfo[kk] = FileInfo{
+			ContentType: vv.Header.Get("Content-Type"),
+			Filename:    vv.Filename,
+			Size:        int(fsize / 1024),
+			Path:        filepath,
+		}
 	}
 
 	return c.RenderJson(map[string]interface{}{
-		"Count":  len(files),
+		"Count":  fileCount,
 		"Files":  filesInfo,
 		"Status": "Successfully uploaded",
 	})

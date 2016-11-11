@@ -60,7 +60,7 @@ func (b *Blogger) New() (int64, error) {
 	blog.LabelId = b.LabelId
 	blog.TagId = b.TagId
 
-	has, err := support.Xorm.InsertOne(&blog)
+	has, err := support.Xorm.InsertOne(blog)
 
 	// refurbish cache.
 	if err == nil {

@@ -15,8 +15,6 @@ GET     /create                                 Login.SignUp
 POST    /create                                 Login.SignUpHandler
 
 # Main page / Post page
-GET     /post/index                             Post.Index
-POST    /post/index                             Post.NewPost
 
 GET     /                                       Main.Main
 GET     /main                                   Main.Main
@@ -28,7 +26,8 @@ GET     /p                                      Blogger.BloggerPage
 GET     /admin/                                 Admin.Main
 GET     /admin/main                             Admin.Main
 
-POST    /admin/article                          Admin.NewArticleHandler 
+GET     /admin/post/index                       Post.Index
+POST    /admin/post/index                       Post.NewPostHandler 
 
 # User Management
 GET     /admin/user                             User.Main

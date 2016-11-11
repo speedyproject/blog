@@ -3,7 +3,6 @@ package controllers
 import (
 	"fmt"
 	"strings"
-	"time"
 
 	"github.com/revel/revel"
 )
@@ -42,15 +41,4 @@ func (admin *Admin) AdminChecker() revel.Result {
 //Main page.
 func (a *Admin) Main() revel.Result {
 	return a.Render()
-}
-
-//PostData model.
-type PostData struct {
-	Title    string
-	Content  string
-	Date     time.Time
-	Label    string
-	Tag      string
-	Keywords string
-	passwd   string
 }

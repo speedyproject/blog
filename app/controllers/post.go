@@ -4,6 +4,7 @@ import (
 	"blog/app/models"
 	"fmt"
 	"strconv"
+	"time"
 
 	"github.com/revel/revel"
 )
@@ -15,6 +16,17 @@ import (
 // User for User Controller
 type Post struct {
 	Admin
+}
+
+//PostData model.
+type PostData struct {
+	Title    string
+	Content  string
+	Date     time.Time
+	Label    string
+	Tag      string
+	Keywords string
+	passwd   string
 }
 
 func (p *Post) Index() revel.Result {

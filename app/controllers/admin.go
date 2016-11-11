@@ -76,7 +76,7 @@ func (a *Admin) NewArticleHandler() revel.Result {
 
 	blog := new(models.Blogger)
 	blog.Title = data.Title
-	blog.Context = data.Context
+	blog.Content = data.Context
 	blog.CreateTime = data.Date
 
 	uid := a.Session["UID"]
@@ -90,7 +90,7 @@ func (a *Admin) NewArticleHandler() revel.Result {
 
 	has, err := blog.New()
 
-	if err != nil || !has {
+	if err != nil || has <= 0 {
 		a.Flash.Error("msg", "create new blogger post error.")
 		// TODO Redirect new post page.
 	}

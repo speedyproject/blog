@@ -15,6 +15,8 @@ GET     /create                                 Login.SignUp
 POST    /create                                 Login.SignUpHandler
 
 # Main page / Post page
+GET     /post/index                             Post.Index
+POST    /post/index                             Post.NewPost
 
 GET     /                                       Main.Main
 GET     /main                                   Main.Main

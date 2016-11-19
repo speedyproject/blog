@@ -139,10 +139,10 @@ func (b *Blogger) RenderContent() string {
 
 // GetSummary to cut out a part of blog content
 func (b *Blogger) GetSummary() string {
-	if len(b.Content) < 50 {
+	if len(b.Content) < 300 {
 		return b.Content
 	}
-	return b.Content[0:50]
+	return b.Content[0:300]
 }
 
 // MainURL return the url of the blog

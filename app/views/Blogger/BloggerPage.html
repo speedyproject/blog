@@ -1,20 +1,24 @@
+{{append . "moreStyles" "css/home/blog-detail.css"}}
 {{template "Layout/HomeHeader.html" .}}
 
     <!-- Page Content -->
-    <div class="container">
+    <div class="container blog-container">
 
-        <div class="row">
-
+        <div class="blog-detail">
+           <h1>{{.blog.Title}}</h1>
             
             <!-- Blog Post Content Column -->
-            {{raw (.blog.RenderContent) }}
+            <div class="blog-content">
+                {{raw (.blog.RenderContent) }}
+            </div>
             <!-- Blog Post Content Column end -->
             
 
 
             <!-- Blog Sidebar Widgets Column -->
-            <div class="col-md-4">
+            <!--<div class="col-md-4">
 
+{{/*
                 <!-- Blog Search Well -->
                 <div class="well">
                     <h4>Blog Search</h4>
@@ -68,6 +72,8 @@
                 </div>
 
             </div>
+
+*/}}            
 
         </div>
         <!-- /.row -->

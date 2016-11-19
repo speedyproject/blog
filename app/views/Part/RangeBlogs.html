@@ -1,17 +1,17 @@
 {{/* . is a array of blog */}}
 
 {{range .}}
+    <div class="blog-item">
     <h2>
         <a href="{{.MainURL}}">{{.Title}}</a>
     </h2>
-    <p class="lead">
-        by <a href="">Start Bootstrap</a>
+    <p class="lead author-time">
+        <span class="author">作者: <a href="">Start</a></span>
+        <span class="category">分类: <a href="">Linux</a></span>
+        <span class="glyphicon glyphicon-time"></span> {{date .CreateTime}}
     </p>
-    <p><span class="glyphicon glyphicon-time"></span> Posted on {{.CreateTime}}</p>
+    <p class="blog-summary">{{.GetSummary}}</p>
+    <!--<a class="btn btn-primary" href="{{.MainURL}}">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>-->
     <hr>
-    <img class="img-responsive" src="http://placehold.it/900x300" alt="">
-    <hr>
-    <p>{{.GetSummary}}</p>
-    <a class="btn btn-primary" href="{{.MainURL}}">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
-    <hr>
+    </div>
 {{end}}

@@ -17,7 +17,7 @@ type Blogger struct {
 	Content    string    `xorm:"not null TEXT"`
 	CategoryId string    `xorm:"'category_id' VARCHAR(20)"`
 	Passwd     string    `xorm:"VARCHAR(64)"`
-	CreateTime time.Time `xorm:"default 'CURRENT_TIMESTAMP' TIMESTAMP"`
+	CreateTime time.Time `xorm:"'create_time' default 'CURRENT_TIMESTAMP' TIMESTAMP"`
 	CreateBy   int       `xorm:"'create_by' not null INT(11)"`
 	ReadCount  int64     `xorm:"'read_count' default 0 BIGINT(20)"`
 	LeaveCount int64     `xorm:"'leave_count' default 0 BIGINT(20)"`
@@ -135,4 +135,18 @@ func (b *Blogger) RenderContent() string {
 		return string(blackfriday.MarkdownCommon([]byte(b.Content)))
 	}
 	return b.Content
+}
+
+// GetSummary to cut out a part of blog content
+func (b *Blogger) GetSummary() string {
+	if len(b.Content) < 50 {
+		return b.Content
+	}
+	return b.Content[0:50]
+}
+
+// MainURL return the url of the blog
+// TODO:Laily it is can be set as id, category, ident and so on
+func (b *Blogger) MainURL() string {
+	return fmt.Sprintf("/p/%d", b.Id)
 }

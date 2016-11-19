@@ -12,10 +12,24 @@
                 {{.info.Title}}
                 <small>{{.info.SubTitle}}</small>
             </h1>
-
+            {{range .blogs}}
+                <h2>
+                    <a href="{{.MainURL}}">{{.Title}}</a>
+                </h2>
+                <p class="lead">
+                    by <a href="">Start Bootstrap</a>
+                </p>
+                <p><span class="glyphicon glyphicon-time"></span> Posted on {{.CreateTime}}</p>
+                <hr>
+                <img class="img-responsive" src="http://placehold.it/900x300" alt="">
+                <hr>
+                <p>{{.GetSummary}}</p>
+                <a class="btn btn-primary" href="{{.MainURL}}">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+                <hr>
+            {{end}}
             <!-- First Blog Post -->
             <h2>
-                <a href="/p">Blog Post Title</a>
+                <a href="{{.MainURL}}">Blog Post Title</a>
             </h2>
             <p class="lead">
                 by <a href="/p">Start Bootstrap</a>

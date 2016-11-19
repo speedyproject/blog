@@ -1,7 +1,11 @@
 package controllers
 
-import "github.com/revel/revel"
-import "blog/app/models"
+import (
+	"blog/app/models"
+	"log"
+
+	"github.com/revel/revel"
+)
 
 //Main controller.
 type Main struct {
@@ -26,6 +30,13 @@ func (m *Main) Main() revel.Result {
 	set.Key = "site-foot"
 	copyr, _ := set.Get()
 
+	blogModel := new(models.Blogger)
+	blogs, err := blogModel.FindList()
+	if err != nil {
+		log.Println("load blog list error: ", err)
+		return m.RenderError(err)
+	}
+	m.RenderArgs["blogs"] = blogs
 	info := &SiteInfo{Title: title, SubTitle: subtitle, Copyright: copyr}
 	return m.Render(info)
 }

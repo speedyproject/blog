@@ -20,6 +20,7 @@ GET     /                                       Main.Main
 GET     /main                                   Main.Main
 
 GET     /p                                      Blogger.BloggerPage
+GET     /p/:id                                  Blogger.BloggerPage
 
 # Admin
 GET     /admin/                                 Admin.Main

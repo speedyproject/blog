@@ -36,7 +36,7 @@ func (c *Category) Delete(id int64) {
 // if a category is deleted, the parent of its child category
 // would be set to 0
 func resetSubCategory(id int64) {
-	sql := "UPDATE " + CATEGORY_TABLE + " SET `parent` = 0 WHERE id = ?"
+	sql := "UPDATE " + TABLE_CATEGORY + " SET `parent` = 0 WHERE id = ?"
 	support.Xorm.Exec(sql, id)
 }
 

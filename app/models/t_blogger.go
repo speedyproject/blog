@@ -4,6 +4,8 @@ import (
 	"blog/app/support"
 	"fmt"
 	"time"
+
+	"github.com/russross/blackfriday"
 )
 
 import "encoding/json"
@@ -13,13 +15,13 @@ type Blogger struct {
 	Id         int64     `xorm:"not null pk autoincr INT(11)"`
 	Title      string    `xorm:"not null VARCHAR(50)"`
 	Content    string    `xorm:"not null TEXT"`
-	TagId      string    `xorm:"'tag_id VARCHAR(20)" '`
-	LabelId    string    `xorm:"'label_id' VARCHAR(20)"`
+	CategoryId string    `xorm:"'category_id' VARCHAR(20)"`
 	Passwd     string    `xorm:"VARCHAR(64)"`
 	CreateTime time.Time `xorm:"default 'CURRENT_TIMESTAMP' TIMESTAMP"`
 	CreateBy   int       `xorm:"'create_by' not null INT(11)"`
 	ReadCount  int64     `xorm:"'read_count' default 0 BIGINT(20)"`
 	LeaveCount int64     `xorm:"'leave_count' default 0 BIGINT(20)"`
+	Type       int
 }
 
 // Get blogger list.
@@ -57,8 +59,7 @@ func (b *Blogger) New() (int64, error) {
 	blog.CreateBy = b.CreateBy
 	blog.CreateTime = time.Now()
 	blog.Passwd = b.Passwd
-	blog.LabelId = b.LabelId
-	blog.TagId = b.TagId
+	blog.CategoryId = b.CategoryId
 
 	has, err := support.Xorm.InsertOne(blog)
 
@@ -90,7 +91,7 @@ func (b *Blogger) FindById() (*Blogger, error) {
 		}
 	}
 	// if cache not blogger data, find in db.
-	_, err := support.Xorm.Id(b.Id).Get(&blog)
+	_, err := support.Xorm.Id(b.Id).Get(blog)
 
 	if err != nil {
 		return blog, err
@@ -127,4 +128,11 @@ func (b *Blogger) Del() (bool, error) {
 	}
 
 	return has > 0, err
+}
+
+func (b *Blogger) RenderContent() string {
+	if b.Type == BLOG_TYPE_MD {
+		return string(blackfriday.MarkdownCommon([]byte(b.Content)))
+	}
+	return b.Content
 }

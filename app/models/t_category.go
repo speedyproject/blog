@@ -3,6 +3,8 @@ package models
 import (
 	"blog/app/support"
 
+	"fmt"
+
 	"github.com/revel/revel"
 )
 
@@ -39,7 +41,9 @@ func resetSubCategory(id int64) {
 }
 
 //FindAll to find all categorys
-func (c *Category) FindAll() {
+func (c *Category) FindAll() *[]Category {
 	categorys := make([]Category, 0)
 	support.Xorm.Find(&categorys)
+	fmt.Println("categorys: ", categorys)
+	return &categorys
 }

@@ -19,7 +19,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-        <a class="navbar-brand" href="#">Project name</a>
+        <a class="navbar-brand" href="/admin/main">Speedy blog</a>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
@@ -38,14 +38,14 @@
           <li class=' {{if eq .managementPage "index"}} active {{end}}'><a href="/admin/main">网站概览</a></li>
         </ul>
         <ul class="nav nav-sidebar">
-          <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="/admin/post">撰写文章</a></li>
+          <li class=' {{if eq .managementPage "post"}} active {{end}}'><a href="/admin/post">撰写文章</a></li>
           <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">创建页面</a></li>
         </ul>
         <ul class="nav nav-sidebar">
           <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">管理文章</a></li>
           <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">管理页面</a></li>
           <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">管理评论</a></li>
-          <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">管理分类</a></li>
+          <li class=' {{if eq .managementPage "category"}} active {{end}}'><a href="/admin/category">管理分类</a></li>
           <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">管理标签</a></li>
           <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">管理文件</a></li>
           <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">管理友链</a></li>

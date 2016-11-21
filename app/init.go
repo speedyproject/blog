@@ -7,6 +7,8 @@ import (
 
 	"blog/app/models"
 
+	"blog/app/service"
+
 	"github.com/revel/revel"
 )
 
@@ -34,6 +36,7 @@ func init() {
 	revel.OnAppStart(support.InitXorm)
 	revel.OnAppStart(support.InitRedis)
 	revel.OnAppStart(support.LoadCache)
+	revel.OnAppStart(service.Init)
 
 	//models cache
 	revel.OnAppStart(models.LoadCache)
@@ -42,6 +45,7 @@ func init() {
 	revel.InterceptFunc(support.LoginFilter, revel.BEFORE, controllers.Admin{})
 
 	revel.InterceptMethod((*controllers.Admin).AdminChecker, revel.AFTER)
+
 }
 
 // TODO turn this into revel.HeaderFilter

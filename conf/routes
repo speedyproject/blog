@@ -20,13 +20,15 @@ GET     /                                       Main.Main
 GET     /main                                   Main.Main
 
 GET     /p                                      Blogger.BloggerPage
+GET     /p/:id                                  Blogger.BloggerPage
 
 # Admin
-
 GET     /admin/                                 Admin.Main
 GET     /admin/main                             Admin.Main
 
-POST    /admin/article                          Admin.NewArticleHandler 
+GET     /admin/post                             Post.Index
+GET     /admin/post/index                       Post.Index
+POST    /admin/post/index                       Post.NewPostHandler 
 
 # User Management
 GET     /admin/user                             User.Main
@@ -38,7 +40,16 @@ GET     /admin/user/edit/:id                    User.Edit
 POST    /admin/user/edit                        User.EditHandler
 POST    /admin/user/del                         User.Delete
 
-GET     /admin/post                             Post.Index
+# Category Management
+GET     /admin/category                         Category.Index
+GET     /admin/category/index                   Category.Index
+
+# Search
+Get    /search                                  Search.Index
+Get    /opensearch.xml                          Static.Serve("public","opensearch.xml")
+
+# File Upload
+POST    /upload/simple                          Upload.HandleUpload
 
 # Admin setting
 

@@ -1,0 +1,12 @@
+{{template "Layout/HomeHeader.html" .}}
+
+<!-- Page Content -->
+<div class="container">
+    this is what you searched {{.keywords}}
+
+    {{template "Part/RangeBlogs.html" .blogs}}
+</div>
+<!-- /.container -->
+
+
+{{template "Layout/HomeFooter.html" .}}

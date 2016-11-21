@@ -1,0 +1,9 @@
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+<ShortName>Blog Search</ShortName>
+<Description>
+    this is a omnibox-search for the blog
+</Description>
+<InputEncoding>UTF-8</InputEncoding>
+<Image width="16" height="16" type="image/x-icon"></Image>
+<Url type="text/html" method="get" template="http://localhost:9000/search/?q={searchTerms}"/>
+</OpenSearchDescription>

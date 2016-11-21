@@ -7,9 +7,62 @@
 	],
 	"Deps": [
 		{
+			"ImportPath": "github.com/adamzy/cedar-go",
+			"Rev": "d348c21f72432c2b6d5f05f68759fde94f64b227"
+		},
+		{
 			"ImportPath": "github.com/agtorre/gocolorize",
 			"Comment": "v1.0.0",
 			"Rev": "f42b554bf7f006936130c9bb4f971afd2d87f671"
+		},
+		{
+			"ImportPath": "github.com/boltdb/bolt",
+			"Comment": "v1.3.0-32-g315c65d",
+			"Rev": "315c65d4cf4f5278c73477a35fb1f9b08365d340"
+		},
+		{
+			"ImportPath": "github.com/cznic/fileutil",
+			"Rev": "1c9c88fbf552b3737c7b97e1f243860359687976"
+		},
+		{
+			"ImportPath": "github.com/cznic/internal/buffer",
+			"Comment": "1.0.0",
+			"Rev": "cef02a853c3a93623c42eacd574e7ea05f55531b"
+		},
+		{
+			"ImportPath": "github.com/cznic/internal/file",
+			"Comment": "1.0.0",
+			"Rev": "cef02a853c3a93623c42eacd574e7ea05f55531b"
+		},
+		{
+			"ImportPath": "github.com/cznic/internal/slice",
+			"Comment": "1.0.0",
+			"Rev": "cef02a853c3a93623c42eacd574e7ea05f55531b"
+		},
+		{
+			"ImportPath": "github.com/cznic/kv",
+			"Rev": "c5de474a2ccdaed5ba5ff8b5d2d213dbf48a8b5e"
+		},
+		{
+			"ImportPath": "github.com/cznic/lldb",
+			"Comment": "v1.0.5-20-gbea8611",
+			"Rev": "bea8611dd5c407f3c5eab9f9c68e887a27dc6f0e"
+		},
+		{
+			"ImportPath": "github.com/cznic/mathutil",
+			"Rev": "4609a45a9e61188d0d69a5d8ad42600c3df35002"
+		},
+		{
+			"ImportPath": "github.com/cznic/sortutil",
+			"Rev": "4c7342852e65c2088c981288f2c5610d10b9f7f4"
+		},
+		{
+			"ImportPath": "github.com/cznic/zappy",
+			"Rev": "2533cb5b45cc6c07421468ce262899ddc9d53fb7"
+		},
+		{
+			"ImportPath": "github.com/edsrzf/mmap-go",
+			"Rev": "935e0e8a636ca4ba70b713f3e38a19e1b77739e8"
 		},
 		{
 			"ImportPath": "github.com/go-sql-driver/mysql",
@@ -29,6 +82,39 @@
 			"ImportPath": "github.com/go-xorm/xorm",
 			"Comment": "v0.5.6-6-g7b5ac89",
 			"Rev": "7b5ac89633d1288967b20d207955877218756768"
+		},
+		{
+			"ImportPath": "github.com/huichen/murmur",
+			"Rev": "e0489551cf5116e27d7cc69d97a53cdbdd028acf"
+		},
+		{
+			"ImportPath": "github.com/huichen/sego",
+			"Rev": "d06fe1b3abe3877ab593b57e5e43daf6c4c25add"
+		},
+		{
+			"ImportPath": "github.com/huichen/wukong/core",
+			"Comment": "v0.1-94-gd014a1f",
+			"Rev": "d014a1f19dae3664677c11bd25549cfc820cd890"
+		},
+		{
+			"ImportPath": "github.com/huichen/wukong/engine",
+			"Comment": "v0.1-94-gd014a1f",
+			"Rev": "d014a1f19dae3664677c11bd25549cfc820cd890"
+		},
+		{
+			"ImportPath": "github.com/huichen/wukong/storage",
+			"Comment": "v0.1-94-gd014a1f",
+			"Rev": "d014a1f19dae3664677c11bd25549cfc820cd890"
+		},
+		{
+			"ImportPath": "github.com/huichen/wukong/types",
+			"Comment": "v0.1-94-gd014a1f",
+			"Rev": "d014a1f19dae3664677c11bd25549cfc820cd890"
+		},
+		{
+			"ImportPath": "github.com/huichen/wukong/utils",
+			"Comment": "v0.1-94-gd014a1f",
+			"Rev": "d014a1f19dae3664677c11bd25549cfc820cd890"
 		},
 		{
 			"ImportPath": "github.com/klauspost/compress/flate",
@@ -88,6 +174,15 @@
 		{
 			"ImportPath": "github.com/robfig/pathtree",
 			"Rev": "41257a1839e945fce74afd070e02bab2ea2c776a"
+		},
+		{
+			"ImportPath": "github.com/russross/blackfriday",
+			"Comment": "v1.4-27-gfc997ac",
+			"Rev": "fc997ac2ba5819bbc83936fc6b10fb90adc5fa10"
+		},
+		{
+			"ImportPath": "github.com/shurcooL/sanitized_anchor_name",
+			"Rev": "10ef21a441db47d8b13ebcc5fd2310f636973c77"
 		},
 		{
 			"ImportPath": "golang.org/x/net/websocket",

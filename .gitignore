@@ -30,5 +30,6 @@ _testmain.go
 app/routes/routes.go
 public/node_modules/
 conf/speedy.conf
+public/file/*
 
 app/tmp/main.go

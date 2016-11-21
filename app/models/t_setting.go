@@ -55,7 +55,7 @@ func (s *Setting) Get() (string, error) {
 	res, err := support.Cache.Get(s.Key).Result()
 	if res == "" {
 		set := new(Setting)
-		has, err := support.Xorm.Where("`key` = ?", s.Key).Get(&set)
+		has, err := support.Xorm.Where("`key` = ?", s.Key).Get(set)
 		if has && err == nil {
 			return set.Value, err
 		}

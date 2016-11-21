@@ -1,0 +1,32 @@
+{{set . "title" "撰写文章"}}
+{{template "Layout/AdminHeader.html" .}}
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main admin-user">
+  <h2 class="page-header title">{{.title}} <span class="add"><a href="/admin/category/create">新增</a></span></h2>
+  <div>
+      {{if gt (len .categorys) 0}}
+        <div>
+            <table class="table table-striped">
+                <thead>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Ident</th>
+                </thead>
+                <tbody>
+                    {{range .categorys}}
+                    <tr>
+                        <td>{{.Id}}</td>
+                        <td>{{.Name}}</td>
+                        <td>{{.Ident}}</td>
+                    </tr>
+                    {{end}}
+                </tbody>
+            </table>
+        </div>
+      {{else}}
+        没有分类
+      {{end}}
+  </div>
+</div>  
+
+{{template "Layout/AdminFooter.html" .}}

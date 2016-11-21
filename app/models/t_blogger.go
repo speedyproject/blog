@@ -1,22 +1,27 @@
 package models
 
-import "time"
-import "blog/app/support"
+import (
+	"blog/app/support"
+	"fmt"
+	"time"
+
+	"github.com/russross/blackfriday"
+)
+
 import "encoding/json"
-import "strconv"
 
 // Blogger model.
 type Blogger struct {
-	Id         int       `xorm:"not null pk autoincr INT(11)"`
+	Id         int64     `xorm:"not null pk autoincr INT(11)"`
 	Title      string    `xorm:"not null VARCHAR(50)"`
-	Context    string    `xorm:"not null TEXT"`
-	TagId      string    `xorm:"VARCHAR(20)"`
-	LabelId    string    `xorm:"VARCHAR(20)"`
+	Content    string    `xorm:"not null TEXT"`
+	CategoryId string    `xorm:"'category_id' VARCHAR(20)"`
 	Passwd     string    `xorm:"VARCHAR(64)"`
-	CreateTime time.Time `xorm:"default 'CURRENT_TIMESTAMP' TIMESTAMP"`
-	CreateBy   int       `xorm:"not null INT(11)"`
-	ReadCount  int64     `xorm:"default 0 BIGINT(20)"`
-	LeaveCount int64     `xorm:"default 0 BIGINT(20)"`
+	CreateTime time.Time `xorm:"'create_time' default 'CURRENT_TIMESTAMP' TIMESTAMP"`
+	CreateBy   int       `xorm:"'create_by' not null INT(11)"`
+	ReadCount  int64     `xorm:"'read_count' default 0 BIGINT(20)"`
+	LeaveCount int64     `xorm:"'leave_count' default 0 BIGINT(20)"`
+	Type       int
 }
 
 // Get blogger list.
@@ -44,20 +49,19 @@ func (b *Blogger) FindList() ([]Blogger, error) {
 	return list, err
 }
 
-//Add new blogger.
-func (b *Blogger) New() (bool, error) {
+//New to Add new blogger.
+func (b *Blogger) New() (int64, error) {
 
 	blog := new(Blogger)
 
 	blog.Title = b.Title
-	blog.Context = b.Context
+	blog.Content = b.Content
 	blog.CreateBy = b.CreateBy
 	blog.CreateTime = time.Now()
 	blog.Passwd = b.Passwd
-	blog.LabelId = b.LabelId
-	blog.TagId = b.TagId
+	blog.CategoryId = b.CategoryId
 
-	has, err := support.Xorm.InsertOne(&blog)
+	has, err := support.Xorm.InsertOne(blog)
 
 	// refurbish cache.
 	if err == nil {
@@ -70,8 +74,7 @@ func (b *Blogger) New() (bool, error) {
 			}
 		}
 	}
-
-	return has > 0, err
+	return has, err
 }
 
 // find blogger by id.
@@ -79,7 +82,7 @@ func (b *Blogger) FindById() (*Blogger, error) {
 
 	blog := new(Blogger)
 	// Get single blogger from cache.
-	res, e1 := support.Cache.Get(support.SPY_BLOGGER_SINGLE + strconv.Itoa(b.Id)).Result()
+	res, e1 := support.Cache.Get(support.SPY_BLOGGER_SINGLE + fmt.Sprintf("%d", b.Id)).Result()
 
 	if e1 == nil {
 		e2 := json.Unmarshal([]byte(res), &blog)
@@ -88,7 +91,7 @@ func (b *Blogger) FindById() (*Blogger, error) {
 		}
 	}
 	// if cache not blogger data, find in db.
-	_, err := support.Xorm.Id(b.Id).Get(&blog)
+	_, err := support.Xorm.Id(b.Id).Get(blog)
 
 	if err != nil {
 		return blog, err
@@ -106,8 +109,8 @@ func (b *Blogger) Update() (bool, error) {
 		// refurbish cache.
 		res, e1 := json.Marshal(&b)
 		if e1 == nil {
-			support.Cache.Del(support.SPY_BLOGGER_SINGLE + strconv.Itoa(b.Id))
-			support.Cache.Set(support.SPY_BLOGGER_SINGLE+strconv.Itoa(b.Id), string(res), 0)
+			support.Cache.Del(support.SPY_BLOGGER_SINGLE + fmt.Sprintf("%d", b.Id))
+			support.Cache.Set(support.SPY_BLOGGER_SINGLE+fmt.Sprintf("%d", b.Id), string(res), 0)
 		}
 	}
 
@@ -121,8 +124,29 @@ func (b *Blogger) Del() (bool, error) {
 
 	if err == nil {
 		// Delete cache.
-		support.Cache.Del(support.SPY_BLOGGER_SINGLE + strconv.Itoa(b.Id))
+		support.Cache.Del(support.SPY_BLOGGER_SINGLE + fmt.Sprintf("%d", b.Id))
 	}
 
 	return has > 0, err
+}
+
+func (b *Blogger) RenderContent() string {
+	if b.Type == BLOG_TYPE_MD {
+		return string(blackfriday.MarkdownCommon([]byte(b.Content)))
+	}
+	return b.Content
+}
+
+// GetSummary to cut out a part of blog content
+func (b *Blogger) GetSummary() string {
+	if len(b.Content) < 300 {
+		return b.Content
+	}
+	return b.Content[0:300]
+}
+
+// MainURL return the url of the blog
+// TODO:Laily it is can be set as id, category, ident and so on
+func (b *Blogger) MainURL() string {
+	return fmt.Sprintf("/p/%d", b.Id)
 }

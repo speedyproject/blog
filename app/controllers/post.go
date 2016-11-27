@@ -25,7 +25,7 @@ func (p *Post) Index() revel.Result {
 func (a *Post) NewPostHandler() revel.Result {
 	data := new(PostData)
 	a.Params.Bind(&data, "data")
-	fmt.Println(data)
+	fmt.Println("data= ", data)
 	a.Validation.Required(data.Title).Message("title can't be null.")
 	a.Validation.Required(data.Content).Message("context can't be null.")
 	a.Validation.Required(data.Date).Message("date can't be null.")
@@ -39,8 +39,8 @@ func (a *Post) NewPostHandler() revel.Result {
 	blog := new(models.Blogger)
 	blog.Title = data.Title
 	blog.Content = data.Content
-	blog.CreateTime = data.Date
-
+	blog.CategoryId = data.Category
+	blog.Type = data.Type
 	uid := a.Session["UID"]
 	id, _ := strconv.Atoi(uid)
 
@@ -54,9 +54,9 @@ func (a *Post) NewPostHandler() revel.Result {
 
 	if err != nil || has <= 0 {
 		a.Flash.Error("msg", "create new blogger post error.")
+		return a.RenderJson(&ResultJson{Success: false, Msg: err.Error(), Data: ""})
 		// TODO Redirect new post page.
 	}
-
 	return a.RenderHtml("ok")
 }
 
@@ -70,5 +70,11 @@ func (p *Post) QueryTags(t string) revel.Result {
 	for _, v := range res {
 		arr = append(arr, string(v["name"]))
 	}
-	return p.RenderJson(arr)
+	return p.RenderJson(&ResultJson{Success: true, Msg: "", Data: arr})
+}
+
+func (p *Post) QueryCategorys() revel.Result {
+	c := new(models.Category)
+	arr := c.FindAll()
+	return p.RenderJson(&ResultJson{Success: true, Msg: "", Data: arr})
 }

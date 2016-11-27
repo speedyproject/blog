@@ -12,16 +12,19 @@ import "encoding/json"
 
 // Blogger model.
 type Blogger struct {
-	Id         int64     `xorm:"not null pk autoincr INT(11)"`
-	Title      string    `xorm:"not null VARCHAR(50)"`
-	Content    string    `xorm:"not null TEXT"`
-	CategoryId string    `xorm:"'category_id' VARCHAR(20)"`
-	Passwd     string    `xorm:"VARCHAR(64)"`
-	CreateTime time.Time `xorm:"'create_time' default 'CURRENT_TIMESTAMP' TIMESTAMP"`
-	CreateBy   int       `xorm:"'create_by' not null INT(11)"`
-	ReadCount  int64     `xorm:"'read_count' default 0 BIGINT(20)"`
-	LeaveCount int64     `xorm:"'leave_count' default 0 BIGINT(20)"`
-	Type       int
+	Id            int64     `xorm:"not null pk autoincr INT(11)"`
+	Title         string    `xorm:"not null default '' VARCHAR(50)"`
+	Content       string    `xorm:"not null TEXT"`
+	CategoryId    int       `xorm:"INT(11)"`
+	Passwd        string    `xorm:"VARCHAR(64)"`
+	CreateTime    time.Time `xorm:"created"`
+	CreateBy      int       `xorm:"not null INT(11)"`
+	ReadCount     int64     `xorm:"default 0 BIGINT(20)"`
+	LeaveCount    int64     `xorm:"default 0 BIGINT(20)"`
+	UpdateTime    time.Time `xorm:"TIMESTAMP"`
+	BackgroundPic string    `xorm:"VARCHAR(255)"`
+	Type          int       `xorm:"INT(1)"`
+	HtmlBak       string    `xorm:"TEXT"`
 }
 
 // Get blogger list.
@@ -51,13 +54,11 @@ func (b *Blogger) FindList() ([]Blogger, error) {
 
 //New to Add new blogger.
 func (b *Blogger) New() (int64, error) {
-
 	blog := new(Blogger)
-
 	blog.Title = b.Title
 	blog.Content = b.Content
 	blog.CreateBy = b.CreateBy
-	blog.CreateTime = time.Now()
+	blog.UpdateTime = time.Now()
 	blog.Passwd = b.Passwd
 	blog.CategoryId = b.CategoryId
 

@@ -27,7 +27,8 @@ GET     /main                                   Main.Main
 # Post a blog
 GET     /p                                      Blogger.BloggerPage
 GET     /p/:id                                  Blogger.BloggerPage
-Get     /query_tag/:t                           Post.QueryTags
+Get     /query_tags/:t                          Post.QueryTags
+Get     /query_categorys/:t                     Post.QueryCategorys
 
 # Admin
 GET     /admin/                                 Admin.Main

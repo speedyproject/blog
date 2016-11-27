@@ -30,6 +30,7 @@ func (b *BloggerTag) New() (bool, error) {
 	bt := new(BloggerTag)
 	bt.Type = b.Type
 	bt.Name = b.Name
+	bt.Type = b.Parent
 	has, err := support.Xorm.InsertOne(&bt)
 
 	return has > 0, err
@@ -37,7 +38,7 @@ func (b *BloggerTag) New() (bool, error) {
 
 func (t *BloggerTag) QueryTags(str string) ([]map[string][]byte, error) {
 	//sql := "SELECT name FROM t_tag WHERE name LIKE \"%" + str + "%\" ORDER BY LENGTH(name)-LENGTH(" + str + ") ASC LIMIT 10"
-	sql := "SELECT id FROM t_tag"
+	sql := "SELECT name FROM t_tag"
 	ress, err := support.Xorm.Query(sql)
 	fmt.Println("res: ", ress)
 	if err != nil {

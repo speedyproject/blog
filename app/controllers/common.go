@@ -14,8 +14,9 @@ type PostData struct {
 	Title    string
 	Content  string
 	Date     time.Time
-	Label    string
+	Category int
 	Tag      string
 	Keywords string
 	passwd   string
+	Type     int
 }

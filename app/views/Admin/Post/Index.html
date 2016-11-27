@@ -126,6 +126,12 @@
          width: 120px;
          float: right;
        }
+       .edit_action_warp{
+         float: right;
+         height: 35px;
+      margin-top: 15px;
+      margin-right: 15px;
+       }
     </style>
     <script type="text/javascript" src="../public/edit/dist/js/wangEditor.min.js"></script>
     <script type="text/javascript" src="../public/edit/dist/js/select2.full.min.js"></script>
@@ -165,8 +171,12 @@
     <div class="edit_area">
       <div class="edit_area_type">
         <div class="edit_area_tips h5">编辑模式：普通</div>
+        <div class="edit_action_warp">
+          <button type="button" class="btn btn-primary">发布文章</button>
+          <button type="button" class="btn btn-danger">存为草稿</button>
+        </div>
         <div class="switch switch-mini">
-            <input id="toggle-type" type="checkbox" checked />
+            <input data-toggle="modal" data-target="#edit_change_moda" id="toggle-type" type="checkbox" checked />
         </div>
          <div class="edit_switch_action h5">模式切换</div>
       </div>
@@ -179,25 +189,72 @@
        <textarea name="content" data-provide="markdown" rows="50"></textarea>
       </div>
     </div>
+    <div id="edit_change_modal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">切换提示</h4>
+          </div>
+          <div class="modal-body">
+            切换编辑模式会丢失当前内容！
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button id="edit_change_modal_sure" type="button" class="btn btn-primary">继续</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <script type="text/javascript">
+      // 视图模型
+      var editView = {
+        editType:false,
+        modalType:false,
+        editChangeBtn:$("#toggle-type"),
+        editCategorySelect:$("#edit_category_select"),
+        editCategoryTag:$("#edit_category_tag")
+      }
+
       // 创建富文本编辑器
       var editor = new wangEditor('textareaOne');
       editor.create();
+
       //创建分类选择器
-      $("#edit_category_select").select2();
+      editView.editCategorySelect.select2();
+
       //创建标签选择器
-      $("#edit_category_tag").select2({
+     editView.editCategoryTag.select2({
         tags: true
       })
+
       // 创建选择编辑器开关
-      $("#toggle-type").bootstrapSwitch({
+      editView.editChangeBtn.bootstrapSwitch({
         onText:'ON',
         offText:'OFF',
         labelWidth:10,
         handleWidth:50,
         state:false,
         onSwitchChange:function(event,state){
-          if(state){
+          editView.editType = state;
+          editView.modalType = false;
+          $("#edit_change_modal").modal('show');
+        }
+      });
+
+      //监听模态框关闭事件
+      $(function () { $('#edit_change_modal').on('hide.bs.modal', function (e) {
+          if(!editView.modalType){
+            editView.editChangeBtn.bootstrapSwitch('state',!editView.editType);
+          }
+        })
+      });
+
+      //确认切换模态框
+      $('#edit_change_modal_sure').click(function(){
+        editView.modalType = true;
+         $("#edit_change_modal").modal('hide');
+         if(editView.editType){
             $(".edit_area_tips").text('编辑模式：Markdown');
             $("#edit_area_one").hide();
             $("#edit_area_two").show();
@@ -206,9 +263,7 @@
           $(".edit_area_tips").text('编辑模式：普通');
           $("#edit_area_one").show();
           $("#edit_area_two").hide();
-        }
-      });
-
+      })
     </script>
   </div>
 </div>

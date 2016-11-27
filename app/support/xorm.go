@@ -36,3 +36,12 @@ func InitXorm() {
 		Xorm.Ping()
 	}
 }
+
+func TestXorm(driver, user, pass, host, dbname string, port int) error {
+	var err error
+	Xorm, err = xorm.NewEngine(driver, fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8", user, pass, host, port, dbname))
+	if err != nil {
+		return err
+	}
+	return Xorm.Ping()
+}

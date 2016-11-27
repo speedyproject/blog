@@ -2,6 +2,10 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+# install page
+GET     /install                                Install.Index
+POST    /install/index                          Install.HandleInstall
+
 module:testrunner
 
 #GET     /                                      App.Index
@@ -19,8 +23,11 @@ POST    /create                                 Login.SignUpHandler
 GET     /                                       Main.Main
 GET     /main                                   Main.Main
 
+
+# Post a blog
 GET     /p                                      Blogger.BloggerPage
 GET     /p/:id                                  Blogger.BloggerPage
+Get     /query_tag/:t                           Post.QueryTags
 
 # Admin
 GET     /admin/                                 Admin.Main

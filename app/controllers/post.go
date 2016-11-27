@@ -59,3 +59,16 @@ func (a *Post) NewPostHandler() revel.Result {
 
 	return a.RenderHtml("ok")
 }
+
+func (p *Post) QueryTags(t string) revel.Result {
+	tag := new(models.BloggerTag)
+	res, err := tag.QueryTags(t)
+	if err != nil {
+		return p.RenderJson(&ResultJson{Success: false, Msg: err.Error(), Data: ""})
+	}
+	arr := make([]string, 0)
+	for _, v := range res {
+		arr = append(arr, string(v["name"]))
+	}
+	return p.RenderJson(arr)
+}

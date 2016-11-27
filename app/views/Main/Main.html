@@ -1,3 +1,4 @@
+{{append . "moreScripts" "js/home/home.js"}}
 {{template "Layout/HomeHeader.html" .}}
 
 <!-- Page Content -->
@@ -34,13 +35,13 @@
             <div class="well">
                 <h4>Blog Search</h4>
                 <div class="input-group">
-                    <input type="text" class="form-control">
+                    <input id="search-key" type="text" class="form-control">
                     <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">
-                                <span class="glyphicon glyphicon-search"></span>
-                    </button>
+                        <button onclick="Home.toSearch()" class="btn btn-default" type="button">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
                     </span>
-                </div>
+                 </div>
                 <!-- /.input-group -->
             </div>
 

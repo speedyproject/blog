@@ -3,8 +3,8 @@
 # ~~~~
 
 # install page
-GET     /install                                Install.Index
-POST    /install/index                          Install.HandleInstall
+# GET     /install                                Install.Index
+# POST    /install/index                          Install.HandleInstall
 
 module:testrunner
 

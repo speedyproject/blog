@@ -151,3 +151,9 @@ func (b *Blogger) GetSummary() string {
 func (b *Blogger) MainURL() string {
 	return fmt.Sprintf("/p/%d", b.Id)
 }
+
+func (b *Blogger) FindByCategory(categoryID int64) (*[]Blogger, error) {
+	blogs := make([]Blogger, 0)
+	err := support.Xorm.Where("category_id = ?", categoryID).Find(&blogs)
+	return &blogs, err
+}

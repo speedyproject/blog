@@ -24,6 +24,15 @@ func (b *BloggerTag) FindList() ([]BloggerTag, error) {
 	return bt, err
 }
 
+func (b *BloggerTag) GetByIdent(ident string) int64 {
+	tag := &BloggerTag{}
+	has, _ := support.Xorm.Where("ident = ?", ident).Get(tag)
+	if has {
+		return int64(tag.Id)
+	}
+	return 0
+}
+
 // Add new tag
 func (b *BloggerTag) New() (bool, error) {
 

@@ -15,6 +15,15 @@ type Category struct {
 	Parent int64  `xorm:"not null INT(11)"`
 }
 
+func (c *Category) GetByIdent(ident string) int64 {
+	ca := &Category{}
+	has, _ := support.Xorm.Where("ident = ?", ident).Get(ca)
+	if has {
+		return int64(ca.Id)
+	}
+	return 0
+}
+
 // Add function to save a category
 func (c *Category) Add(name, ident string, parent int64) int64 {
 	category := &Category{Name: name, Ident: ident, Parent: parent}

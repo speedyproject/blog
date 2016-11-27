@@ -1,0 +1,18 @@
+{{template "Layout/HomeHeader.html" .}}
+
+<!-- Page Content -->
+<div class="container">
+    {{if .blogs }}
+        {{if gt (len .blogs) 0}}
+            {{template "Part/RangeBlogs.html" .blogs}}
+        {{else}}    
+            没有找到
+        {{end}}    
+    {{else}}
+        没有找到
+    {{end}}
+</div>
+<!-- /.container -->
+
+
+{{template "Layout/HomeFooter.html" .}}

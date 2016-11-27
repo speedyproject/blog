@@ -22,6 +22,7 @@ POST    /create                                 Login.SignUpHandler
 
 GET     /                                       Main.Main
 GET     /main                                   Main.Main
+Get     /main/category/:ca                      Main.Blog4Category
 
 
 # Post a blog

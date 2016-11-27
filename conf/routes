@@ -29,6 +29,7 @@ GET     /p                                      Blogger.BloggerPage
 GET     /p/:id                                  Blogger.BloggerPage
 Get     /query_tags/:t                          Post.QueryTags
 Get     /query_categorys/:t                     Post.QueryCategorys
+Post    /post/add_tag                                Post.CreateTag
 
 # Admin
 GET     /admin/                                 Admin.Main

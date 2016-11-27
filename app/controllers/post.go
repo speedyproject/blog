@@ -78,3 +78,15 @@ func (p *Post) QueryCategorys() revel.Result {
 	arr := c.FindAll()
 	return p.RenderJson(&ResultJson{Success: true, Msg: "", Data: arr})
 }
+
+func (p *Post) CreateTag(name string) revel.Result {
+	tag := new(models.BloggerTag)
+	tag.Name = name
+	tag.Parent = 0
+	tag.Type = 0
+	_, err := tag.New()
+	if err != nil {
+		return p.RenderJson(&ResultJson{Success: false, Msg: err.Error(), Data: ""})
+	}
+	return p.RenderJson(&ResultJson{Success: true, Msg: "", Data: ""})
+}

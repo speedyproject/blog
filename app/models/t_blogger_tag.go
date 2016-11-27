@@ -31,7 +31,7 @@ func (b *BloggerTag) New() (bool, error) {
 	bt.Type = b.Type
 	bt.Name = b.Name
 	bt.Type = b.Parent
-	has, err := support.Xorm.InsertOne(&bt)
+	has, err := support.Xorm.InsertOne(bt)
 
 	return has > 0, err
 }

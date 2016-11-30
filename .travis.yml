@@ -5,8 +5,9 @@ go:
   - master
   
 script: 
-  - mv $HOME/gopath/src/github.com/speedyproject/blog $HOME/gopath/src/ && cd $HOME/gopath/bin
   - ./build.sh >> /dev/null
+  - mv $HOME/gopath/src/github.com/speedyproject/blog $HOME/gopath/src/ && cd $HOME/gopath/bin
+
 
 install:
   - go get github.com/revel/revel

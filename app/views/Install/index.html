@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    {{template "Common/Head.html" .}}
+    <link rel="stylesheet" href="">
+</head>
+<body>
+    <div>
+    <div>
+        <div>
+            <h3>数据库配置</h3>
+            <div>
+                <label for="">数据库地址</label>
+                <input id="db-host" type="text">
+            </div>
+            <div>
+                <label for="">数据库账号</label>
+                <input id="db-user" type="text">
+            </div>
+            <div>
+                <label for="">数据库端口</label>
+                <input id="db-port" type="text">
+            </div>
+            <div>
+                <label for="">数据库密码</label>
+                <input id="db-pass" type="text">
+            </div>
+            <div>
+                <label for="">数据库名</label>
+                <input id="db-name" type="text">
+            </div>
+        </div>
+
+        <div>
+            <h3>管理员账号</h3>
+            <div>
+                <label for="">用户名</label>
+                <input id="admin-user" type="text">
+            </div>
+            <div>
+                <label for="">密码</label>
+                <input id="admin-pass" type="text">
+            </div>
+            <div>
+                <label for="">邮箱</label>
+                <input id="admin-email" type="text">
+            </div>
+        </div>
+    </div>
+    <button onclick="Install.submit()">下一步</button>
+</div>
+<script src="/public/js/install/install.js"></script>
+{{template "Common/Foot.html" .}}
+</body>
+</html>
+
+
+
+

@@ -6,7 +6,6 @@ go:
   
 script: 
   - ./build.sh >> /dev/null
-  - mv $HOME/gopath/src/github.com/speedyproject/blog $HOME/gopath/src/ && cd $HOME/gopath/bin
 
 
 install:

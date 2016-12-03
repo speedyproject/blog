@@ -1,14 +1,17 @@
 {{append . "moreStyles" "css/home/blog-detail.css"}}
+{{append . "moreStyles" "css/home/blog-md.css"}}
+{{append . "moreStyles" "third/prism/prism.css"}}
+{{append . "moreScripts" "third/prism/prism.js"}}
 {{template "Layout/HomeHeader.html" .}}
 
     <!-- Page Content -->
     <div class="container blog-container">
 
         <div class="blog-detail">
-           <h1>{{.blog.Title}}</h1>
+           <h1 class="blog-title">{{.blog.Title}}</h1>
             
             <!-- Blog Post Content Column -->
-            <div class="blog-content">
+            <div class="{{if .blog.IsMD }}blog-content-md{{end}}">
                 {{raw (.blog.RenderContent) }}
             </div>
             <!-- Blog Post Content Column end -->

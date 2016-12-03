@@ -1,2 +1,6 @@
 .blog-container {
   width: 85%; }
+  .blog-container .blog-title {
+    font-size: 2.5em;
+    margin: 1em 0;
+    font-weight: 700; }

@@ -25,6 +25,7 @@ type Blogger struct {
 	BackgroundPic string    `xorm:"VARCHAR(255)"`
 	Type          int       `xorm:"INT(1)"`
 	HtmlBak       string    `xorm:"TEXT"`
+	Summary       string    `xorm:"VARCHAR(255)"`
 }
 
 // Get blogger list.
@@ -140,6 +141,9 @@ func (b *Blogger) RenderContent() string {
 
 // GetSummary to cut out a part of blog content
 func (b *Blogger) GetSummary() string {
+	if b.Summary != "" {
+		return b.Summary
+	}
 	if len(b.Content) < 300 {
 		return b.Content
 	}
@@ -156,4 +160,8 @@ func (b *Blogger) FindByCategory(categoryID int64) (*[]Blogger, error) {
 	blogs := make([]Blogger, 0)
 	err := support.Xorm.Where("category_id = ?", categoryID).Find(&blogs)
 	return &blogs, err
+}
+
+func (b *Blogger) IsMD() bool {
+	return b.Type == BLOG_TYPE_MD
 }

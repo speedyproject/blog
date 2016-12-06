@@ -1,5 +1,29 @@
+@media (min-width: 1200px) {
+    .blog-container {
+        width: 1170px;
+    }
+}
+
+@media (min-width: 992px) {
+    .blog-container {
+        width: 970px;
+    }
+}
+
+@media (min-width: 768px) {
+    .blog-container {
+        width: 750px;
+    }
+}
+
 .blog-container {
-    width: 85%;
+    width: 78%;
+    .container {
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+    }
     .blog-title {
         font-size: 2.5em;
         margin: 1em 0;

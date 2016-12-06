@@ -38,7 +38,7 @@ $lead-color:#4eaa4c;
     }
     pre {
         display: block;
-        padding: 1em;
+        padding: 0 !important;
         margin: 0 0 1em;
         color: #333;
         word-break: break-all;
@@ -53,6 +53,7 @@ $lead-color:#4eaa4c;
             white-space: pre-wrap;
             background-color: transparent;
             border-radius: 0;
+            text-shadow: none;
         }
     }
     code {

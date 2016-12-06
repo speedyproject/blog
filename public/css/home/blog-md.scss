@@ -1,4 +1,32 @@
+//博客内容样式
+$font:-apple-system,
+"Helvetica Neue",
+Helvetica,
+"Nimbus Sans L",
+Arial,
+"Liberation Sans",
+"PingFang SC",
+"Hiragino Sans GB",
+"Source Han Sans CN",
+"Source Han Sans SC",
+"Microsoft YaHei",
+"Wenquanyi Micro Hei",
+"WenQuanYi Zen Hei",
+"ST Heiti",
+SimHei,
+"WenQuanYi Zen Hei Sharp",
+sans-serif;
+$lead-color:#4eaa4c;
+.link-blue {
+    color: #46B;
+}
+
 .blog-content-md {
+    font-size: 1.6rem;
+    font-family: $font;
+    word-wrap: break-word;
+    color: #3d464d;
+    line-height: 28px;
     h1 {}
     h4 {
         font-size: 16px;
@@ -42,5 +70,124 @@
     a:active,
     a:hover {
         outline: 0;
+    }
+    .blog-table {
+        overflow: hidden;
+        overflow-x: auto;
+    }
+    // 代码样式
+    pre code,
+    pre {
+        overflow-x: auto;
+        border-radius: 4px;
+        padding: 10px;
+        line-height: 1.4;
+        word-wrap: normal;
+        display: block;
+        font-size: 13px;
+        background: #3f3f3f;
+        color: #dcdcdc;
+        font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+        &::-webkit-scrollbar {
+            width: 5px !important;
+            height: 5px !important;
+            -webkit-appearance: none;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: rgba(#999, .9);
+        }
+    }
+    pre,
+    code {
+        border-radius: 3px;
+        // background:#fdf6e3;
+        padding: 2px;
+        // color:#777;
+        font-size: 13px;
+    }
+    // 正文样式
+    p {
+        margin-bottom: 16px;
+    }
+    a {
+        @extend .link-blue;
+    }
+    ol,
+    ul {
+        margin: 0;
+        margin-left: 30px;
+        padding: 8px 15px;
+    }
+    ol {
+        list-style-type: decimal;
+    }
+    ul {
+        list-style-type: disc;
+    }
+    img {
+        margin: auto;
+        max-width: 80%;
+        height: auto;
+    }
+    table {
+        border-collapse: collapse;
+        border-spacing: 1px;
+        font-size: 14px;
+        color: #444;
+        display: block;
+        overflow-x: auto;
+        max-width: 100%;
+        border: 0;
+        thead {
+            text-align: left;
+            background: #f8f8f8;
+        }
+        th,
+        td {
+            padding: 4px 8px;
+            border: 1px solid #ccc;
+        }
+    }
+    blockquote {
+        position: relative;
+        color: #000;
+        font-size: 1.5rem;
+        background: #f4f4f4;
+        margin: 20px 0;
+        padding: 16px 24px 16px 35px;
+        &:before {
+            content: "";
+            background-image: url(../imgs/icon-svg/icon-quotation.svg);
+            top: 12px;
+            left: 16px;
+            font-size: 24px;
+            color: $lead-color;
+            position: absolute;
+            width: 13px;
+            height: 9px;
+            display: inline-block;
+        }
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+        font-weight: 500;
+    }
+    h1 {
+        font-size: 24px;
+    }
+    h2 {
+        font-size: 22px;
+    }
+    h3 {
+        font-size: 18px;
+    }
+    h4 {
+        font-size: 16px;
+    }
+    video {
+        max-width: 100%;
     }
 }

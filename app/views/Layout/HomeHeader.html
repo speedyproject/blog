@@ -5,35 +5,35 @@
     <title>{{.title}}</title>
     <!-- Custom CSS -->
     <link href="/public/css/home/blog-home.css" rel="stylesheet">
-    <link rel="shortcut icon" type="image/png" href="/public/img/favicon.png"> 
-    <link rel="search" type="application/opensearchdescription+xml" title="search" href="/opensearch.xml" />
-    {{template "Common/Head.html" .}}
+    <link rel="shortcut icon" type="image/png" href="/public/img/favicon.png">
+    <link rel="search" type="application/opensearchdescription+xml" title="search" href="/opensearch.xml" /> {{template "Common/Head.html" .}}
 </head>
 
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
+    <nav class="navbar my-navbar navbar-fixed-top" role="navigation">
+        <div class="container my-container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <!--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>
+                </button>-->
+                <a class="navbar-brand" href="/">GOLB</a>
                 <a class="navbar-brand" href="/">首页</a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <!--<a href="#">About</a>-->
-                    </li>
-                    <li>
-                        <!--<a href="#">Contact</a>-->
-                    </li>
-                </ul>
+                <a class="navbar-brand" href="/"><i class="fa fa-bars" aria-hidden="true"></i> 专题</a>
+                <div class="navbar-search">
+                <div class="input-group">
+                    <input id="search-key" type="text" class="form-control">
+                    <span class="input-group-btn">
+                        <button onclick="Home.toSearch()" class="btn btn-default" type="button">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+                </div>
             </div>
             <!-- /.navbar-collapse -->
         </div>

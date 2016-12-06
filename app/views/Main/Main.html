@@ -3,18 +3,12 @@
 
 <!-- Page Content -->
 <div class="">
-
-    <div class="row">
-
+    <div class="">
         <!-- Blog Entries Column -->
         <div class="col-md-8">
-
-            <h1 class="page-header">
-                {{.info.Title}}
-                <small>{{.info.SubTitle}}</small>
-            </h1>
-
+            <div class="blog-list">
             {{template "Part/RangeBlogs.html" .blogs}}
+            </div>
 
             <!-- Pager -->
             <ul class="pager">

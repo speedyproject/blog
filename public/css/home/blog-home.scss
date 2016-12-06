@@ -3,29 +3,64 @@
  * Copyright 2013-2016 Start Bootstrap
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
  */
+$maincolor: #777;
 
 body {
     padding-top: 70px;
     /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+    .my-navbar {
+        border-color: #ddd;
+        background-color: #fff;
+        .navbar-header {
+            width: 100%;
+            .navbar-brand {
+                margin-right: 1.5em;
+                color: $maincolor;
+            }
+        }
+        .navbar-search {
+            width: 200px;
+            display: inline-block;
+            float: right;
+            padding: 8px 0;
+        }
+
+
+    }
 }
 
 footer {
     margin: 50px 0;
 }
 
-.my-container{
+.my-container {
     width: 78% !important;
+    .blog-list {
+        .blog-item {
+            h2 {
+                a {
+                    color: #444;
+                }
+                a:hover{
+                    color: #3e9def;
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
 }
 
 .blog-item {
     .author-time {
         color: #aaa;
         font-size: 1.2em;
-        .author,.category {
+        .author,
+        .category {
             margin-right: 2em;
         }
     }
     .blog-summary {
-        font-size: 1.2em
+        font-size: 1.2em;
+        color:$maincolor;
     }
 }

@@ -6,18 +6,38 @@
 body {
   padding-top: 70px;
   /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */ }
+  body .my-navbar {
+    border-color: #ddd;
+    background-color: #fff; }
+    body .my-navbar .navbar-header {
+      width: 100%; }
+      body .my-navbar .navbar-header .navbar-brand {
+        margin-right: 1.5em;
+        color: #777; }
+    body .my-navbar .navbar-search {
+      width: 200px;
+      display: inline-block;
+      float: right;
+      padding: 8px 0; }
 
 footer {
   margin: 50px 0; }
 
 .my-container {
   width: 78% !important; }
+  .my-container .blog-list .blog-item h2 a {
+    color: #444; }
+  .my-container .blog-list .blog-item h2 a:hover {
+    color: #3e9def;
+    text-decoration: underline; }
 
 .blog-item .author-time {
   color: #aaa;
   font-size: 1.2em; }
-  .blog-item .author-time .author, .blog-item .author-time .category {
+  .blog-item .author-time .author,
+  .blog-item .author-time .category {
     margin-right: 2em; }
 
 .blog-item .blog-summary {
-  font-size: 1.2em; }
+  font-size: 1.2em;
+  color: #777; }

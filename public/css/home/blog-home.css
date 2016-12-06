@@ -10,6 +10,9 @@ body {
 footer {
   margin: 50px 0; }
 
+.my-container {
+  width: 78% !important; }
+
 .blog-item .author-time {
   color: #aaa;
   font-size: 1.2em; }

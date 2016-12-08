@@ -14,7 +14,8 @@ type Blogger struct {
 	*revel.Controller
 }
 
-//Blogger page.
+// BloggerPage to display the blog detail.
+// 显示博客详情
 func (b Blogger) BloggerPage(id int64) revel.Result {
 	blogModel := &models.Blogger{Id: id}
 	blog, err := blogModel.FindById()

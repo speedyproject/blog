@@ -8,6 +8,7 @@ import (
 )
 
 //Admin controller.
+// Admin 控制器，后代所有操作都在此控制器下
 type Admin struct {
 	*revel.Controller
 }
@@ -15,6 +16,7 @@ type Admin struct {
 // AdminChecker for get the value of which module user choose,
 // and make the menu selected.
 // TODO:Laily check if it is a admin user
+// 检测 url 是访问后台哪个模块的操作
 func (admin *Admin) AdminChecker() revel.Result {
 	url := fmt.Sprintf("%s", admin.Request.URL.Path)
 	revel.INFO.Println(url)
@@ -39,6 +41,7 @@ func (admin *Admin) AdminChecker() revel.Result {
 }
 
 //Main page.
+// 后台首页
 func (a *Admin) Main() revel.Result {
 	return a.Render()
 }

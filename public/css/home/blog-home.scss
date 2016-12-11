@@ -37,30 +37,65 @@ footer {
     width: 78% !important;
     .blog-list {
         .blog-item {
+            padding-bottom: 1em;
+            margin-bottom: 1em;
+            border-bottom: solid 1px #eee;
             h2 {
+                margin: 0 0 0.1em 0;
+                font-size: 1.9em;
                 a {
                     color: #444;
                 }
-                a:hover{
+                a:hover {
                     color: #3e9def;
                     text-decoration: underline;
+                }
+            }
+            .author-time {
+                color: #aaa;
+                font-size: 1.2em;
+                margin: 0;
+                .author,
+                .category {
+                    margin-right: 2em;
+                }
+                a{
+                    color: inherit;
+                }
+            }
+            .blog-summary {
+                font-size: 1.2em;
+                color: $maincolor;
+                margin: 1.2em 0;
+            }
+        }
+    }
+    .right-side{
+        .side-area{
+            h4{
+                font-size: 16px;
+                color: #555;
+            }
+            .content{
+                padding-left: 15px;
+                .list{
+                    line-height: 2.2em;
+                    list-style: square;
+                    color: #666;
+                    .read-count{
+                        color: #aaa;
+                        margin-left: 0.3em;
+                    }
                 }
             }
         }
     }
 }
 
-.blog-item {
-    .author-time {
-        color: #aaa;
-        font-size: 1.2em;
-        .author,
-        .category {
-            margin-right: 2em;
-        }
-    }
-    .blog-summary {
-        font-size: 1.2em;
-        color:$maincolor;
-    }
+footer{
+    margin: 3em 0 0 0;
+    padding: 1em 0;
+    border-top: solid 1px #eee;
+    color: #AAA;
+    text-align: center;
 }

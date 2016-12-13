@@ -2,13 +2,19 @@ package models
 
 import (
 	"blog/app/support"
+	"encoding/json"
 	"fmt"
 	"time"
 
 	"github.com/russross/blackfriday"
 )
 
-import "encoding/json"
+const (
+	BLOG_STATUS_NORMAL  = 0 // 正常状态
+	BLOG_STATUS_PENDING = 1 // 审核状态
+	BLOG_TYPE_MD        = 0
+	BLOG_TYPE_HTML      = 1
+)
 
 // Blogger model.
 type Blogger struct {
@@ -26,6 +32,7 @@ type Blogger struct {
 	Type          int       `xorm:"INT(1)"`
 	HtmlBak       string    `xorm:"TEXT"`
 	Summary       string    `xorm:"VARCHAR(255)"`
+	Status        int       `xrom:"INT(11)"`
 }
 
 // Get blogger list.
@@ -104,9 +111,7 @@ func (b *Blogger) FindById() (*Blogger, error) {
 
 // Update blogger.
 func (b *Blogger) Update() (bool, error) {
-
 	has, err := support.Xorm.Id(b.Id).Update(&b)
-
 	if err == nil {
 		// refurbish cache.
 		res, e1 := json.Marshal(&b)
@@ -115,7 +120,6 @@ func (b *Blogger) Update() (bool, error) {
 			support.Cache.Set(support.SPY_BLOGGER_SINGLE+fmt.Sprintf("%d", b.Id), string(res), 0)
 		}
 	}
-
 	return has > 0, err
 }
 
@@ -164,4 +168,12 @@ func (b *Blogger) FindByCategory(categoryID int64) (*[]Blogger, error) {
 
 func (b *Blogger) IsMD() bool {
 	return b.Type == BLOG_TYPE_MD
+}
+
+// GetLatestBlog .
+// 获取最新的博客
+func (b *Blogger) GetLatestBlog(n int) []Blogger {
+	blogs := make([]Blogger, 0)
+	support.Xorm.Limit(n, 0).Find(&blogs)
+	return blogs
 }

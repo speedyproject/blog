@@ -26,3 +26,11 @@ func (b Blogger) BloggerPage(id int64) revel.Result {
 	b.RenderArgs["blog"] = blog
 	return b.Render()
 }
+
+// LatestBlogger get laster n blog
+// 获取最新的 n 条博客
+func (b *Blogger) LatestBlogger() {
+	n := 10
+	blogModel := &models.Blogger{}
+
+}

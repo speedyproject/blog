@@ -32,5 +32,5 @@ func (b Blogger) BloggerPage(id int64) revel.Result {
 func (b *Blogger) LatestBlogger() {
 	n := 10
 	blogModel := &models.Blogger{}
-
+	blogModel.GetLatestBlog(n)
 }

@@ -69,6 +69,8 @@ func (b *Blogger) New() (int64, error) {
 	blog.UpdateTime = time.Now()
 	blog.Passwd = b.Passwd
 	blog.CategoryId = b.CategoryId
+	blog.Type = b.Type
+	blog.HtmlBak = b.HtmlBak
 
 	has, err := support.Xorm.InsertOne(blog)
 

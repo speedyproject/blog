@@ -4,6 +4,7 @@ import (
 	"blog/app/models"
 	"fmt"
 	"strconv"
+	"time"
 
 	"github.com/revel/revel"
 )
@@ -21,13 +22,26 @@ func (p *Post) Index() revel.Result {
 	return p.RenderTemplate("Admin/Post/Index.html")
 }
 
+//PostData model.
+type PostData struct {
+	Title       string
+	ContentMD   string
+	ContentHTML string
+	Date        time.Time
+	Category    int
+	Tag         string
+	Keywords    string
+	passwd      string
+	Type        int
+}
+
 // NewPostHandler to Add new article.
 func (a *Post) NewPostHandler() revel.Result {
 	data := new(PostData)
 	a.Params.Bind(&data, "data")
 	fmt.Println("data= ", data)
 	a.Validation.Required(data.Title).Message("title can't be null.")
-	a.Validation.Required(data.Content).Message("context can't be null.")
+	a.Validation.Required(data.ContentMD).Message("context can't be null.")
 	a.Validation.Required(data.Date).Message("date can't be null.")
 
 	if a.Validation.HasErrors() {
@@ -38,9 +52,10 @@ func (a *Post) NewPostHandler() revel.Result {
 
 	blog := new(models.Blogger)
 	blog.Title = data.Title
-	blog.Content = data.Content
+	blog.Content = data.ContentMD
 	blog.CategoryId = data.Category
 	blog.Type = data.Type
+	blog.HtmlBak = data.ContentHTML
 	uid := a.Session["UID"]
 	id, _ := strconv.Atoi(uid)
 

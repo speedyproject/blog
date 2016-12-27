@@ -26,7 +26,7 @@ func InitSearcher() {
 	blogModel := new(models.Blogger)
 	blogs, _ := blogModel.FindList()
 	for _, v := range blogs {
-		searcher.IndexDocument(uint64(v.Id), types.DocumentIndexData{Content: v.Content}, false)
+		searcher.IndexDocument(uint64(v.Id), types.DocumentIndexData{Content: v.ContentHTML}, false)
 	}
 
 	// 等待索引刷新完毕

@@ -17,11 +17,12 @@ const (
 )
 
 // Blogger model.
+// 博客实体
 type Blogger struct {
 	Id            int64     `xorm:"not null pk autoincr INT(11)"`
 	Title         string    `xorm:"not null default '' VARCHAR(50)"`
-	Content       string    `xorm:"not null TEXT"`
-	CategoryId    int       `xorm:"INT(11)"`
+	ContentHTML   string    `xorm:"not null TEXT 'content_html'"`
+	CategoryId    int       `xorm:"INT(11) 'category_id'"`
 	Passwd        string    `xorm:"VARCHAR(64)"`
 	CreateTime    time.Time `xorm:"created"`
 	CreateBy      int       `xorm:"not null INT(11)"`
@@ -30,7 +31,7 @@ type Blogger struct {
 	UpdateTime    time.Time `xorm:"TIMESTAMP"`
 	BackgroundPic string    `xorm:"VARCHAR(255)"`
 	Type          int       `xorm:"INT(1)"`
-	HtmlBak       string    `xorm:"TEXT"`
+	ContentMD     string    `xorm:"TEXT 'content_md'"`
 	Summary       string    `xorm:"VARCHAR(255)"`
 	Status        int       `xrom:"INT(11)"`
 }
@@ -64,11 +65,12 @@ func (b *Blogger) FindList() ([]Blogger, error) {
 func (b *Blogger) New() (int64, error) {
 	blog := new(Blogger)
 	blog.Title = b.Title
-	blog.Content = b.Content
+	blog.ContentHTML = b.ContentHTML
 	blog.CreateBy = b.CreateBy
 	blog.UpdateTime = time.Now()
 	blog.Passwd = b.Passwd
 	blog.CategoryId = b.CategoryId
+	blog.Summary = b.Summary
 
 	has, err := support.Xorm.InsertOne(blog)
 
@@ -137,10 +139,11 @@ func (b *Blogger) Del() (bool, error) {
 }
 
 func (b *Blogger) RenderContent() string {
-	if b.Type == BLOG_TYPE_MD {
-		return string(blackfriday.MarkdownCommon([]byte(b.Content)))
+	if b.Type == BLOG_TYPE_MD && b.ContentHTML == "" {
+		mdContent := string(blackfriday.MarkdownCommon([]byte(b.ContentMD)))
+		return mdContent
 	}
-	return b.Content
+	return b.ContentHTML
 }
 
 // GetSummary to cut out a part of blog content
@@ -148,10 +151,10 @@ func (b *Blogger) GetSummary() string {
 	if b.Summary != "" {
 		return b.Summary
 	}
-	if len(b.Content) < 300 {
-		return b.Content
+	if len(b.ContentHTML) < 300 {
+		return b.ContentHTML
 	}
-	return b.Content[0:300]
+	return b.ContentHTML[0:300]
 }
 
 // MainURL return the url of the blog

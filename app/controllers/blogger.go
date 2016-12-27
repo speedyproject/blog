@@ -30,7 +30,7 @@ func (b Blogger) BloggerPage(id int64) revel.Result {
 // LatestBlogger get laster n blog
 // 获取最新的 n 条博客
 func (b *Blogger) LatestBlogger() {
-	n := 10
-	blogModel := &models.Blogger{}
+	// n := 10
+	// blogModel := &models.Blogger{}
 
 }

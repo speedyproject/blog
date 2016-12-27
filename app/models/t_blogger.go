@@ -37,6 +37,7 @@ type Blogger struct {
 }
 
 // Get blogger list.
+// 获取所有博客
 func (b *Blogger) FindList() ([]Blogger, error) {
 	// get list data from cache.
 	list := make([]Blogger, 0)
@@ -61,7 +62,8 @@ func (b *Blogger) FindList() ([]Blogger, error) {
 	return list, err
 }
 
-//New to Add new blogger.
+// New to Add new blogger.
+// 新建一个博客
 func (b *Blogger) New() (int64, error) {
 	blog := new(Blogger)
 	blog.Title = b.Title
@@ -88,7 +90,8 @@ func (b *Blogger) New() (int64, error) {
 	return has, err
 }
 
-// find blogger by id.
+// FindById to find blogger by id.
+// 通过 id 查找博客
 func (b *Blogger) FindById() (*Blogger, error) {
 
 	blog := new(Blogger)
@@ -112,6 +115,7 @@ func (b *Blogger) FindById() (*Blogger, error) {
 }
 
 // Update blogger.
+// 更新博客
 func (b *Blogger) Update() (bool, error) {
 	has, err := support.Xorm.Id(b.Id).Update(&b)
 	if err == nil {
@@ -125,7 +129,8 @@ func (b *Blogger) Update() (bool, error) {
 	return has > 0, err
 }
 
-// Delete blogger.
+// Del to Delete blogger.
+// 删除一篇博客
 func (b *Blogger) Del() (bool, error) {
 
 	has, err := support.Xorm.Id(b.Id).Delete(&b)
@@ -147,6 +152,8 @@ func (b *Blogger) RenderContent() string {
 }
 
 // GetSummary to cut out a part of blog content
+// 获取一篇博客的摘要
+// 如果没有摘要则截取文章开头 300 个字符
 func (b *Blogger) GetSummary() string {
 	if b.Summary != "" {
 		return b.Summary
@@ -163,12 +170,16 @@ func (b *Blogger) MainURL() string {
 	return fmt.Sprintf("/p/%d", b.Id)
 }
 
+// FindByCategory .
+// 查找某个分类下的博客
 func (b *Blogger) FindByCategory(categoryID int64) (*[]Blogger, error) {
 	blogs := make([]Blogger, 0)
 	err := support.Xorm.Where("category_id = ?", categoryID).Find(&blogs)
 	return &blogs, err
 }
 
+// IsMD to judge it is written by Markdown
+// 判断这篇博客是否由 markdown 书写
 func (b *Blogger) IsMD() bool {
 	return b.Type == BLOG_TYPE_MD
 }

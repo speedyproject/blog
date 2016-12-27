@@ -45,9 +45,11 @@ func (b *BloggerTag) New() (bool, error) {
 	return has > 0, err
 }
 
+// QueryTags to Search for tag
+// 根据用户输入的单词匹配 tag
 func (t *BloggerTag) QueryTags(str string) ([]map[string][]byte, error) {
-	//sql := "SELECT name FROM t_tag WHERE name LIKE \"%" + str + "%\" ORDER BY LENGTH(name)-LENGTH(" + str + ") ASC LIMIT 10"
-	sql := "SELECT name FROM t_tag"
+	sql := "SELECT name,id FROM t_tag WHERE name LIKE \"%" + str + "%\" ORDER BY LENGTH(name)-LENGTH(\"" + str + "\") ASC LIMIT 10"
+	//sql := "SELECT name FROM t_tag"
 	ress, err := support.Xorm.Query(sql)
 	fmt.Println("res: ", ress)
 	if err != nil {

@@ -28,9 +28,10 @@ Get     /main/category/:ca                      Main.Blog4Category
 # Post a blog
 GET     /p                                      Blogger.BloggerPage
 GET     /p/:id                                  Blogger.BloggerPage
-Get     /query_tags/:t                          Post.QueryTags
+Get     /query_tags/:t                          BlogTag.QueryTags
 Get     /query_categorys/:t                     Post.QueryCategorys
-Post    /post/add_tag                                Post.CreateTag
+Post    /post/add_tag                           Post.CreateTag
+Get     /post/all_tag                           BlogTag.GetAllTags
 
 # Admin
 GET     /admin/                                 Admin.Main

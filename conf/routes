@@ -23,15 +23,17 @@ POST    /create                                 Login.SignUpHandler
 GET     /                                       Main.Main
 GET     /main                                   Main.Main
 Get     /main/category/:ca                      Main.Blog4Category
+Get     /p/:page                                Main.Main
 
 
 # Post a blog
-GET     /p                                      Blogger.BloggerPage
-GET     /p/:id                                  Blogger.BloggerPage
+GET     /article                                Blogger.BloggerPage
+GET     /article/:id                            Blogger.BloggerPage
 Get     /query_tags/:t                          BlogTag.QueryTags
 Get     /query_categorys/:t                     Post.QueryCategorys
 Post    /post/add_tag                           Post.CreateTag
 Get     /post/all_tag                           BlogTag.GetAllTags
+
 
 # Admin
 GET     /admin/                                 Admin.Main

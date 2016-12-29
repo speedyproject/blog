@@ -20,9 +20,6 @@ body {
       float: right;
       padding: 8px 0; }
 
-footer {
-  margin: 50px 0; }
-
 .my-container {
   width: 78% !important; }
   .my-container .blog-list .blog-item {
@@ -69,3 +66,23 @@ footer {
   border-top: solid 1px #eee;
   color: #AAA;
   text-align: center; }
+
+.pager .pager-item {
+  display: inline-block;
+  margin: 0 5px 2px 0;
+  padding: 0 8px;
+  border: 1px solid #ddd;
+  color: #555;
+  zoom: 1;
+  height: 26px;
+  width: 26px;
+  line-height: 26px;
+  text-decoration: none;
+  cursor: pointer; }
+
+.pager .pager-item.active-page, .pager .pager-item:hover {
+  background: #f8f8f8;
+  border-bottom-color: #5895be; }
+
+.pager .pager-item:hover {
+  color: #5895be; }

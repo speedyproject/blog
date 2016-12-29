@@ -14,6 +14,7 @@ const (
 	BLOG_STATUS_PENDING = 1 // 审核状态
 	BLOG_TYPE_MD        = 0
 	BLOG_TYPE_HTML      = 1
+	PAGE_SIZE           = 10
 )
 
 // Blogger model.
@@ -36,7 +37,7 @@ type Blogger struct {
 	Status        int       `xrom:"INT(11)"`
 }
 
-// Get blogger list.
+// FindList to Get blogger list.
 // 获取所有博客
 func (b *Blogger) FindList() ([]Blogger, error) {
 	// get list data from cache.
@@ -59,6 +60,15 @@ func (b *Blogger) FindList() ([]Blogger, error) {
 		}
 	}
 
+	return list, err
+}
+
+// GetBlogByPage .
+// 根据页面获取博客
+func (b *Blogger) GetBlogByPage(page int) ([]Blogger, error) {
+	list := make([]Blogger, 0)
+	start := (page - 1) * PAGE_SIZE
+	err := support.Xorm.Limit(PAGE_SIZE, start).Find(&list)
 	return list, err
 }
 
@@ -167,7 +177,7 @@ func (b *Blogger) GetSummary() string {
 // MainURL return the url of the blog
 // TODO:Laily it is can be set as id, category, ident and so on
 func (b *Blogger) MainURL() string {
-	return fmt.Sprintf("/p/%d", b.Id)
+	return fmt.Sprintf("/article/%d", b.Id)
 }
 
 // FindByCategory .
@@ -190,4 +200,16 @@ func (b *Blogger) GetLatestBlog(n int) []Blogger {
 	blogs := make([]Blogger, 0)
 	support.Xorm.Limit(n, 0).Find(&blogs)
 	return blogs
+}
+
+// GetBlogCount .
+// 获取博客总数
+func (b *Blogger) GetBlogCount() int64 {
+	blog := new(Blogger)
+	total, err := support.Xorm.Where("is_deleted = 0 ").Count(blog)
+	if err != nil {
+		fmt.Println("get blog count error: ", err)
+		return 0
+	}
+	return total
 }

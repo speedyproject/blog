@@ -18,6 +18,7 @@ type Category struct {
 	Name   string `xorm:"not null VARCHAR(15)"`
 	Ident  string `xorm:"not null VARCHAR(15)"`
 	Parent int64  `xorm:"not null INT(11)"`
+	Desc   string
 }
 
 // GetByIdent get category by category ident
@@ -33,8 +34,8 @@ func (c *Category) GetByIdent(ident string) int64 {
 
 // Add function to save a category
 // 添加一个分类
-func (c *Category) Add(name, ident string, parent int64) int64 {
-	category := &Category{Name: name, Ident: ident, Parent: parent}
+func (c *Category) Add(name, ident string, parent int64, desc string) int64{
+	category := &Category{Name: name, Ident: ident, Parent: parent, Desc: desc}
 	_, err := support.Xorm.Insert(category)
 	if err != nil {
 		revel.ERROR.Println("save category errror: ", err)

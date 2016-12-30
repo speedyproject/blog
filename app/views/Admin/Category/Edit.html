@@ -1,0 +1,33 @@
+{{set . "title" "添加分类"}}
+{{append . "moreStyles" "css/admin/admin-category-edit.css"}}
+{{template "Layout/AdminHeader.html" .}}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main admin-user">
+  <h2 class="page-header title">{{.title}}</h2>
+  <div>
+      <div class="input-area form-group">
+          <label for="">分类名称</label>
+          <input type="text" class="form-control">
+      </div>
+      <div class="input-area form-group">
+          <label for="">分类标识</label>
+          <input type="text" class="form-control">
+          <div class="message"></div>
+      </div>
+      <div class="input-area form-group">
+          <label for="">父级分类</label>
+          <select name="" id="" class="form-control">
+              <option value="">1</option>
+              <option value="">1</option>
+              <option value="">1</option>
+          </select>
+      </div>
+      <div class="input-area form-group">
+          <label for="">分类描述</label>
+          <textarea name="" id="" cols="30" rows="10" class="form-control"></textarea>
+      </div>
+  </div>
+  <div>
+      <button class="btn btn-sm btn-primary">保存</button>
+  </div>
+</div>  
+{{template "Layout/AdminFooter.html" .}}

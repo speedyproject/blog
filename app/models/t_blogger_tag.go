@@ -45,6 +45,12 @@ func (b *BloggerTag) New() (bool, error) {
 	return has > 0, err
 }
 
+// FindBlogCount to get count of blog related to this tag
+// 查询标签关联的文章数目
+func (t *BloggerTag) FindBlogCount() {
+
+}
+
 // QueryTags to Search for tag
 // 根据用户输入的单词匹配 tag
 func (t *BloggerTag) QueryTags(str string) ([]map[string][]byte, error) {

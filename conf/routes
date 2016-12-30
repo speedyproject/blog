@@ -57,6 +57,7 @@ POST    /admin/user/del                         User.Delete
 GET     /admin/category                         Category.Index
 GET     /admin/category/index                   Category.Index
 GET     /admin/category/all                     Category.ListAll
+GET     /admin/category/add                     Category.AddPage
 
 # Search
 Get    /search                                  Search.Index

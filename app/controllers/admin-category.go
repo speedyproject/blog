@@ -12,6 +12,9 @@ type Category struct {
 // Index page for manage category
 // 后台管理博客分类的首页
 func (c *Category) Index() revel.Result {
+	categoryStruct := new(models.Category)
+	categorys := categoryStruct.FindAll()
+	c.RenderArgs["categorys"] = categorys
 	return c.RenderTemplate("Admin/Category/Index.html")
 }
 
@@ -21,4 +24,12 @@ func (c *Category) ListAll() revel.Result {
 	category := new(models.Category)
 	categorys := category.FindAll()
 	return c.RenderJson(categorys)
+}
+
+// AddPage page of add a category
+// 添加一个分类的页面
+func (c *Category) AddPage() revel.Result {
+	ca := new(Category)
+	c.RenderArgs["category"] = ca
+	return c.RenderTemplate("Admin/Category/Edit.html")
 }

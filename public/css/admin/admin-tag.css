@@ -1,0 +1,20 @@
+.tag-manage-area {
+  display: flex; }
+  .tag-manage-area .tag-area {
+    flex: 7;
+    display: flex;
+    padding-right: 4em; }
+    .tag-manage-area .tag-area .item {
+      display: inline-flex;
+      margin-right: 30px;
+      height: 2em;
+      line-height: 1.8em;
+      padding: 0.1em 0.5em;
+      white-space: nowrap;
+      cursor: pointer;
+      border: solid 1px #fff; }
+    .tag-manage-area .tag-area .item.active {
+      border-color: #E9E9E6;
+      background-color: #E9E9E6; }
+  .tag-manage-area .edit-area {
+    flex: 3; }

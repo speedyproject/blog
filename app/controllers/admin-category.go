@@ -39,16 +39,16 @@ func (c *Category) AddPage() revel.Result {
 
 // Add to add a new category
 // 添加一个新的分类
-func (c *Category) Add(ca_name string,ca_ident string, p_ca int, ca_desc string) revel.Result{
+func (c *Category) Add(ca_name string, ca_ident string, p_ca int, ca_desc string) revel.Result {
 	ca := new(models.Category)
 	c.Validation.Required(ca_name).Message("分类名必填")
 	c.Validation.Required(ca_ident).Message("分类标识必填")
-	if c.Validation.HasErrors(){
-		return c.RenderJson(&ResultJson{Success:false,Msg:c.Validation.Errors[0].Message,Data:""})
+	if c.Validation.HasErrors() {
+		return c.RenderJson(&ResultJson{Success:false, Msg:c.Validation.Errors[0].Message, Data:""})
 	}
-	flag := ca.Add(ca_name,ca_ident,int64(p_ca),ca_desc)
-	if flag == 0{
-		return c.RenderJson(&ResultJson{Success:false,Msg:"添加分类失败",Data:""})
+	flag := ca.Add(ca_name, ca_ident, int64(p_ca), ca_desc)
+	if flag == 0 {
+		return c.RenderJson(&ResultJson{Success:false, Msg:"添加分类失败", Data:""})
 	}
-	return c.RenderJson(&ResultJson{Success:true,Msg:"",Data:flag})
+	return c.RenderJson(&ResultJson{Success:true, Msg:"", Data:flag})
 }

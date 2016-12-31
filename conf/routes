@@ -60,6 +60,13 @@ GET     /admin/category/all                     Category.ListAll
 GET     /admin/category/add                     Category.AddPage
 POST    /admin/category/add                     Category.Add
 
+# Tag Mangement
+GET     /admin/tag                              AdminTag.Index
+GET     /admin/tag/index                        AdminTag.Index
+POST    /admin/tag/index                        AdminTag.Edit
+POST    /admin/tag/del                          AdminTag.Del
+
+
 # Search
 Get    /search                                  Search.Index
 Get    /opensearch.xml                          Static.Serve("public","opensearch.xml")

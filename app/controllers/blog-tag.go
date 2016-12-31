@@ -13,7 +13,7 @@ type BlogTag struct {
 // 获取所有的标签
 func (b *BlogTag) GetAllTags() revel.Result {
 	tagModel := new(models.BloggerTag)
-	tags, err := tagModel.FindList()
+	tags, err := tagModel.ListAll()
 	if err != nil {
 		revel.ERROR.Println("find all tags error: ", err)
 	}

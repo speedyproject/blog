@@ -58,6 +58,15 @@ func (l Login) SignUp() revel.Result {
 	return l.Render()
 }
 
+// SignOut
+func (l Login) SignOut() revel.Result {
+	uid := l.Session["UID"]
+	if uid != "" {
+		delete(l.Session, "UID")
+	}
+	return l.Redirect(routes.Login.SignIn())
+}
+
 //handle sign up.
 func (l Login) SignUpHandler(name, email, passwd string) revel.Result {
 

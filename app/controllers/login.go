@@ -46,9 +46,9 @@ func (l Login) SignInHandler(name, passwd string) revel.Result {
 	//put admin id in seesion
 	l.Session["UID"] = strconv.Itoa(admin.Id)
 	//set admin info in cache, time out time.Minute * 30
-	support.Cache.Del(support.SPY_ADMIN_INFO + strconv.Itoa(admin.Id))
+	support.MCache.Delete(support.SPY_ADMIN_INFO + strconv.Itoa(admin.Id))
 	data, _ := json.Marshal(&admin)
-	support.Cache.Set(support.SPY_ADMIN_INFO+strconv.Itoa(admin.Id), string(data), time.Minute*30)
+	support.MCache.Set(support.SPY_ADMIN_INFO+strconv.Itoa(admin.Id), string(data), time.Minute*30)
 
 	return l.Redirect(routes.Admin.Main())
 }

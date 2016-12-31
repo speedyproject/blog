@@ -6,8 +6,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/russross/blackfriday"
 	"log"
+
+	"github.com/russross/blackfriday"
 )
 
 const (
@@ -66,11 +67,12 @@ func (b *Blogger) FindList() ([]Blogger, error) {
 	return list, err
 }
 
+// 获取博客的标签
 func (b *Blogger) BlogTags() []BloggerTag {
-	sql := "SELECT t.* FROM " + TABLE_BLOG + " AS b, " + TABLE_TAG + " AS t, " + TABLE_BLOG_TAG + " AS bt WHERE b.id = bt.blogid AND t.id = bt.tagid AND b.id = "+fmt.Sprintf("%d",b.Id)
+	sql := "SELECT t.* FROM " + TABLE_BLOG + " AS b, " + TABLE_TAG + " AS t, " + TABLE_BLOG_TAG + " AS bt WHERE b.id = bt.blogid AND t.id = bt.tagid AND b.id = " + fmt.Sprintf("%d", b.Id)
 	tags := make([]BloggerTag, 0)
 	support.Xorm.Sql(sql).Find(&tags)
-	log.Println("err",tags)
+	log.Println("err", tags)
 	return tags
 }
 
@@ -86,11 +88,9 @@ func (b *Blogger) GetBlogByPage(page int) ([]Blogger, error) {
 // FindById to find blogger by id.
 // 通过 id 查找博客
 func (b *Blogger) FindById() (*Blogger, error) {
-
 	blog := new(Blogger)
 	// Get single blogger from cache.
 	res, e1 := support.Cache.Get(support.SPY_BLOGGER_SINGLE + fmt.Sprintf("%d", b.Id)).Result()
-
 	if e1 == nil {
 		e2 := json.Unmarshal([]byte(res), &blog)
 		if e2 == nil {
@@ -99,11 +99,9 @@ func (b *Blogger) FindById() (*Blogger, error) {
 	}
 	// if cache not blogger data, find in db.
 	_, err := support.Xorm.Id(b.Id).Get(blog)
-
 	if err != nil {
 		return blog, err
 	}
-
 	return blog, err
 }
 
@@ -205,7 +203,7 @@ func (b *Blogger) Update() (bool, error) {
 		res, e1 := json.Marshal(&b)
 		if e1 == nil {
 			support.Cache.Del(support.SPY_BLOGGER_SINGLE + fmt.Sprintf("%d", b.Id))
-			support.Cache.Set(support.SPY_BLOGGER_SINGLE + fmt.Sprintf("%d", b.Id), string(res), 0)
+			support.Cache.Set(support.SPY_BLOGGER_SINGLE+fmt.Sprintf("%d", b.Id), string(res), 0)
 		}
 	}
 	return has > 0, err
@@ -227,11 +225,9 @@ func (b *Blogger) Del() (bool, error) {
 
 // 更新浏览次数
 func (b *Blogger) UpdateView(id int64) {
-	blog := &Blogger{Id:id}
+	blog := &Blogger{Id: id}
 	blog, err := blog.FindById()
 	if err == nil {
-		support.Xorm.Table(blog).Id(id).Update(map[string]interface{}{"read_count":blog.ReadCount + 1})
+		support.Xorm.Table(blog).Id(id).Update(map[string]interface{}{"read_count": blog.ReadCount + 1})
 	}
 }
-
-

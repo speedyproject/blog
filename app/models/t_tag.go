@@ -3,11 +3,11 @@ package models
 import (
 	"blog/app/support"
 	"fmt"
-	"strings"
 	"log"
+	"strings"
 )
 
-const(
+const (
 	TABLE_TAG = "t_tag"
 )
 
@@ -17,7 +17,7 @@ type BloggerTag struct {
 	Type   int    `xorm:"not null INT(11)"`
 	Name   string `xorm:"not null VARCHAR(20)"`
 	Ident  string
-	Parent int    `xorm:"INT(11)`
+	Parent int `xorm:"INT(11)`
 }
 
 func (t *BloggerTag) TableName() string {
@@ -66,14 +66,14 @@ func (b *BloggerTag) New() (bool, error) {
 
 // FindBlogCount to get count of blog related to this tag
 // 查询标签关联的文章数目
-func (t *BloggerTag) FindBlogByTag(ident string) []Blogger{
+func (t *BloggerTag) FindBlogByTag(ident string) []Blogger {
 	id := 0
-	if len(ident) > 0{
-		tag,err := t.GetByIdent(ident)
-		if err != nil{
+	if len(ident) > 0 {
+		tag, err := t.GetByIdent(ident)
+		if err != nil {
 			id = tag.Id
 		}
-	}else{
+	} else {
 		id = t.Id
 	}
 	sql := "SELECT b.* FROM " + TABLE_BLOG + " AS b, " + TABLE_TAG + " AS t, " + TABLE_BLOG_TAG + " AS bt WHERE b.id = bt.blogid AND t.id = bt.tagid AND t.id = " + fmt.Sprintf("%d", id)
@@ -97,18 +97,20 @@ func (t *BloggerTag) QueryTags(str string) ([]map[string][]byte, error) {
 }
 
 // 更新标签
-func (t *BloggerTag) Update() bool{
-	if t.Id <= 0{
+func (t *BloggerTag) Update() bool {
+	if t.Id <= 0 {
 		return false
 	}
 	support.Xorm.Id(t.Id).Update(t)
 	return true
 }
 
-
 // 删除标签
-func (t *BloggerTag) Delete(ids []string){
-	log.Println("tags",ids)
-	sql := "DELETE FROM "+TABLE_TAG+" WHERE id in ("+strings.Join(ids,",")+")"
+func (t *BloggerTag) Delete(ids []string) {
+	log.Println("tags", ids)
+	idStr := strings.Join(ids, ",")
+	sql := "DELETE FROM " + TABLE_TAG + " WHERE id in (" + idStr + ")"
+	sql2 := "DELET FROM " + TABLE_BLOG_TAG + " WHERE tagid in(" + idStr + ")"
 	support.Xorm.Exec(sql)
+	support.Xorm.Exec(sql2)
 }

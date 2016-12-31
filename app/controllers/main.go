@@ -56,6 +56,7 @@ func (m *Main) Main() revel.Result {
 	return m.Render(info)
 }
 
+// 某个分类下的博客
 func (m *Main) Blog4Category(ca string) revel.Result {
 	blog := new(models.Blogger)
 	category := new(models.Category)
@@ -65,5 +66,5 @@ func (m *Main) Blog4Category(ca string) revel.Result {
 		blogs, _ = blog.FindByCategory(id)
 	}
 	m.RenderArgs["blogs"] = blogs
-	return m.RenderTemplate("Main/Blog4Category.html")
+	return m.RenderTemplate("Main/Blog4Search.html")
 }

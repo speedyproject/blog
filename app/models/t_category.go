@@ -34,7 +34,7 @@ func (c *Category) GetByIdent(ident string) int64 {
 
 // Add function to save a category
 // 添加一个分类
-func (c *Category) Add(name, ident string, parent int64, desc string) int64{
+func (c *Category) Add(name, ident string, parent int64, desc string) int64 {
 	category := &Category{Name: name, Ident: ident, Parent: parent, Desc: desc}
 	_, err := support.Xorm.Insert(category)
 	if err != nil {
@@ -47,16 +47,18 @@ func (c *Category) Add(name, ident string, parent int64, desc string) int64{
 // Delete to delete a category
 // 删除分类
 func (c *Category) Delete(id int64) {
-	c.resetSubCategory(id)
+	c.resetOtherCategory(id)
 	support.Xorm.Id(id).Delete(c)
 }
 
 // resetSubCategory to do:
 // if a category is deleted, the parent of its child category
 // would be set to 0
-func (c *Category) resetSubCategory(id int64) {
+func (c *Category) resetOtherCategory(id int64) {
 	sql := "UPDATE " + TABLE_CATEGORY + " SET `parent` = 0 WHERE id = ?"
+	sql1 := "UPDATE " + TABLE_BLOG + "SET `category` = 0 WHERE category = ?"
 	support.Xorm.Exec(sql, id)
+	support.Xorm.Exec(sql1, id)
 }
 
 // RelatedBlogCount get how many blog that related to the category

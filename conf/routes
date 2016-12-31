@@ -25,6 +25,8 @@ GET     /main                                   Main.Main
 Get     /main/category/:ca                      Main.Blog4Category
 Get     /p/:page                                Main.Main
 
+Get     /tag/:ident
+
 
 # Post a blog
 GET     /article                                Blogger.BloggerPage

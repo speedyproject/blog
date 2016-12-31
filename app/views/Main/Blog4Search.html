@@ -1,5 +1,13 @@
 {{template "Layout/HomeHeader.html" .}}
 
+{{if eq .flag "search"}}
+    你查找的是： {{.keywords}}
+{{end}}
+
+{{if eq .flag "tag"}}
+    关于 {{.tag.Name}} 的博客有：
+{{end}}
+
 <!-- Page Content -->
 <div class="container">
     {{if .blogs }}

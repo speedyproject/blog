@@ -66,8 +66,20 @@ func (b *BloggerTag) New() (bool, error) {
 
 // FindBlogCount to get count of blog related to this tag
 // 查询标签关联的文章数目
-func (t *BloggerTag) FindBlogCount() {
-
+func (t *BloggerTag) FindBlogByTag(ident string) []Blogger{
+	id := 0
+	if len(ident) > 0{
+		tag,err := t.GetByIdent(ident)
+		if err != nil{
+			id = tag.Id
+		}
+	}else{
+		id = t.Id
+	}
+	sql := "SELECT b.* FROM " + TABLE_BLOG + " AS b, " + TABLE_TAG + " AS t, " + TABLE_BLOG_TAG + " AS bt WHERE b.id = bt.blogid AND t.id = bt.tagid AND t.id = " + fmt.Sprintf("%d", id)
+	blogs := make([]Blogger, 0)
+	support.Xorm.Sql(sql).Find(&blogs)
+	return blogs
 }
 
 // QueryTags to Search for tag

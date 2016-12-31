@@ -1,12 +1,30 @@
 package controllers
 
-import "github.com/revel/revel"
-import "blog/app/models"
-import "strconv"
+import (
+	"blog/app/models"
+	"log"
+	"strconv"
+
+	"github.com/revel/revel"
+)
 
 // BlogTag controller
 type BlogTag struct {
 	*revel.Controller
+}
+
+//
+func (b *BlogTag) Index(ident string) revel.Result {
+	tag := new(models.BloggerTag)
+	tag, err := tag.GetByIdent(ident)
+	if err != nil {
+		log.Panic("wrong")
+	}
+	blogs := tag.FindBlogByTag("")
+	b.RenderArgs["flag"] = "tag"
+	b.RenderArgs["tag"] = tag
+	b.RenderArgs["blogs"] = blogs
+	return b.RenderTemplate("Main/Blog4Search.html")
 }
 
 // GetAllTags to find all tags

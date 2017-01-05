@@ -11,7 +11,22 @@ import (
 
 /**
  * Add a blog for admin user
+ * 发布博客 action
  */
+
+// PostData model.
+// 发布博客前端提交的数据
+type PostData struct {
+	Title       string //博客标题
+	ContentMD   string //博客内容 MD
+	ContentHTML string // 博客内容 HTML
+	Category    int    // 博客类别
+	Tag         string // 标签 格式：12,14,32
+	Keywords    string // 关键词 格式：java,web开发
+	passwd      string //博客内容是否加密
+	Summary     string // 博客摘要
+	Type        int    // 0 表示 markdown，1 表示 html
+}
 
 // User for User Controller
 type Post struct {
@@ -36,27 +51,27 @@ type PostData struct {
 }
 
 // NewPostHandler to Add new article.
-func (a *Post) NewPostHandler() revel.Result {
+// 添加博客
+func (p *Post) NewPostHandler() revel.Result {
 	data := new(PostData)
-	a.Params.Bind(&data, "data")
+	p.Params.Bind(&data, "data")
 	fmt.Println("data= ", data)
-	a.Validation.Required(data.Title).Message("title can't be null.")
-	a.Validation.Required(data.ContentMD).Message("context can't be null.")
-	a.Validation.Required(data.Date).Message("date can't be null.")
+	p.Validation.Required(data.Title).Message("title can't be null.")
+	p.Validation.Required(data.ContentHTML).Message("context can't be null.")
 
-	if a.Validation.HasErrors() {
-		a.Validation.Keep()
-		a.FlashParams()
+	if p.Validation.HasErrors() {
+		p.Validation.Keep()
+		p.FlashParams()
 		// TODO Redirect new post page.
 	}
 
 	blog := new(models.Blogger)
 	blog.Title = data.Title
-	blog.Content = data.ContentMD
+	blog.ContentHTML = data.ContentHTML
 	blog.CategoryId = data.Category
 	blog.Type = data.Type
-	blog.HtmlBak = data.ContentHTML
-	uid := a.Session["UID"]
+	blog.Summary = data.Summary
+	uid := p.Session["UID"]
 	id, _ := strconv.Atoi(uid)
 
 	blog.CreateBy = id
@@ -68,24 +83,11 @@ func (a *Post) NewPostHandler() revel.Result {
 	has, err := blog.New()
 
 	if err != nil || has <= 0 {
-		a.Flash.Error("msg", "create new blogger post error.")
-		return a.RenderJson(&ResultJson{Success: false, Msg: err.Error(), Data: ""})
+		p.Flash.Error("msg", "create new blogger post error.")
+		return p.RenderJson(&ResultJson{Success: false, Msg: err.Error(), Data: ""})
 		// TODO Redirect new post page.
 	}
-	return a.RenderHtml("ok")
-}
-
-func (p *Post) QueryTags(t string) revel.Result {
-	tag := new(models.BloggerTag)
-	res, err := tag.QueryTags(t)
-	if err != nil {
-		return p.RenderJson(&ResultJson{Success: false, Msg: err.Error(), Data: ""})
-	}
-	arr := make([]string, 0)
-	for _, v := range res {
-		arr = append(arr, string(v["name"]))
-	}
-	return p.RenderJson(&ResultJson{Success: true, Msg: "", Data: arr})
+	return p.RenderHtml("ok")
 }
 
 func (p *Post) QueryCategorys() revel.Result {

@@ -8,8 +8,11 @@
     <p class="lead author-time">
         <!--<span class="glyphicon glyphicon-time"></span> -->
         <span>{{date .CreateTime}}</span><span> · </span>
-        <a class="" href="">Linux</a></span><span> · </span>
-        <span>1,110 Views</span>
+        {{range .BlogTags}}
+            <a class="" href="/tag/{{.Ident}}">{{.Name}}</a>
+        {{end}}
+        <span> · </span>
+        <span>{{.ReadCount}} Views</span>
         <!--<span class="author">作者: -->
         <!--<a class="" href="">Start</a></span>-->
         <!--<span class="category">分类:-->

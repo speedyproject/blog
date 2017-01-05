@@ -1,16 +1,18 @@
-{{set . "title" "撰写文章"}}
+{{set . "title" "管理分类"}}
+{{append . "moreStyles" "css/admin/admin-category.css"}}
 {{template "Layout/AdminHeader.html" .}}
 
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main admin-user">
-  <h2 class="page-header title">{{.title}} <span class="add"><a href="/admin/category/create">新增</a></span></h2>
+  <h2 class="page-header title">{{.title}} <span class="add"><a href="/admin/category/add">新增</a></span></h2>
   <div>
       {{if gt (len .categorys) 0}}
         <div>
             <table class="table table-striped">
                 <thead>
                     <th>ID</th>
-                    <th>Name</th>
+                    <th>标签名</th>
                     <th>Ident</th>
+                    <th>文章数</th>
                 </thead>
                 <tbody>
                     {{range .categorys}}
@@ -18,6 +20,7 @@
                         <td>{{.Id}}</td>
                         <td>{{.Name}}</td>
                         <td>{{.Ident}}</td>
+                        <td>{{.RelatedBlogCount}}</td>
                     </tr>
                     {{end}}
                 </tbody>

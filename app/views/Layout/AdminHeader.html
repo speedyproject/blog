@@ -24,6 +24,7 @@
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
           <li><a href="/" target="_blank">网站</a></li>
+          <li><a href="/logoff">退出</a></li>
         </ul>
       </div>
     </div>
@@ -43,7 +44,7 @@
           <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">管理页面</a></li>
           <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">管理评论</a></li>
           <li class=' {{if eq .managementPage "category"}} active {{end}}'><a href="/admin/category">管理分类</a></li>
-          <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">管理标签</a></li>
+          <li class=' {{if eq .managementPage "tag"}} active {{end}}'><a href="/admin/tag">管理标签</a></li>
           <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">管理文件</a></li>
           <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">管理友链</a></li>
           <li class=' {{if eq .managementPage "user"}} active {{end}}'><a href="/admin/user">管理用户</a></li>

@@ -24,15 +24,15 @@ type Admin struct {
 
 //Admin sign in.
 func (a *Admin) SignIn(request *revel.Request) (*Admin, string) {
-
 	admin := new(Admin)
-
 	if a.Name == "" || a.Passwd == "" {
 		return admin, "username or passwd can't be null."
 	}
 
 	//Get MD5 key in cache
-	signKey, _ := support.Cache.Get(support.SPY_CONF_MD5_KEY).Result()
+	signKey := ""
+	support.MCache.Get(support.SPY_CONF_MD5_KEY, &signKey)
+
 	sign := &support.Sign{Src: a.Passwd, Key: signKey}
 	a.Passwd = sign.GetMd5()
 
@@ -76,13 +76,15 @@ func (a *Admin) New() (int64, string) {
 		a.Nickname = a.Name
 	}
 	//Get MD5/Sign key in cache
-	md5Key, _ := support.Cache.Get(support.SPY_CONF_MD5_KEY).Result()
-	signKyey, _ := support.Cache.Get(support.SPY_CONF_SIGN_KEY).Result()
+	md5Key := ""
+	support.MCache.Get(support.SPY_CONF_MD5_KEY, &md5Key)
+	signKey := ""
+	support.MCache.Get(support.SPY_CONF_SIGN_KEY, &signKey)
 
-	revel.INFO.Printf("MD5_Key: %s, Sign_Key: %s", md5Key, signKyey)
+	revel.INFO.Printf("MD5_Key: %s, Sign_Key: %s", md5Key, signKey)
 
 	passwd := &support.Sign{Src: a.Passwd, Key: md5Key}
-	sign := &support.Sign{Src: a.Name + a.Passwd, Key: signKyey}
+	sign := &support.Sign{Src: a.Name + a.Passwd, Key: signKey}
 
 	a.Skey = sign.GetMd5()
 	a.Passwd = passwd.GetMd5()

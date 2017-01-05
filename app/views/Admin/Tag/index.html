@@ -1,0 +1,30 @@
+{{set . "title" "标签管理"}}
+{{append . "moreStyles" "css/admin/admin-tag.css"}}
+{{append . "moreScripts" "js/admin/admin-tag.js"}}
+{{template "Layout/AdminHeader.html" .}}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main admin-user">
+    <h2 class="page-header title">
+        {{.title}}
+        <a class="btn-danger btn-sm" href="javascript:void(0)" onclick="adminTag.delete()">删除选中的</a>
+    </h2>
+    <div class="tag-manage-area">
+        <div id="tag-area" class="tag-area">
+            {{range .tags}}
+                <span class="item" data-id="{{.Id}}" data-ident="{{.Ident}}">{{.Name}}</span>
+            {{end}}
+        </div>
+        <div class="edit-area">
+            <div class="input-area form-group">
+                <label for="tag-name">标签名</label>
+                <input id="tag-name" type="text" class="form-control">
+            </div>
+            <div class="input-area form-group">
+                <label for="tag-ident">标签标识</label>
+                <input id="tag-ident" type="text" class="form-control">
+            </div>
+            <input type="hidden" id="edit-tag-id" value="">
+            <button onclick="adminTag.editTag()">编辑标签</button>
+        </div>
+    </div>
+</div>
+{{template "Layout/AdminFooter.html" .}}

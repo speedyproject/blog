@@ -14,6 +14,7 @@ module:testrunner
 
 GET     /login                                  Login.SignIn
 POST    /login                                  Login.SignInHandler
+GET     /logoff                                 Login.SignOut
 
 GET     /create                                 Login.SignUp
 POST    /create                                 Login.SignUpHandler
@@ -23,14 +24,19 @@ POST    /create                                 Login.SignUpHandler
 GET     /                                       Main.Main
 GET     /main                                   Main.Main
 Get     /main/category/:ca                      Main.Blog4Category
+Get     /p/:page                                Main.Main
+
+Get     /tag/:ident
 
 
 # Post a blog
-GET     /p                                      Blogger.BloggerPage
-GET     /p/:id                                  Blogger.BloggerPage
-Get     /query_tags/:t                          Post.QueryTags
+GET     /article                                Blogger.BloggerPage
+GET     /article/:id                            Blogger.BloggerPage
+Get     /query_tags/:t                          BlogTag.QueryTags
 Get     /query_categorys/:t                     Post.QueryCategorys
 Post    /post/add_tag                           Post.CreateTag
+Get     /post/all_tag                           BlogTag.GetAllTags
+
 
 # Admin
 GET     /admin/                                 Admin.Main
@@ -53,6 +59,16 @@ POST    /admin/user/del                         User.Delete
 # Category Management
 GET     /admin/category                         Category.Index
 GET     /admin/category/index                   Category.Index
+GET     /admin/category/all                     Category.ListAll
+GET     /admin/category/add                     Category.AddPage
+POST    /admin/category/add                     Category.Add
+
+# Tag Mangement
+GET     /admin/tag                              AdminTag.Index
+GET     /admin/tag/index                        AdminTag.Index
+POST    /admin/tag/index                        AdminTag.Edit
+POST    /admin/tag/del                          AdminTag.Del
+
 
 # Search
 Get    /search                                  Search.Index

@@ -1,13 +1,10 @@
 package app
 
 import (
-	"blog/app/support"
-
 	"blog/app/controllers"
-
 	"blog/app/models"
-
 	"blog/app/service"
+	"blog/app/support"
 
 	"github.com/revel/revel"
 )
@@ -34,8 +31,10 @@ func init() {
 	// revel.OnAppStart(InitDB)
 	// revel.OnAppStart(FillCache)
 	revel.OnAppStart(support.InitXorm)
-	revel.OnAppStart(support.InitRedis)
-	revel.OnAppStart(support.LoadCache)
+
+	revel.OnAppStart(support.InitConfig)
+	revel.OnAppStart(support.InitCache)
+	// revel.OnAppStart(support.LoadCache)
 	revel.OnAppStart(service.Init)
 
 	//models cache

@@ -22,5 +22,6 @@ func (s *Search) Index(q string) revel.Result {
 	}
 	fmt.Println("blogs are: ", blogs)
 	s.RenderArgs["blogs"] = blogs
-	return s.RenderTemplate("Search/Index.html")
+	s.RenderArgs["flag"] = "search"
+	return s.RenderTemplate("Main/Blog4Search.html")
 }

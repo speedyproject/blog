@@ -24,6 +24,7 @@ func (b Blogger) BloggerPage(id int64) revel.Result {
 		return b.Redirect(routes.Main.Main())
 	}
 	b.RenderArgs["blog"] = blog
+	go blog.UpdateView(blog.Id)
 	return b.Render()
 }
 

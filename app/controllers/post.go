@@ -4,7 +4,6 @@ import (
 	"blog/app/models"
 	"fmt"
 	"strconv"
-	"time"
 
 	"github.com/revel/revel"
 )
@@ -37,19 +36,6 @@ func (p *Post) Index() revel.Result {
 	return p.RenderTemplate("Admin/Post/Index.html")
 }
 
-//PostData model.
-type PostData struct {
-	Title       string
-	ContentMD   string
-	ContentHTML string
-	Date        time.Time
-	Category    int
-	Tag         string
-	Keywords    string
-	passwd      string
-	Type        int
-}
-
 // NewPostHandler to Add new article.
 // 添加博客
 func (p *Post) NewPostHandler() revel.Result {
@@ -68,6 +54,7 @@ func (p *Post) NewPostHandler() revel.Result {
 	blog := new(models.Blogger)
 	blog.Title = data.Title
 	blog.ContentHTML = data.ContentHTML
+	blog.ContentMD = data.ContentMD
 	blog.CategoryId = data.Category
 	blog.Type = data.Type
 	blog.Summary = data.Summary

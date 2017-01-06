@@ -81,7 +81,7 @@ func (b *Blogger) BlogTags() []BloggerTag {
 func (b *Blogger) GetBlogByPage(page int) ([]Blogger, error) {
 	list := make([]Blogger, 0)
 	start := (page - 1) * PAGE_SIZE
-	err := support.Xorm.Limit(PAGE_SIZE, start).Find(&list)
+	err := support.Xorm.Desc("id").Limit(PAGE_SIZE, start).Find(&list)
 	return list, err
 }
 

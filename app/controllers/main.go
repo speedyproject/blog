@@ -44,10 +44,12 @@ func (m *Main) Main() revel.Result {
 		log.Println("load blog list error: ", err)
 		return m.RenderError(err)
 	}
+	hotBLogs := blogModel.GetHotBlog(5)
 
 	pageStruct := new(service.BlogPager)
 
 	m.RenderArgs["blogs"] = blogs
+	m.RenderArgs["hotblogs"] = hotBLogs
 	m.RenderArgs["thisPage"] = p
 	m.RenderArgs["pager"] = pageStruct.GetPager(p)
 	category := new(models.Category)

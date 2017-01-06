@@ -139,10 +139,18 @@ func (b *Blogger) IsMD() bool {
 }
 
 // GetLatestBlog .
+// 获取最热门的博客
+func (b *Blogger) GetHotBlog(n int) []Blogger {
+	blogs := make([]Blogger, 0)
+	support.Xorm.Desc("read_count").Limit(n, 0).Find(&blogs)
+	return blogs
+}
+
+// GetLatestBlog .
 // 获取最新的博客
 func (b *Blogger) GetLatestBlog(n int) []Blogger {
 	blogs := make([]Blogger, 0)
-	support.Xorm.Limit(n, 0).Find(&blogs)
+	support.Xorm.Desc("id").Limit(n, 0).Find(&blogs)
 	return blogs
 }
 

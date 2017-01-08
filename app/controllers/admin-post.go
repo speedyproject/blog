@@ -36,6 +36,20 @@ func (p *Post) Index() revel.Result {
 	return p.RenderTemplate("Admin/Post/Index.html")
 }
 
+//ManagePost .
+// 管理博客页面
+func (p *Post) ManagePost(uid, category int64) revel.Result {
+	blogModel := new(models.Blogger)
+	blogs, err := blogModel.GetBlogByPageAND(uid, category, 1, 20)
+	if err != nil {
+		blogs = make([]models.Blogger, 0)
+	}
+	p.RenderArgs["blogs"] = blogs
+	p.RenderArgs["p_uid"] = uid
+	p.RenderArgs["p_ca"] = category
+	return p.RenderTemplate("Admin/Post/Manage-post.html")
+}
+
 // NewPostHandler to Add new article.
 // 添加博客
 func (p *Post) NewPostHandler() revel.Result {

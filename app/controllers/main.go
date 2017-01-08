@@ -39,7 +39,7 @@ func (m *Main) Main() revel.Result {
 		p = 1
 	}
 	blogModel := new(models.Blogger)
-	blogs, err := blogModel.GetBlogByPage(p)
+	blogs, err := blogModel.GetBlogByPage(p, 0)
 	if err != nil {
 		log.Println("load blog list error: ", err)
 		return m.RenderError(err)

@@ -78,10 +78,32 @@ func (b *Blogger) BlogTags() []BloggerTag {
 
 // GetBlogByPage .
 // 根据页面获取博客
-func (b *Blogger) GetBlogByPage(page int) ([]Blogger, error) {
+func (b *Blogger) GetBlogByPage(page int, pageSize int) ([]Blogger, error) {
+	if pageSize == 0 {
+		pageSize = PAGE_SIZE
+	}
 	list := make([]Blogger, 0)
-	start := (page - 1) * PAGE_SIZE
-	err := support.Xorm.Desc("id").Limit(PAGE_SIZE, start).Find(&list)
+	start := (page - 1) * pageSize
+	err := support.Xorm.Desc("id").Limit(pageSize, start).Find(&list)
+	return list, err
+}
+
+// GetBlogByPage .
+// 根据页面获取博客
+func (b *Blogger) GetBlogByPageAND(uid, category int64, page int, pageSize int) ([]Blogger, error) {
+	if pageSize == 0 {
+		pageSize = PAGE_SIZE
+	}
+	temp := support.Xorm.Desc("id").Where("1=1")
+	if uid > 0 {
+		temp.And("create_by = ?", uid)
+	}
+	if category > 0 {
+		temp.And("category_id = ?", category)
+	}
+	list := make([]Blogger, 0)
+	start := (page - 1) * pageSize
+	err := temp.Limit(pageSize, start).Find(&list)
 	return list, err
 }
 
@@ -122,6 +144,23 @@ func (b *Blogger) GetSummary() string {
 // TODO:Laily it is can be set as id, category, ident and so on
 func (b *Blogger) MainURL() string {
 	return fmt.Sprintf("/article/%d", b.Id)
+}
+
+// 获取作者
+func (b *Blogger) Auther() *Admin {
+	userID := b.CreateBy
+	user := new(Admin)
+	user, _ = user.GetUserByID(int64(userID))
+	return user
+}
+
+func (b *Blogger) Category() *Category {
+	categoryID := b.CategoryId
+	category, err := categoryModel.GetByID(int64(categoryID))
+	if err != nil {
+		return &Category{Name: ""}
+	}
+	return category
 }
 
 // FindByCategory .

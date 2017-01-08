@@ -30,8 +30,8 @@
     </div>
   </nav>
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-3 col-md-2 sidebar">
+    <div class="admin-area">
+      <div class="sidebar">
         <ul class="nav nav-sidebar">
           <li class=' {{if eq .managementPage "index"}} active {{end}}'><a href="/admin/main">网站概览</a></li>
         </ul>
@@ -40,7 +40,7 @@
           <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">创建页面</a></li>
         </ul>
         <ul class="nav nav-sidebar">
-          <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">管理文章</a></li>
+          <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="/admin/manage-post">管理文章</a></li>
           <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">管理页面</a></li>
           <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">管理评论</a></li>
           <li class=' {{if eq .managementPage "category"}} active {{end}}'><a href="/admin/category">管理分类</a></li>
@@ -56,3 +56,4 @@
           <li class=' {{if eq .managementPage ""}} active {{end}}'><a href="">个人设置</a></li>
         </ul>
       </div>
+      <div class="admin-content">

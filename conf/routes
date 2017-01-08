@@ -37,6 +37,8 @@ Get     /query_categorys/:t                     Post.QueryCategorys
 Post    /post/add_tag                           Post.CreateTag
 Get     /post/all_tag                           BlogTag.GetAllTags
 
+GET     /admin/manage-post                      Post.ManagePost
+
 
 # Admin
 GET     /admin/                                 Admin.Main

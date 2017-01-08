@@ -2,6 +2,7 @@ package models
 
 import (
 	"blog/app/support"
+	"errors"
 	"log"
 
 	"github.com/revel/revel"
@@ -10,6 +11,8 @@ import (
 const (
 	TABLE_CATEGORY = "t_category"
 )
+
+var categoryModel *Category
 
 // Category .
 // 博客分类实体
@@ -30,6 +33,16 @@ func (c *Category) GetByIdent(ident string) int64 {
 		return int64(ca.Id)
 	}
 	return 0
+}
+
+// 通过 ident 获取分类
+func (c *Category) GetByID(id int64) (*Category, error) {
+	ca := &Category{}
+	has, _ := support.Xorm.Where("id = ?", id).Get(ca)
+	if has {
+		return ca, nil
+	}
+	return nil, errors.New("not found")
 }
 
 // Add function to save a category

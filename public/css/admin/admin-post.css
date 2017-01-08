@@ -16,4 +16,16 @@
   .admin-post .edit-area .editor {
     flex: 3; }
   .admin-post .edit-area .extra {
-    flex: 1; }
+    flex: 1;
+    margin-left: 1.5em; }
+    .admin-post .edit-area .extra .category-list {
+      background-color: #fff;
+      padding: 1em; }
+      .admin-post .edit-area .extra .category-list li {
+        list-style: none; }
+        .admin-post .edit-area .extra .category-list li label {
+          font-weight: normal;
+          margin-left: 1em; }
+
+.admin-post .buttons {
+  margin-top: 1em; }

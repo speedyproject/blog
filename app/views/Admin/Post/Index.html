@@ -1,38 +1,61 @@
-{{append . "moreStyles" "css/admin/admin-post.css"}}
-{{append . "moreStyles" "mdeditor/css/editormd.min.css"}}
-{{append . "moreScripts" "mdeditor/editormd.min.js"}}
-{{append . "moreScripts" "js/admin/admin-post.js"}}
-{{set . "title" "撰写文章"}}
+{{append . "moreStyles" "css/admin/admin-post.css"}} 
+{{append . "moreStyles" "third/mdeditor/css/editormd.min.css"}} 
+{{append . "moreStyles" "third/magicsuggest/magicsuggest.css"}} 
+{{append . "moreScripts" "third/mdeditor/editormd.min.js"}} 
+{{append . "moreScripts" "third/magicsuggest/magicsuggest.js"}} 
+{{append . "moreScripts" "js/admin/admin-post.js"}} 
+{{set . "title" "撰写文章"}} 
 {{template "Layout/AdminHeader.html" .}}
 
 <div class="main admin-user admin-post">
-  <h2 class="page-header title">{{.title}}</h2> <span class="add"></span>
-  <div>
-    <div class="form-group">
-      <input type="text" id="blog-title" class="form-control" placeholder="标题">
-    </div>
-    <div class="edit-area">
-      <div class="editor">
-       {{template "Admin/Post/editor-md.html" .}}
-      </div>
-      <div class="extra">
-        aaa
-      </div>
-    </div>
-    <div class="">
-        <textarea id="blog-summary" class="form-control" cols="30" rows="3" placeholder="摘要"></textarea>
-    </div>
-  </div>
-  <div>
-    <div>分类</div>
-  </div>
-  <div>
-    <div>标签</div>
-  </div>
+    <h2 class="page-header title">{{.title}}</h2> <span class="add"></span>
+    <div>
+        <div class="form-group">
+            <input type="text" id="blog-title" class="form-control" placeholder="标题">
+        </div>
+        <div class="edit-area">
+            <div class="editor">
+                <div>
+                    {{template "Admin/Post/editor-md.html" .}}
+                </div>
+                <div class="">
+                    <label for="">摘要</label>
+                    <textarea id="blog-summary" class="form-control" cols="30" rows="3" placeholder="请输入摘要"></textarea>
+                </div>
+            </div>
+            <div class="extra">
+                <div class="form-group">
+                    <label for="">发布时间</label>
+                    <input type="text" class="form-control" value="{{date .timenow}}">
+                </div>
+                <div class="form-group">
+                    <label for="">分类</label>
+                    <div class="category-list">
+                        {{range .categorys}}
+                        <li>
+                            <input type="radio" id="category-{{.Id}}" name="category" value="{{.Id}}">
+                            <label for="category-{{.Id}}">{{.Name}}</label>
+                        </li>
+                        {{end}}
+                    </div>
+                </div>
 
-  <div>
-    <button class="btn-primary btn-sm" onclick="Post.submit()">提交</button>
-  </div>
+                <div class="form-group tag">
+                    <label for="">标签</label>
+                    <select id="magicsuggest">
+            {{range .tags}}
+              <option value="{{.Id}}">{{.Name}}</option>
+            {{end}}  
+          </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="buttons">
+        <button class="btn btn-default btn-sm">保存草稿</button>
+        <button class="btn btn-primary btn-sm" onclick="Post.submit()">提交</button>
+    </div>
 </div>
 
 {{template "Layout/AdminFooter.html" .}}

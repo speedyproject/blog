@@ -1,29 +1,44 @@
-.post-list{
+.post-list {
     background-color: #fff;
     padding: 1em 2em;
-    .select{
-        width:40px;
+    .select {
+        width: 40px;
     }
-    .author{
-        width:100px;
+    .author {
+        width: 100px;
     }
-    .category{
-        width:120px;
+    .category {
+        width: 120px;
     }
-    .date{
-        width:90px;
+    .date {
+        width: 90px;
         text-align: center;
     }
 }
 
-.admin-post{
-    .edit-area{
+.admin-post {
+    .edit-area {
         display: flex;
-        .editor{
-            flex:3;
+        .editor {
+            flex: 3;
         }
-        .extra{
+        .extra {
             flex: 1;
+            margin-left: 1.5em;
+            .category-list {
+                background-color: #fff;
+                padding: 1em;
+                li {
+                    list-style: none;
+                    label {
+                        font-weight: normal;
+                        margin-left: 1em;
+                    }
+                }
+            }
         }
+    }
+    .buttons{
+        margin-top: 1em;
     }
 }

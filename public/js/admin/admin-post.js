@@ -8,6 +8,7 @@ $(function () {
 
 var Post = {
     editor: null,
+    ms: null,
     init: function () {
         Post.editor = editormd({
             id: "editormd",
@@ -17,17 +18,41 @@ var Post = {
             path: "/public/mdeditor/lib/",
             watch:false
         });
+
+        Post.ms = $('#magicsuggest').magicSuggest({
+            placeholder:"请输入标签"
+        });
     },
     submit: function () {
+        var tags = Post.ms.getSelection(),
+            length = tags.length,
+            allTags = Post.ms.getData().map(function(item){return item.name})
+            tagIds = [],
+            newTag = [];
+        for(var i = 0;i<length;i++){
+            var item = tags[i];
+            if(allTags.indexOf(item.name) >= 0){
+                tagIds.push(item.id);
+            }else{
+                newTag.push(item.name);
+            }
+        }
         var data = {
             "data.Title": $("#blog-title").val(),
             "data.ContentMD": Post.editor.getMarkdown(),
             "data.ContentHTML": Post.editor.getHTML(),
             "data.Type": 0,
+            "data.Summary": $("#blog-summary").val(),
+            "data.Category": $("input[name=category]:checked").val(),
+            "data.tagids": tagIds.join(","),
+            "data.newtag": newTag.join(",")
         }
         $.post("/admin/post/index", data, function (d) {
             console.log(d);
         })
+    },
+    addTags: function(){
+
     }
 }
 

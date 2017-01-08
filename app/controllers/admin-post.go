@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/revel/revel"
 )
@@ -33,7 +34,17 @@ type Post struct {
 	Admin
 }
 
+// 创建博客页面
 func (p *Post) Index() revel.Result {
+	categoryModel := new(models.Category)
+	tagModel := new(models.BloggerTag)
+	p.RenderArgs["categorys"] = categoryModel.FindAll()
+	tags, err := tagModel.ListAll()
+	if err != nil {
+		tags = make([]models.BloggerTag, 0)
+	}
+	p.RenderArgs["tags"] = tags
+	p.RenderArgs["timenow"] = time.Now()
 	return p.RenderTemplate("Admin/Post/Index.html")
 }
 

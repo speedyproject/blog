@@ -1,3 +1,12 @@
 .post-list {
   background-color: #fff;
   padding: 1em 2em; }
+  .post-list .select {
+    width: 40px; }
+  .post-list .author {
+    width: 100px; }
+  .post-list .category {
+    width: 120px; }
+  .post-list .date {
+    width: 90px;
+    text-align: center; }

@@ -38,6 +38,7 @@ Post    /post/add_tag                           Post.CreateTag
 Get     /post/all_tag                           BlogTag.GetAllTags
 
 GET     /admin/manage-post                      Post.ManagePost
+POST    /admin/manage-post/delete               Post.Delete
 
 
 # Admin

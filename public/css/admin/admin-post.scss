@@ -1,4 +1,17 @@
 .post-list{
     background-color: #fff;
     padding: 1em 2em;
+    .select{
+        width:40px;
+    }
+    .author{
+        width:100px;
+    }
+    .category{
+        width:120px;
+    }
+    .date{
+        width:90px;
+        text-align: center;
+    }
 }

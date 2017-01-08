@@ -61,15 +61,6 @@ body {
   background-color: #428bca; }
 
 /*
- * Main content
- */
-.main {
-  padding: 20px !important; }
-
-.main .page-header {
-  margin-top: 0; }
-
-/*
  * Placeholder dashboard ideas
  */
 .placeholders {
@@ -92,4 +83,13 @@ body {
     flex: 1; }
   .admin-area .admin-content {
     flex: 12;
-    background-color: #F6F6F3; }
+    background-color: #F6F6F3;
+    /*
+    * Main content
+    */ }
+    .admin-area .admin-content .main {
+      padding: 20px !important; }
+      .admin-area .admin-content .main .page-header {
+        margin: 0; }
+      .admin-area .admin-content .main .sub-opration {
+        margin: 1em 0; }

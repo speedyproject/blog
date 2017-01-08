@@ -260,7 +260,7 @@ func (b *Blogger) Update() (bool, error) {
 // 删除一篇博客
 func (b *Blogger) Del() (bool, error) {
 
-	has, err := support.Xorm.Id(b.Id).Delete(&b)
+	has, err := support.Xorm.Id(b.Id).Delete(b)
 
 	if err == nil {
 		// Delete cache.

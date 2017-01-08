@@ -1,21 +1,25 @@
 {{set . "title" "管理文章"}} 
 {{append . "moreStyles" "css/admin/admin-post.css"}}
+{{append . "moreScripts" "js/admin/admin-post.js"}}
 {{template "Layout/AdminHeader.html" .}}
 <div class="main admin-user">
     <h2 class="page-header title">{{.title}}</h2> <span class="add"></span>
-    <div class="post-list">
+    <div class="sub-opration">
+        <button class="btn btn-danger btn-sm" onclick="Manager.delete()">删除选中项</button>
+    </div>
+    <div id="post-list" class="post-list">
         <table class="table">
             <thead>
-                <th><input type="checkbox"></th>
-                <th>标题</th>
-                <th>作者</th>
-                <th>分类</th>
-                <th>日期</th>
+                <th class="select"><input type="checkbox" id="select-all" onclick="Manager.selectAll(event)"></th>
+                <th class="title">标题</th>
+                <th class="author">作者</th>
+                <th class="category">分类</th>
+                <th class="date">日期</th>
             </thead>
-            <tbody>
+            <tbody id="post-list-table">
                 {{range .blogs}}
-                <tr>
-                    <td><input type="checkbox"></td>
+                <tr id="blog-{{.Id}}">
+                    <td><input type="checkbox" class="select-for-js" data-id="{{.Id}}"></td>
                     <td>{{.Title}}</td>
                     {{set $ "auther" .Auther}}
                     <td><a href="?uid={{$.auther.Id}}">{{$.auther.Name}}</td>

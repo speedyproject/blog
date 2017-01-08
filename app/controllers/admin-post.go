@@ -4,6 +4,7 @@ import (
 	"blog/app/models"
 	"fmt"
 	"strconv"
+	"strings"
 
 	"github.com/revel/revel"
 )
@@ -107,4 +108,20 @@ func (p *Post) CreateTag(name string) revel.Result {
 		return p.RenderJson(&ResultJson{Success: false, Msg: err.Error(), Data: ""})
 	}
 	return p.RenderJson(&ResultJson{Success: true, Msg: "", Data: ""})
+}
+
+func (p *Post) Delete(ids string) revel.Result {
+	idArr := strings.Split(ids, ",")
+	if len(idArr) > 0 {
+		for _, v := range idArr {
+			id, err := strconv.Atoi(v)
+			if err == nil {
+				blog := &models.Blogger{Id: int64(id)}
+				blog.Del()
+			}
+		}
+		return p.RenderJson(&ResultJson{Success: true})
+	} else {
+		return p.RenderJson(&ResultJson{Success: true})
+	}
 }

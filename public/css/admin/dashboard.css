@@ -31,7 +31,6 @@ body {
 
 @media (min-width: 768px) {
   .sidebar {
-    position: fixed !important;
     top: 51px;
     bottom: 0;
     left: 0;
@@ -67,11 +66,6 @@ body {
 .main {
   padding: 20px !important; }
 
-@media (min-width: 768px) {
-  .main {
-    padding-right: 40px !important;
-    padding-left: 40px !important; } }
-
 .main .page-header {
   margin-top: 0; }
 
@@ -91,3 +85,11 @@ body {
 .placeholder img {
   display: inline-block;
   border-radius: 50%; }
+
+.admin-area {
+  display: flex; }
+  .admin-area .sidebar {
+    flex: 1; }
+  .admin-area .admin-content {
+    flex: 12;
+    background-color: #F6F6F3; }

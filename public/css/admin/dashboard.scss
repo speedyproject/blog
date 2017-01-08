@@ -47,7 +47,6 @@ body {
 
 @media (min-width: 768px) {
   .sidebar {
-    position: fixed !important;
     top: 51px;
     bottom: 0;
     left: 0;
@@ -93,13 +92,6 @@ body {
   padding: 20px!important;
 }
 
-@media (min-width: 768px) {
-  .main {
-    padding-right: 40px !important;
-    padding-left: 40px!important;
-  }
-}
-
 .main .page-header {
   margin-top: 0;
 }
@@ -129,5 +121,16 @@ body {
 
 .input-area{
   input,select{
+  }
+}
+
+.admin-area{
+  display: flex;
+  .sidebar{
+    flex:1
+  }
+  .admin-content{
+    flex: 12;
+    background-color: #F6F6F3;
   }
 }

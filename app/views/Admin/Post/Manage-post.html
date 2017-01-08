@@ -1,0 +1,32 @@
+{{set . "title" "管理文章"}} 
+{{append . "moreStyles" "css/admin/admin-post.css"}}
+{{template "Layout/AdminHeader.html" .}}
+<div class="main admin-user">
+    <h2 class="page-header title">{{.title}}</h2> <span class="add"></span>
+    <div class="post-list">
+        <table class="table">
+            <thead>
+                <th><input type="checkbox"></th>
+                <th>标题</th>
+                <th>作者</th>
+                <th>分类</th>
+                <th>日期</th>
+            </thead>
+            <tbody>
+                {{range .blogs}}
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>{{.Title}}</td>
+                    {{set $ "auther" .Auther}}
+                    <td><a href="?uid={{$.auther.Id}}">{{$.auther.Name}}</td>
+                    {{set $ "category" .Category}}
+                    <td><a href="?category={{$.category.Id}}">{{$.category.Name}}</a></td>
+                    <td>{{date .UpdateTime}}</td>
+                </tr>
+                {{end}}
+            </tbody>
+
+        </table>
+    </div>
+</div>
+{{template "Layout/AdminFooter.html" .}}

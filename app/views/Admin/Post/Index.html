@@ -1,21 +1,26 @@
-{{append . "moreStyles" "css/admin/admin-user-create.css"}}
+{{append . "moreStyles" "css/admin/admin-post.css"}}
 {{append . "moreStyles" "mdeditor/css/editormd.min.css"}}
 {{append . "moreScripts" "mdeditor/editormd.min.js"}}
 {{append . "moreScripts" "js/admin/admin-post.js"}}
 {{set . "title" "撰写文章"}}
 {{template "Layout/AdminHeader.html" .}}
 
-<div class="main admin-user">
+<div class="main admin-user admin-post">
   <h2 class="page-header title">{{.title}}</h2> <span class="add"></span>
   <div>
     <div class="form-group">
       <input type="text" id="blog-title" class="form-control" placeholder="标题">
     </div>
-    <div>
-      {{template "Admin/Post/editor-md.html" .}}
+    <div class="edit-area">
+      <div class="editor">
+       {{template "Admin/Post/editor-md.html" .}}
+      </div>
+      <div class="extra">
+        aaa
+      </div>
     </div>
-    <div class="form-group">
-      <textarea id="blog-summary" class="form-control" cols="30" rows="3" placeholder="摘要"></textarea>
+    <div class="">
+        <textarea id="blog-summary" class="form-control" cols="30" rows="3" placeholder="摘要"></textarea>
     </div>
   </div>
   <div>

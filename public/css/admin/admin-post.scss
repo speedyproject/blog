@@ -15,3 +15,15 @@
         text-align: center;
     }
 }
+
+.admin-post{
+    .edit-area{
+        display: flex;
+        .editor{
+            flex:3;
+        }
+        .extra{
+            flex: 1;
+        }
+    }
+}

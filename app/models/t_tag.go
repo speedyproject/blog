@@ -12,16 +12,28 @@ const (
 )
 
 //BloggerTag model
+// 标签表
 type BloggerTag struct {
-	Id     int    `xorm:"not null pk autoincr INT(11)"`
+	Id     int64  `xorm:"not null pk autoincr INT(11)"`
 	Type   int    `xorm:"not null INT(11)"`
 	Name   string `xorm:"not null VARCHAR(20)"`
 	Ident  string
 	Parent int `xorm:"INT(11)`
 }
 
+// 标签关联表
+type BloggerTagRef struct {
+	Id     int64
+	Blogid int64
+	Tagid  int64
+}
+
 func (t *BloggerTag) TableName() string {
 	return "t_tag"
+}
+
+func (bt *BloggerTagRef) TableName() string {
+	return "t_blog_tag"
 }
 
 // Query all tag
@@ -52,22 +64,25 @@ func (b *BloggerTag) GetByIdent(ident string) (*BloggerTag, error) {
 	return nil, err
 }
 
-// Add new tag
-func (b *BloggerTag) New() (bool, error) {
-
+// New to Add a new tag
+// 新增一个标签
+func (b *BloggerTag) New() (int64, error) {
 	bt := new(BloggerTag)
 	bt.Type = b.Type
 	bt.Name = b.Name
 	bt.Type = b.Parent
-	has, err := support.Xorm.InsertOne(bt)
+	_, err := support.Xorm.InsertOne(bt)
 
-	return has > 0, err
+	if err != nil {
+		return 0, err
+	}
+	return bt.Id, nil
 }
 
 // FindBlogCount to get count of blog related to this tag
 // 查询标签关联的文章数目
 func (t *BloggerTag) FindBlogByTag(ident string) []Blogger {
-	id := 0
+	var id int64
 	if len(ident) > 0 {
 		tag, err := t.GetByIdent(ident)
 		if err != nil {
@@ -113,4 +128,9 @@ func (t *BloggerTag) Delete(ids []string) {
 	sql2 := "DELET FROM " + TABLE_BLOG_TAG + " WHERE tagid in(" + idStr + ")"
 	support.Xorm.Exec(sql)
 	support.Xorm.Exec(sql2)
+}
+
+func (bt *BloggerTagRef) AddTagRef(tagid, blogid int64) {
+	btr := &BloggerTagRef{Blogid: blogid, Tagid: tagid}
+	support.Xorm.Insert(btr)
 }

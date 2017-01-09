@@ -27,6 +27,8 @@ type PostData struct {
 	passwd      string //博客内容是否加密
 	Summary     string // 博客摘要
 	Type        int    // 0 表示 markdown，1 表示 html
+	NewTag      string // 新添加的标签
+	Createtime  string //创建时间
 }
 
 // User for User Controller
@@ -67,7 +69,6 @@ func (p *Post) ManagePost(uid, category int64) revel.Result {
 func (p *Post) NewPostHandler() revel.Result {
 	data := new(PostData)
 	p.Params.Bind(&data, "data")
-	fmt.Println("data= ", data)
 	p.Validation.Required(data.Title).Message("title can't be null.")
 	p.Validation.Required(data.ContentHTML).Message("context can't be null.")
 
@@ -84,18 +85,47 @@ func (p *Post) NewPostHandler() revel.Result {
 	blog.CategoryId = data.Category
 	blog.Type = data.Type
 	blog.Summary = data.Summary
-	uid := p.Session["UID"]
-	id, _ := strconv.Atoi(uid)
 
-	blog.CreateBy = id
+	// 处理创建时间
+	tm, err := time.Parse("2006-01-02", data.Createtime)
+	if err != nil {
+		fmt.Println("--------------------", err)
+		blog.CreateTime = time.Now()
+	} else {
+		blog.CreateTime = tm
+	}
+
+	uid := p.Session["UID"]
+	authorid, _ := strconv.Atoi(uid)
+	blog.CreateBy = authorid
 
 	if data.passwd != "" {
 		blog.Passwd = data.passwd
 	}
 
-	has, err := blog.New()
+	blogID, err := blog.New()
 
-	if err != nil || has <= 0 {
+	// 添加新的标签
+	btr := new(models.BloggerTagRef)
+	newTags := strings.Split(data.NewTag, ",")
+	for _, v := range newTags {
+		tag := &models.BloggerTag{Name: v}
+		tagid, _ := tag.New()
+		if tagid > 0 {
+			btr.AddTagRef(tagid, blogID)
+		}
+	}
+
+	// 处理标签关联
+	tagids := strings.Split(data.Tag, ",")
+	for _, v := range tagids {
+		id, err := strconv.Atoi(v)
+		if err == nil {
+			btr.AddTagRef(int64(id), blogID)
+		}
+	}
+
+	if err != nil || blogID <= 0 {
 		p.Flash.Error("msg", "create new blogger post error.")
 		return p.RenderJson(&ResultJson{Success: false, Msg: err.Error(), Data: ""})
 		// TODO Redirect new post page.

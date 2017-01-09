@@ -29,7 +29,7 @@ type Blogger struct {
 	ContentHTML   string    `xorm:"not null TEXT 'content_html'"`
 	CategoryId    int       `xorm:"INT(11) 'category_id'"`
 	Passwd        string    `xorm:"VARCHAR(64)"`
-	CreateTime    time.Time `xorm:"created"`
+	CreateTime    time.Time `xorm:"TIMESTAMP"`
 	CreateBy      int       `xorm:"not null INT(11)"`
 	ReadCount     int64     `xorm:"default 0 BIGINT(20)"`
 	LeaveCount    int64     `xorm:"default 0 BIGINT(20)"`
@@ -224,6 +224,7 @@ func (b *Blogger) New() (int64, error) {
 	blog.Passwd = b.Passwd
 	blog.CategoryId = b.CategoryId
 	blog.Summary = b.Summary
+	blog.CreateTime = b.CreateTime
 
 	has, err := support.Xorm.InsertOne(blog)
 

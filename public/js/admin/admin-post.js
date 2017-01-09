@@ -15,7 +15,7 @@ var Post = {
             height: 640,
             syncScrolling: "single",
             saveHTMLToTextarea: true,
-            path: "/public/mdeditor/lib/",
+            path: "/public/third/mdeditor/lib/",
             watch:false
         });
 
@@ -44,8 +44,9 @@ var Post = {
             "data.Type": 0,
             "data.Summary": $("#blog-summary").val(),
             "data.Category": $("input[name=category]:checked").val(),
-            "data.tagids": tagIds.join(","),
-            "data.newtag": newTag.join(",")
+            "data.Tag": tagIds.join(","),
+            "data.NewTag": newTag.join(","),
+            "data.Createtime":$("#blog-createtime").val()
         }
         $.post("/admin/post/index", data, function (d) {
             console.log(d);

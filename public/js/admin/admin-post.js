@@ -103,9 +103,10 @@ var Manager = {
             if(data.Success){
                 for(var i in idarr){
                     $("#blog-"+idarr[i]).remove();
+                    alertify.success('删除成功！');
                 }
             }else{
-                alert(data.Msg);
+                alertify.alert("注意",data.Msg);
             }
         })
     }

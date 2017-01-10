@@ -7,6 +7,13 @@ import (
 	"github.com/revel/revel"
 )
 
+func InstallInterceptor(c *revel.Controller) revel.Result {
+	if !isInstalled && c.Name != "Install" && c.Name != "Static" {
+		return c.Redirect("/install/index")
+	}
+	return nil
+}
+
 //LoginFilter check login status
 func LoginFilter(c *revel.Controller) revel.Result {
 

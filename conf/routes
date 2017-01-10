@@ -5,6 +5,7 @@
 # install page
 # GET     /install                                Install.Index
 # POST    /install/index                          Install.HandleInstall
+# POST    /install/adddb                          Install.AddDB
 
 module:testrunner
 

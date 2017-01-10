@@ -1,0 +1,57 @@
+.install-page {
+  width: 60%;
+  margin: 30px auto; }
+  .install-page .title {
+    margin-bottom: 50px; }
+    .install-page .title .title-1 {
+      font-size: 40px;
+      margin-right: 20px; }
+    .install-page .title .title-2 {
+      font-size: 15px; }
+  .install-page .route {
+    display: flex;
+    width: 700px;
+    margin: 0 auto 50px auto; }
+    .install-page .route .node {
+      flex: 1;
+      text-align: center; }
+  .install-page .pointer.finish {
+    border-color: #009a61;
+    background-color: #009a61; }
+  .install-page .pointer.finish:after {
+    border-color: #009a61; }
+  .install-page .pointer.ing {
+    border-color: #aaa;
+    background-color: #aaa; }
+  .install-page .pointer.ing:after {
+    border-color: #aaa; }
+  .install-page .pointer {
+    position: relative;
+    display: inline-block;
+    border: solid 1px #777;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px; }
+  .install-page .pointer:after {
+    position: absolute;
+    top: 10px;
+    left: 28px;
+    width: 313px;
+    content: '';
+    border-bottom: 1px solid #dedede; }
+  .install-page .node:last-child > .pointer:after {
+    border-bottom: none; }
+  .install-page .install-content {
+    margin-bottom: 50px; }
+    .install-page .install-content .step .step-content {
+      padding: 0 30px; }
+      .install-page .install-content .step .step-content .form-group label {
+        width: 100px; }
+      .install-page .install-content .step .step-content .form-group input {
+        width: 60%; }
+    .install-page .install-content .step-1,
+    .install-page .install-content .step-2 {
+      display: none; }
+  .install-page .next-button {
+    float: right;
+    margin-right: 100px; }

@@ -2,20 +2,24 @@ package controllers
 
 import (
 	"blog/app/support"
+	"fmt"
 
 	"github.com/revel/revel"
 )
 
-type InstallParams struct {
-	Db_host     string
-	Db_user     string
-	Db_pass     string
-	Db_port     int
-	Db_name     string
+type DBParams struct {
+	Db_host string
+	Db_user string
+	Db_pass string
+	Db_port int
+	Db_name string
+	Driver  string
+}
+
+type AdminParam struct {
 	Admin_user  string
 	Admin_pass  string
 	Admin_email string
-	Driver      string
 }
 
 type Install struct {
@@ -27,18 +31,27 @@ func (i *Install) Index() revel.Result {
 }
 
 func (i *Install) HandleInstall() revel.Result {
-	params := new(InstallParams)
+	return nil
+}
+
+func (i *Install) AddDB() revel.Result {
+	params := new(DBParams)
 	i.Params.Bind(params, "info")
 	params.Driver = "mysql"
 	err := i.checkDB(params)
 	if err != nil {
-		return i.RenderJson(&ResultJson{Success: false, Msg: err.Error(), Data: "db"})
+		return i.RenderJson(&ResultJson{Success: false, Msg: err.Error(), Data: ""})
 	}
-	return nil
+	return i.RenderJson(&ResultJson{Success: true})
 }
 
-func (i *Install) checkDB(info *InstallParams) error {
+func (i *Install) checkDB(info *DBParams) error {
+	fmt.Println("db info: ", info)
 	err := support.TestXorm(info.Driver, info.Db_user, info.Db_pass, info.Db_host, info.Db_name, info.Db_port)
+	if err != nil {
+		return err
+	}
+	err = support.AddDB(info.Db_host, fmt.Sprintf("%d", info.Db_port), info.Db_user, info.Db_pass, info.Db_name, info.Driver)
 	if err != nil {
 		return err
 	}

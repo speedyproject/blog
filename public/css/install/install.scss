@@ -1,0 +1,82 @@
+.install-page {
+    width: 60%;
+    margin: 30px auto;
+    .title {
+        margin-bottom: 50px;
+        .title-1 {
+            font-size: 40px;
+            margin-right: 20px;
+        }
+        .title-2 {
+            font-size: 15px;
+        }
+    }
+    .route {
+        display: flex;
+        width: 700px;
+        margin: 0 auto 50px auto;
+        .node {
+            flex: 1;
+            text-align: center;
+        }
+    }
+
+    .pointer.finish{
+        border-color: #009a61;
+        background-color: #009a61;
+    }
+    .pointer.finish:after{
+        border-color: #009a61;
+    }
+    .pointer.ing{
+        border-color: #aaa;
+        background-color: #aaa;
+    }
+    .pointer.ing:after{
+        border-color: #aaa;
+    }
+    .pointer {
+        position: relative;
+        display: inline-block;
+        border: solid 1px #777;
+        width: 20px;
+        height: 20px;
+        border-radius: 10px;
+    }
+    .pointer:after {
+        position: absolute;
+        top: 10px;
+        left: 28px;
+        width: 313px;
+        content: '';
+        border-bottom: 1px solid #dedede;
+    }
+    .node:last-child>.pointer:after {
+        border-bottom: none;
+    }
+    .install-content {
+        margin-bottom: 50px;
+        .step {
+            .step-title {}
+            .step-content {
+                padding: 0 30px;
+                .form-group {
+                    label {
+                        width: 100px;
+                    }
+                    input {
+                        width: 60%;
+                    }
+                }
+            }
+        }
+        .step-1,
+        .step-2 {
+            display: none;
+        }
+    }
+    .next-button {
+        float: right;
+        margin-right: 100px;
+    }
+}

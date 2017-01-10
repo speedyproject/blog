@@ -2,8 +2,6 @@ package app
 
 import (
 	"blog/app/controllers"
-	"blog/app/models"
-	"blog/app/service"
 	"blog/app/support"
 
 	"github.com/revel/revel"
@@ -30,17 +28,17 @@ func init() {
 	// ( order dependent )
 	// revel.OnAppStart(InitDB)
 	// revel.OnAppStart(FillCache)
-	revel.OnAppStart(support.InitXorm)
-
 	revel.OnAppStart(support.InitConfig)
-	revel.OnAppStart(support.InitCache)
+	// revel.OnAppStart(support.InitXorm)
+	// revel.OnAppStart(support.InitCache)
 	// revel.OnAppStart(support.LoadCache)
-	revel.OnAppStart(service.Init)
+	// revel.OnAppStart(service.Init)
 
 	//models cache
-	revel.OnAppStart(models.LoadCache)
+	// revel.OnAppStart(models.LoadCache)
 
 	//Login status check
+	revel.InterceptFunc(support.InstallInterceptor, revel.BEFORE, revel.ALL_CONTROLLERS)
 	revel.InterceptFunc(support.LoginFilter, revel.BEFORE, controllers.Admin{})
 
 	revel.InterceptMethod((*controllers.Admin).AdminChecker, revel.AFTER)

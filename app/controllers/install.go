@@ -16,7 +16,7 @@ type DBParams struct {
 	Driver  string
 }
 
-type AdminParam struct {
+type AdminParams struct {
 	Admin_user  string
 	Admin_pass  string
 	Admin_email string
@@ -32,6 +32,18 @@ func (i *Install) Index() revel.Result {
 
 func (i *Install) HandleInstall() revel.Result {
 	return nil
+}
+
+func (i *Install) AddAdmin() revel.Result {
+	params := new(AdminParams)
+	i.Params.Bind(params, "info")
+	var err error
+	// err := (params)
+
+	if err != nil {
+		return i.RenderJson(&ResultJson{Success: false, Msg: err.Error(), Data: ""})
+	}
+	return i.RenderJson(&ResultJson{Success: true})
 }
 
 func (i *Install) AddDB() revel.Result {

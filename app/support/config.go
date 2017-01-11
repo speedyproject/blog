@@ -1,7 +1,6 @@
 package support
 
 import (
-	"log"
 	"os"
 
 	"github.com/revel/config"
@@ -26,12 +25,22 @@ var isInstalled bool
 func InitConfig() {
 	file := (revel.BasePath + CONFIG_PATH)
 	var err error
+	//检查配置文件是否存在
 	AppConfig, err = config.ReadDefault(file)
 	if err != nil {
-		log.Println("log config error: ", err)
-		AppConfig = config.New(config.DEFAULT_COMMENT, config.ALTERNATIVE_SEPARATOR, false, true)
-		// AppConfig.AddOption("appconfig", "installed", "false")
+		revel.WARN.Println("获取配置文件失败，准备安装", err)
 		isInstalled = false
+	} else {
+		// 检查数据库是否可以正常连接
+		err = initXorm()
+		if err != nil {
+			isInstalled = false
+			revel.WARN.Println("连接数据库失败，重新安装")
+		}
+		// FIXME：Laily 检查表是否存在，然后检查是否同步表结构
+	}
+	if !isInstalled {
+		AppConfig = config.New(config.DEFAULT_COMMENT, config.ALTERNATIVE_SEPARATOR, false, true)
 	}
 }
 

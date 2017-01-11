@@ -30,9 +30,6 @@ var Install = {
         if (data["info.Db_user"] == "") {
             alertify.alert("Error", "数据库用户不能为空", null);
         }
-        if (data["info.Db_pass"] == "") {
-            alertify.alert("Error", "数据库密码不能为空", null);
-        }
         if (data["info.Db_name"] == "") {
             alertify.alert("Error", "数据库名称不能为空", null);
         }

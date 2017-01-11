@@ -34,6 +34,8 @@ func (i *Install) HandleInstall() revel.Result {
 	return nil
 }
 
+// AddAdmin to add a admin user when installing
+// 用于在安装的时候添加一个管理员账号
 func (i *Install) AddAdmin() revel.Result {
 	params := new(AdminParams)
 	i.Params.Bind(params, "info")

@@ -15,7 +15,7 @@ var Post = {
             height: 640,
             syncScrolling: "single",
             saveHTMLToTextarea: true,
-            path: "/public/mdeditor/lib/",
+            path: "/public/third/mdeditor/lib/",
             watch:false
         });
 

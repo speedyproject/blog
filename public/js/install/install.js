@@ -11,6 +11,9 @@ var Install = {
             case 1:
                 Install.addAdmin();
                 break;
+            case 2:
+                Install.finish();
+                break;
         }
     },
     addDB: function () {
@@ -76,6 +79,9 @@ var Install = {
                 $button.attr("disabled", false).text("下一步");
             }
         })
+    },
+    finish: function(){
+        location.href="/main/";
     },
     renderNode: function (stepNum) {
         var $dom = $("#route");

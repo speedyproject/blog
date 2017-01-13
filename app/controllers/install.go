@@ -40,11 +40,11 @@ func (i *Install) HandleInstall() revel.Result {
 func (i *Install) AddAdmin() revel.Result {
 	params := new(AdminParams)
 	i.Params.Bind(params, "info")
-	var err error
-	// err := (params)
+	admin := &models.Admin{Name: params.Admin_user, Nickname: params.Admin_user, Passwd: params.Admin_pass, Email: params.Admin_email, RoleId: models.ADMIN_SUPER}
+	id, msg := admin.New()
 
-	if err != nil {
-		return i.RenderJson(&ResultJson{Success: false, Msg: err.Error(), Data: ""})
+	if id <= 0 {
+		return i.RenderJson(&ResultJson{Success: false, Msg: msg, Data: ""})
 	}
 	return i.RenderJson(&ResultJson{Success: true})
 }
@@ -59,12 +59,15 @@ func (i *Install) AddDB() revel.Result {
 		revel.ERROR.Println(msg)
 		return i.RenderJson(&ResultJson{Success: false, Msg: msg, Data: ""})
 	}
+	revel.INFO.Println("开始同步数据库...")
 	err = models.SyncDB()
 	if err != nil {
 		msg := "同步数据库失败：" + err.Error()
 		revel.ERROR.Println(msg)
 		return i.RenderJson(&ResultJson{Success: false, Msg: msg, Data: ""})
 	}
+	revel.INFO.Println("同步数据库完成...")
+	i.finishInstall()
 	return i.RenderJson(&ResultJson{Success: true})
 }
 
@@ -79,4 +82,9 @@ func (i *Install) checkDB(info *DBParams) error {
 		return err
 	}
 	return nil
+}
+
+func (i *Install) finishInstall() {
+	support.IsInstalled = true
+	support.FinishInstall()
 }

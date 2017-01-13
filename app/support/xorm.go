@@ -27,10 +27,11 @@ func initMySQL() error {
 	user, _ := AppConfig.String("database", "database.user")
 	passwd, _ := AppConfig.String("database", "database.password")
 	host, _ := AppConfig.String("database", "database.host")
+	port, _ := AppConfig.String("database", "database.port")
 	prefix, _ := AppConfig.String("database", "database.prefix")
 
 	var err error
-	Xorm, err = xorm.NewEngine("mysql", fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8", user, passwd, host, dbname))
+	Xorm, err = xorm.NewEngine("mysql", fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8", user, passwd, host, port, dbname))
 	tbMapper := core.NewPrefixMapper(core.SnakeMapper{}, prefix)
 	Xorm.SetTableMapper(tbMapper)
 	Xorm.ShowSQL(true)

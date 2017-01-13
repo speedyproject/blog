@@ -8,6 +8,11 @@ import (
 	"github.com/revel/revel"
 )
 
+const (
+	ADMIN_SUPER  = 1001
+	ADMIN_WRITER = 1002
+)
+
 //Admin model
 type Admin struct {
 	Id        int64     `xorm:"not null pk autoincr INT(11)"`
@@ -64,6 +69,18 @@ func (a *Admin) SignIn(request *revel.Request) (*Admin, string) {
 	}
 
 	return admin, "login failed."
+}
+
+// List all user
+// TODO:Laily need to spilit for page
+func (a *Admin) List() ([]Admin, error) {
+	return a.listByDB()
+}
+
+func (a *Admin) listByDB() ([]Admin, error) {
+	users := make([]Admin, 0)
+	err := support.Xorm.Find(&users)
+	return users, err
 }
 
 //Add new admin user.
@@ -189,16 +206,4 @@ func (a *Admin) GetUserByID(id int64) (*Admin, error) {
 // DeleteAdmin .
 func (a *Admin) DeleteAdmin(id int64) {
 	support.Xorm.Id(id).Delete(a)
-}
-
-// List all user
-// TODO:Laily need to spilit for page
-func (a *Admin) List() ([]Admin, error) {
-	return a.listByDB()
-}
-
-func (a *Admin) listByDB() ([]Admin, error) {
-	users := make([]Admin, 0)
-	err := support.Xorm.Find(&users)
-	return users, err
 }

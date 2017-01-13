@@ -2,8 +2,6 @@ package controllers
 
 import (
 	"blog/app/models"
-	"log"
-
 	"blog/app/service"
 
 	"github.com/revel/revel"
@@ -41,7 +39,7 @@ func (m *Main) Main() revel.Result {
 	blogModel := new(models.Blogger)
 	blogs, err := blogModel.GetBlogByPage(p, 0)
 	if err != nil {
-		log.Println("load blog list error: ", err)
+		revel.ERROR.Println("加载博客列表失败: ", err)
 		return m.RenderError(err)
 	}
 	hotBLogs := blogModel.GetHotBlog(5)

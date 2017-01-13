@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"blog/app/models"
-	"log"
 	"strconv"
 
 	"github.com/revel/revel"
@@ -18,7 +17,7 @@ func (b *BlogTag) Index(ident string) revel.Result {
 	tag := new(models.BloggerTag)
 	tag, err := tag.GetByIdent(ident)
 	if err != nil {
-		log.Panic("wrong")
+		revel.ERROR.Panic("wrong")
 	}
 	blogs := tag.FindBlogByTag("")
 	b.RenderArgs["flag"] = "tag"

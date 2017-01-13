@@ -3,7 +3,6 @@ package controllers
 import (
 	"blog/app/service"
 	"bytes"
-	"fmt"
 	_ "image/jpeg"
 	_ "image/png"
 	"mime/multipart"
@@ -56,7 +55,7 @@ func (c *Upload) HandleUpload() revel.Result {
 		}
 		fsrc.Close()
 		w.Close()
-		fmt.Println("index ", filepath)
+		revel.TRACE.Println("index ", filepath)
 
 		filesInfo[kk] = FileInfo{
 			ContentType: vv.Header.Get("Content-Type"),

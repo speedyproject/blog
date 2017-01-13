@@ -1,9 +1,11 @@
 package controllers
 
-import "github.com/revel/revel"
-import "blog/app/service"
-import "blog/app/models"
-import "fmt"
+import (
+	"blog/app/models"
+	"blog/app/service"
+
+	"github.com/revel/revel"
+)
 
 type Search struct {
 	*revel.Controller
@@ -20,7 +22,6 @@ func (s *Search) Index(q string) revel.Result {
 			blogs = append(blogs, b)
 		}
 	}
-	fmt.Println("blogs are: ", blogs)
 	s.RenderArgs["blogs"] = blogs
 	s.RenderArgs["flag"] = "search"
 	return s.RenderTemplate("Main/Blog4Search.html")

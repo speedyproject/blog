@@ -1,7 +1,10 @@
 package models
 
-import "blog/app/support"
-import "github.com/revel/revel"
+import (
+	"blog/app/support"
+
+	"github.com/revel/revel"
+)
 
 //AdminRole model
 type AdminRole struct {

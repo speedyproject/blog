@@ -1,8 +1,10 @@
 package models
 
-import "time"
-import "blog/app/support"
-import "errors"
+import (
+	"blog/app/support"
+	"errors"
+	"time"
+)
 
 //Comment model.
 type Comment struct {

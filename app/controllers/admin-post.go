@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"blog/app/models"
-	"fmt"
 	"strconv"
 	"strings"
 	"time"
@@ -69,13 +68,11 @@ func (p *Post) ManagePost(uid, category int64) revel.Result {
 func (p *Post) NewPostHandler() revel.Result {
 	data := new(PostData)
 	p.Params.Bind(&data, "data")
-	p.Validation.Required(data.Title).Message("title can't be null.")
-	p.Validation.Required(data.ContentHTML).Message("context can't be null.")
+	p.Validation.Required(data.Title).Message("标题不能为空")
+	p.Validation.Required(data.ContentHTML).Message("内容不能为空")
 
 	if p.Validation.HasErrors() {
-		p.Validation.Keep()
-		p.FlashParams()
-		// TODO Redirect new post page.
+		return p.RenderJson(&ResultJson{Success: false, Msg: p.Validation.Errors[0].Message})
 	}
 
 	blog := new(models.Blogger)
@@ -89,7 +86,6 @@ func (p *Post) NewPostHandler() revel.Result {
 	// 处理创建时间
 	tm, err := time.Parse("2006-01-02", data.Createtime)
 	if err != nil {
-		fmt.Println("--------------------", err)
 		blog.CreateTime = time.Now()
 	} else {
 		blog.CreateTime = tm
@@ -128,9 +124,8 @@ func (p *Post) NewPostHandler() revel.Result {
 	if err != nil || blogID <= 0 {
 		p.Flash.Error("msg", "create new blogger post error.")
 		return p.RenderJson(&ResultJson{Success: false, Msg: err.Error(), Data: ""})
-		// TODO Redirect new post page.
 	}
-	return p.RenderHtml("ok")
+	return p.RenderJson(&ResultJson{Success: true})
 }
 
 func (p *Post) QueryCategorys() revel.Result {

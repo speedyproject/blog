@@ -48,8 +48,18 @@ var Post = {
             "data.NewTag": newTag.join(","),
             "data.Createtime":$("#blog-createtime").val()
         }
-        $.post("/admin/post/index", data, function (d) {
-            console.log(d);
+        if(data["data.Title"] == ""){
+            alertify.alert("Error","标题不能为空");
+        }
+        if(data["data.ContentHTML"] == ""){
+            alertify.alert("Error","内容不能为空");
+        }
+        $.post("/admin/post/index", data, function (data) {
+            if(data.Success){
+                alertify.success("发布成功");
+            }else{
+                alertify.alert("Error",data.Msg,null);
+            }
         })
     },
     addTags: function(){

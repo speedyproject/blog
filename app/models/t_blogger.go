@@ -29,11 +29,11 @@ type Blogger struct {
 	ContentHTML   string    `xorm:"not null TEXT 'content_html'"`
 	CategoryId    int64     `xorm:"INT(11)"`
 	Passwd        string    `xorm:"VARCHAR(64)"`
-	CreateTime    time.Time `xorm:"default 'CURRENT_TIMESTAMP' TIMESTAMP"`
+	CreateTime    time.Time `xorm:"created TIMESTAMP"`
 	CreateBy      int64     `xorm:"not null INT(11)"`
 	ReadCount     int64     `xorm:"default 0 BIGINT(20)"`
 	LeaveCount    int64     `xorm:"default 0 BIGINT(20)"`
-	UpdateTime    time.Time `xorm:"TIMESTAMP"`
+	UpdateTime    time.Time `xorm:"TIMESTAMP" updated`
 	BackgroundPic string    `xorm:"VARCHAR(255)"`
 	Type          int       `xorm:"INT(1)"`
 	Status        int       `xorm:"INT(11)"`

@@ -19,7 +19,7 @@ type Admin struct {
 	Lock      int       `xorm:"default 0 INT(11)"`
 	RoleId    int64     `xorm:"default 1001 INT(11)"`
 	LastIp    string    `xorm:"default '0.0.0.0' VARCHAR(20)"`
-	LastLogin time.Time `xorm:"default 'CURRENT_TIMESTAMP' TIMESTAMP"`
+	LastLogin time.Time `xorm:"created TIMESTAMP"`
 }
 
 //Admin sign in.

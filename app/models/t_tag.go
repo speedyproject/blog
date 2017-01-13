@@ -3,8 +3,9 @@ package models
 import (
 	"blog/app/support"
 	"fmt"
-	"log"
 	"strings"
+
+	"github.com/revel/revel"
 )
 
 const (
@@ -103,9 +104,9 @@ func (t *BloggerTag) QueryTags(str string) ([]map[string][]byte, error) {
 	sql := "SELECT name,id FROM t_tag WHERE name LIKE \"%" + str + "%\" ORDER BY LENGTH(name)-LENGTH(\"" + str + "\") ASC LIMIT 10"
 	//sql := "SELECT name FROM t_tag"
 	ress, err := support.Xorm.Query(sql)
-	fmt.Println("res: ", ress)
+	revel.TRACE.Println("res: ", ress)
 	if err != nil {
-		fmt.Println("err: ", err)
+		revel.ERROR.Println("err: ", err)
 		return ress, err
 	}
 	return ress, nil
@@ -122,7 +123,7 @@ func (t *BloggerTag) Update() bool {
 
 // 删除标签
 func (t *BloggerTag) Delete(ids []string) {
-	log.Println("tags", ids)
+	revel.TRACE.Println("tags", ids)
 	idStr := strings.Join(ids, ",")
 	sql := "DELETE FROM " + TABLE_TAG + " WHERE id in (" + idStr + ")"
 	sql2 := "DELET FROM " + TABLE_BLOG_TAG + " WHERE tagid in(" + idStr + ")"

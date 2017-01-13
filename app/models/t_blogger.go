@@ -6,8 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	"log"
-
+	"github.com/revel/revel"
 	"github.com/russross/blackfriday"
 )
 
@@ -74,7 +73,7 @@ func (b *Blogger) BlogTags() []BloggerTag {
 	sql := "SELECT t.* FROM " + TABLE_BLOG + " AS b, " + TABLE_TAG + " AS t, " + TABLE_BLOG_TAG + " AS bt WHERE b.id = bt.blogid AND t.id = bt.tagid AND b.id = " + fmt.Sprintf("%d", b.Id)
 	tags := make([]BloggerTag, 0)
 	support.Xorm.Sql(sql).Find(&tags)
-	log.Println("err", tags)
+	revel.ERROR.Println("err", tags)
 	return tags
 }
 
@@ -201,7 +200,7 @@ func (b *Blogger) GetBlogCount() int64 {
 	blog := new(Blogger)
 	total, err := support.Xorm.Where("is_deleted = 0 ").Count(blog)
 	if err != nil {
-		fmt.Println("get blog count error: ", err)
+		revel.ERROR.Println("get blog count error: ", err)
 		return 0
 	}
 	return total

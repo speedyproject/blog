@@ -10,14 +10,14 @@ import (
 
 //Admin model
 type Admin struct {
-	Id        int       `xorm:"not null pk autoincr INT(11)"`
+	Id        int64     `xorm:"not null pk autoincr INT(11)"`
 	Name      string    `xorm:"not null VARCHAR(15)"`
-	Nickname  string    `xorm:"not null VARCHAR(20)"`
+	Nickname  string    `xorm:"VARCHAR(20)"`
 	Passwd    string    `xorm:"not null VARCHAR(64)"`
 	Email     string    `xorm:"VARCHAR(45)"`
 	Skey      string    `xorm:"not null VARCHAR(64)"`
 	Lock      int       `xorm:"default 0 INT(11)"`
-	RoleId    int       `xorm:"default 1001 INT(11)"`
+	RoleId    int64     `xorm:"default 1001 INT(11)"`
 	LastIp    string    `xorm:"default '0.0.0.0' VARCHAR(20)"`
 	LastLogin time.Time `xorm:"default 'CURRENT_TIMESTAMP' TIMESTAMP"`
 }

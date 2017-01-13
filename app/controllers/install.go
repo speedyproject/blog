@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"blog/app/models"
 	"blog/app/support"
 	"fmt"
 
@@ -54,7 +55,15 @@ func (i *Install) AddDB() revel.Result {
 	params.Driver = "mysql"
 	err := i.checkDB(params)
 	if err != nil {
-		return i.RenderJson(&ResultJson{Success: false, Msg: err.Error(), Data: ""})
+		msg := "连接数据库失败：" + err.Error()
+		revel.ERROR.Println(msg)
+		return i.RenderJson(&ResultJson{Success: false, Msg: msg, Data: ""})
+	}
+	err = models.SyncDB()
+	if err != nil {
+		msg := "同步数据库失败：" + err.Error()
+		revel.ERROR.Println(msg)
+		return i.RenderJson(&ResultJson{Success: false, Msg: msg, Data: ""})
 	}
 	return i.RenderJson(&ResultJson{Success: true})
 }

@@ -17,15 +17,15 @@ type BloggerTag struct {
 	Id     int64  `xorm:"not null pk autoincr INT(11)"`
 	Type   int    `xorm:"not null INT(11)"`
 	Name   string `xorm:"not null VARCHAR(20)"`
-	Ident  string
-	Parent int `xorm:"INT(11)`
+	Parent int64  `xorm:"default 0 INT(11)"`
+	Ident  string `xorm:"VARCHAR(255)"`
 }
 
 // 标签关联表
 type BloggerTagRef struct {
-	Id     int64
-	Blogid int64
-	Tagid  int64
+	Id     int64 `xorm:"not null pk autoincr INT(11)"`
+	Blogid int64 `xorm:"INT(11)"`
+	Tagid  int64 `xorm:"INT(11)"`
 }
 
 func (t *BloggerTag) TableName() string {
@@ -70,7 +70,7 @@ func (b *BloggerTag) New() (int64, error) {
 	bt := new(BloggerTag)
 	bt.Type = b.Type
 	bt.Name = b.Name
-	bt.Type = b.Parent
+	bt.Parent = b.Parent
 	_, err := support.Xorm.InsertOne(bt)
 
 	if err != nil {

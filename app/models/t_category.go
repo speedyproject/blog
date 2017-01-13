@@ -17,11 +17,11 @@ var categoryModel *Category
 // Category .
 // 博客分类实体
 type Category struct {
-	Id     int64  `xorm:"not null pk autoincr INT(11)`
-	Name   string `xorm:"not null VARCHAR(15)"`
-	Ident  string `xorm:"not null VARCHAR(15)"`
-	Parent int64  `xorm:"not null INT(11)"`
-	Desc   string
+	Id     int64  `xorm:"not null pk autoincr INT(11)"`
+	Name   string `xorm:"not null VARCHAR(20)"`
+	Ident  string `xorm:"VARCHAR(30)"`
+	Parent int64  `xorm:"default 0 INT(11)"`
+	Desc   string `xorm:"VARCHAR(255)"`
 }
 
 // GetByIdent get category by category ident

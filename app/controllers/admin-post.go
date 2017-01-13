@@ -21,7 +21,7 @@ type PostData struct {
 	Title       string //博客标题
 	ContentMD   string //博客内容 MD
 	ContentHTML string // 博客内容 HTML
-	Category    int    // 博客类别
+	Category    int64  // 博客类别
 	Tag         string // 标签 格式：12,14,32
 	Keywords    string // 关键词 格式：java,web开发
 	passwd      string //博客内容是否加密
@@ -97,7 +97,7 @@ func (p *Post) NewPostHandler() revel.Result {
 
 	uid := p.Session["UID"]
 	authorid, _ := strconv.Atoi(uid)
-	blog.CreateBy = authorid
+	blog.CreateBy = int64(authorid)
 
 	if data.passwd != "" {
 		blog.Passwd = data.passwd

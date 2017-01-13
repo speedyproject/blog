@@ -27,18 +27,20 @@ type Blogger struct {
 	Id            int64     `xorm:"not null pk autoincr INT(11)"`
 	Title         string    `xorm:"not null default '' VARCHAR(50)"`
 	ContentHTML   string    `xorm:"not null TEXT 'content_html'"`
-	CategoryId    int       `xorm:"INT(11) 'category_id'"`
+	CategoryId    int64     `xorm:"INT(11)"`
 	Passwd        string    `xorm:"VARCHAR(64)"`
-	CreateTime    time.Time `xorm:"TIMESTAMP"`
-	CreateBy      int       `xorm:"not null INT(11)"`
+	CreateTime    time.Time `xorm:"default 'CURRENT_TIMESTAMP' TIMESTAMP"`
+	CreateBy      int64     `xorm:"not null INT(11)"`
 	ReadCount     int64     `xorm:"default 0 BIGINT(20)"`
 	LeaveCount    int64     `xorm:"default 0 BIGINT(20)"`
 	UpdateTime    time.Time `xorm:"TIMESTAMP"`
 	BackgroundPic string    `xorm:"VARCHAR(255)"`
 	Type          int       `xorm:"INT(1)"`
+	Status        int       `xorm:"INT(11)"`
 	ContentMD     string    `xorm:"TEXT 'content_md'"`
 	Summary       string    `xorm:"VARCHAR(255)"`
-	Status        int       `xrom:"INT(11)"`
+	Pic           string    `xorm:"VARCHAR(200)"`
+	IsDeleted     int       `xorm:"default 0 TINYINT(1)"`
 }
 
 // FindList to Get blogger list.

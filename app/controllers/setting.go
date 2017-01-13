@@ -1,7 +1,10 @@
 package controllers
 
-import "github.com/revel/revel"
-import "blog/app/models"
+import (
+	"blog/app/models"
+
+	"github.com/revel/revel"
+)
 
 // Setting controller
 type Setting struct {

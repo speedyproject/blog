@@ -3,7 +3,6 @@ package models
 import (
 	"blog/app/support"
 	"errors"
-	"log"
 
 	"github.com/revel/revel"
 )
@@ -80,7 +79,7 @@ func (c *Category) RelatedBlogCount() int {
 	blogModel := new(Blogger)
 	count, err := support.Xorm.Where("category = ?", c.Id).Count(blogModel)
 	if err != nil {
-		log.Println("RelatedBlogCount error: ", err)
+		revel.ERROR.Println("RelatedBlogCount error: ", err)
 		return 0
 	}
 	return int(count)

@@ -2,7 +2,6 @@ package service
 
 import (
 	"blog/app/models"
-	"log"
 
 	"github.com/huichen/wukong/engine"
 	"github.com/huichen/wukong/types"
@@ -36,7 +35,7 @@ func InitSearcher() {
 func FullTextSearch(keywords string) []int64 {
 	// 搜索输出格式见types.SearchResponse结构体
 	res := searcher.Search(types.SearchRequest{Text: keywords})
-	log.Println("search result: ", res)
+	revel.TRACE.Println("search result: ", res)
 	var blogIDs []int64
 	for _, v := range res.Docs {
 		blogIDs = append(blogIDs, int64(v.DocId))

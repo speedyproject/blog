@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"blog/app/models"
-	"fmt"
 	"strconv"
 	"strings"
 	"time"
@@ -89,7 +88,7 @@ func (p *Post) NewPostHandler() revel.Result {
 	// 处理创建时间
 	tm, err := time.Parse("2006-01-02", data.Createtime)
 	if err != nil {
-		fmt.Println("--------------------", err)
+		revel.INFO.Println("--------------------", err)
 		blog.CreateTime = time.Now()
 	} else {
 		blog.CreateTime = tm

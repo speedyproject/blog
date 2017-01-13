@@ -1,16 +1,17 @@
 {{append . "moreStyles" "css/admin/signin.css"}}
+{{set . "title" "登陆"}}
 {{template "Layout/HomeHeader.html" .}}
 
     <form class="form-signin" role="form" method="post" rel="/login">
-        <h3 class="form-signin-heading">Sign In</h3>
-        <input class="form-control" placeholder="Username" required autofocus name="name"> <br/>
-        <input type="password" class="form-control" placeholder="Password" required name="passwd">
+        <h3 class="form-signin-heading text-center">登 陆</h3>
+        <input class="form-control" placeholder="用户名" required autofocus name="name"> <br/>
+        <input type="password" class="form-control" placeholder="密码" required name="passwd">
         <div class="checkbox">
             <label>
-                <input type="checkbox" value="remember-me"> Remember me
+                <input type="checkbox" value="remember-me"> 记住我
             </label>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">登陆</button>
     </form>
 
 {{template "Layout/HomeFooter.html" .}}

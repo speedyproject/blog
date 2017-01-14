@@ -20,7 +20,7 @@
                 {{range .blogs}}
                 <tr id="blog-{{.Id}}">
                     <td><input type="checkbox" class="select-for-js" data-id="{{.Id}}"></td>
-                    <td>{{.Title}}</td>
+                    <td><a href="/admin/post/{{.Id}}">{{.Title}}</a></td>
                     {{set $ "auther" .Auther}}
                     <td><a href="?uid={{$.auther.Id}}">{{$.auther.Name}}</td>
                     {{set $ "category" .Category}}

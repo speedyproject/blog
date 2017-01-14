@@ -11,22 +11,27 @@
     <h2 class="page-header title">{{.title}}</h2> <span class="add"></span>
     <div>
         <div class="form-group">
-            <input type="text" id="blog-title" class="form-control" placeholder="标题">
+            <input type="text" id="blog-title" class="form-control" placeholder="标题" 
+            {{with .blog}} value="{{.Title}}" {{end}}>
         </div>
         <div class="edit-area">
             <div class="editor">
                 <div>
                     {{template "Admin/Post/editor-md.html" .}}
                 </div>
+                <div style="display: none">
+                    <textarea name="" id="blog-src" cols="30" rows="10">{{with .blog}}{{.ContentMD}}{{end}}</textarea>
+                </div>
                 <div class="">
                     <label for="">摘要</label>
-                    <textarea id="blog-summary" class="form-control" cols="30" rows="3" placeholder="请输入摘要"></textarea>
+                    <textarea id="blog-summary" class="form-control" cols="30" rows="3" placeholder="请输入摘要">{{with .blog}}{{.Summary}}{{end}}</textarea>
                 </div>
             </div>
             <div class="extra">
                 <div class="form-group">
                     <label for="">发布时间</label>
-                    <input id="blog-createtime" type="text" class="form-control" value="{{date .timenow}}">
+                    <input id="blog-createtime" type="text" class="form-control"
+                       {{with .blog}} value="{{date .CreateTime}}" {{else}} value="{{date .timenow}}"{{end}}>
                 </div>
                 <div class="form-group">
                     <label for="">分类</label>
@@ -43,11 +48,15 @@
                 <div class="form-group tag">
                     <label for="">标签</label>
                     <select id="magicsuggest">
-            {{range .tags}}
-              <option value="{{.Id}}">{{.Name}}</option>
-            {{end}}  
-          </select>
+                        {{range .tags}}
+                        <option value="{{.Id}}">{{.Name}}</option>
+                        {{end}}  
+                    </select>
                 </div>
+            </div>
+            <div style="display:none">
+                <input id="blog-id" type="hidden" {{with .blog}} value="{{.Id}}" {{else}} value="0" {{end}}>
+                <div id="blog-tags">{{with .blog}}{{.BlogTagsJSON}}{{end}}</div>
             </div>
         </div>
     </div>

@@ -42,9 +42,12 @@ func initMySQL() error {
 	return Xorm.Ping()
 }
 
-func TestXorm(driver, user, pass, host, dbname string, port int) error {
+func TestXorm(driver, user, pass, host, dbname string, port int, prefix string) error {
 	var err error
 	Xorm, err = xorm.NewEngine(driver, fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8", user, pass, host, port, dbname))
+	tbMapper := core.NewPrefixMapper(core.SnakeMapper{}, prefix)
+	Xorm.SetTableMapper(tbMapper)
+	Xorm.ShowSQL(true)
 	if err != nil {
 		return err
 	}

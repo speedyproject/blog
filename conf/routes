@@ -47,8 +47,8 @@ POST    /admin/manage-post/delete               Post.Delete
 GET     /admin/                                 Admin.Main
 GET     /admin/main                             Admin.Main
 
-GET     /admin/post                             Post.Index
-GET     /admin/post/index                       Post.Index
+GET     /admin/post/                            Post.Index
+GET     /admin/post/:postid                     Post.Index
 POST    /admin/post/index                       Post.NewPostHandler 
 
 # User Management

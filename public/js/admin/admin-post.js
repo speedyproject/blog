@@ -16,12 +16,17 @@ var Post = {
             syncScrolling: "single",
             saveHTMLToTextarea: true,
             path: "/public/third/mdeditor/lib/",
-            watch:false
+            watch:false,
+            onload: function(){
+                this.setMarkdown($("#blog-src").val());
+            }
         });
 
         Post.ms = $('#magicsuggest').magicSuggest({
             placeholder:"请输入标签"
         });
+        var tags = $("#blog-tags").text();
+        Post.ms.setSelection(JSON.parse(tags));
     },
     submit: function () {
         var tags = Post.ms.getSelection(),
@@ -38,6 +43,7 @@ var Post = {
             }
         }
         var data = {
+            "data.Id":$("#blog-id").val(),
             "data.Title": $("#blog-title").val(),
             "data.ContentMD": Post.editor.getMarkdown(),
             "data.ContentHTML": Post.editor.getHTML(),

@@ -23,6 +23,7 @@ var Install = {
             "info.Db_user": $("#db-user").val(),
             "info.Db_pass": $("#db-pass").val(),
             "info.Db_name": $("#db-name").val(),
+            "info.Db_prefix": $("#db-prefix").val()
         }
         if (data["info.Db_host"] == "") {
             alertify.alert("Error", "数据库地址不能为空", null);

@@ -48,12 +48,13 @@ func InitConfig() {
 	InitCache()
 }
 
-func AddDB(dbhost, dbport, dbuser, dbpass, dbname, dbtype string) error {
+func AddDB(dbhost, dbport, dbuser, dbpass, dbname, dbprefix, dbtype string) error {
 	AppConfig.AddOption("database", "database.host", dbhost)
 	AppConfig.AddOption("database", "database.port", dbport)
 	AppConfig.AddOption("database", "database.user", dbuser)
 	AppConfig.AddOption("database", "database.password", dbpass)
 	AppConfig.AddOption("database", "database.dbname", dbname)
+	AppConfig.AddOption("database", "database.prefix", dbprefix)
 	AppConfig.AddOption("database", "database.driver", dbtype)
 	return nil
 }

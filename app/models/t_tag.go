@@ -15,11 +15,11 @@ const (
 //BloggerTag model
 // 标签表
 type BloggerTag struct {
-	Id     int64  `xorm:"not null pk autoincr INT(11)"`
+	Id     int64  `xorm:"not null pk autoincr INT(11)" json:"id"`
 	Type   int    `xorm:"not null INT(11)"`
-	Name   string `xorm:"not null VARCHAR(20)"`
+	Name   string `xorm:"not null VARCHAR(20)" json:"name"`
 	Parent int64  `xorm:"default 0 INT(11)"`
-	Ident  string `xorm:"VARCHAR(255)"`
+	Ident  string `xorm:"VARCHAR(255)" json:"ident"`
 }
 
 // 标签关联表
@@ -68,16 +68,19 @@ func (b *BloggerTag) GetByIdent(ident string) (*BloggerTag, error) {
 // New to Add a new tag
 // 新增一个标签
 func (b *BloggerTag) New() (int64, error) {
-	bt := new(BloggerTag)
-	bt.Type = b.Type
-	bt.Name = b.Name
-	bt.Parent = b.Parent
-	_, err := support.Xorm.InsertOne(bt)
+	if b.Name != "" {
+		bt := new(BloggerTag)
+		bt.Type = b.Type
+		bt.Name = b.Name
+		bt.Parent = b.Parent
+		_, err := support.Xorm.InsertOne(bt)
 
-	if err != nil {
-		return 0, err
+		if err != nil {
+			return 0, err
+		}
+		return bt.Id, nil
 	}
-	return bt.Id, nil
+	return 0, nil
 }
 
 // FindBlogCount to get count of blog related to this tag

@@ -14,9 +14,12 @@ import (
  * 发布博客 action
  */
 
+var blogModel *models.Blogger
+
 // PostData model.
 // 发布博客前端提交的数据
 type PostData struct {
+	Id          int64
 	Title       string //博客标题
 	ContentMD   string //博客内容 MD
 	ContentHTML string // 博客内容 HTML
@@ -36,13 +39,22 @@ type Post struct {
 }
 
 // 创建博客页面
-func (p *Post) Index() revel.Result {
+func (p *Post) Index(postid int64) revel.Result {
 	categoryModel := new(models.Category)
 	tagModel := new(models.BloggerTag)
 	p.RenderArgs["categorys"] = categoryModel.FindAll()
 	tags, err := tagModel.ListAll()
 	if err != nil {
 		tags = make([]models.BloggerTag, 0)
+	}
+	blog := &models.Blogger{Id: postid}
+	if postid > 0 {
+		blog, err = blog.FindById()
+		if err != nil {
+			p.NotFound("博客不存在")
+		} else {
+			p.RenderArgs["blog"] = blog
+		}
 	}
 	p.RenderArgs["tags"] = tags
 	p.RenderArgs["timenow"] = time.Now()
@@ -52,7 +64,6 @@ func (p *Post) Index() revel.Result {
 //ManagePost .
 // 管理博客页面
 func (p *Post) ManagePost(uid, category int64) revel.Result {
-	blogModel := new(models.Blogger)
 	blogs, err := blogModel.GetBlogByPageAND(uid, category, 1, 20)
 	if err != nil {
 		blogs = make([]models.Blogger, 0)
@@ -99,7 +110,17 @@ func (p *Post) NewPostHandler() revel.Result {
 		blog.Passwd = data.passwd
 	}
 
-	blogID, err := blog.New()
+	var blogID int64
+	if data.Id > 0 {
+		blog.Id = data.Id
+		_, err = blog.Update()
+		if err != nil {
+			revel.ERROR.Println("博客更新失败：", err)
+		}
+		blogID = data.Id
+	} else {
+		blogID, err = blog.New()
+	}
 
 	// 添加新的标签
 	btr := new(models.BloggerTagRef)
@@ -113,6 +134,7 @@ func (p *Post) NewPostHandler() revel.Result {
 	}
 
 	// 处理标签关联
+	blog.DeleteAllBlogTags()
 	tagids := strings.Split(data.Tag, ",")
 	for _, v := range tagids {
 		id, err := strconv.Atoi(v)

@@ -28,7 +28,7 @@ type Blogger struct {
 	ContentHTML   string    `xorm:"not null TEXT 'content_html'"`
 	CategoryId    int64     `xorm:"INT(11)"`
 	Passwd        string    `xorm:"VARCHAR(64)"`
-	CreateTime    time.Time `xorm:"created TIMESTAMP"`
+	CreateTime    time.Time `xorm:"TIMESTAMP"`
 	CreateBy      int64     `xorm:"not null INT(11)"`
 	ReadCount     int64     `xorm:"default 0 BIGINT(20)"`
 	LeaveCount    int64     `xorm:"default 0 BIGINT(20)"`
@@ -73,8 +73,19 @@ func (b *Blogger) BlogTags() []BloggerTag {
 	sql := "SELECT t.* FROM " + TABLE_BLOG + " AS b, " + TABLE_TAG + " AS t, " + TABLE_BLOG_TAG + " AS bt WHERE b.id = bt.blogid AND t.id = bt.tagid AND b.id = " + fmt.Sprintf("%d", b.Id)
 	tags := make([]BloggerTag, 0)
 	support.Xorm.Sql(sql).Find(&tags)
-	revel.ERROR.Println("err", tags)
 	return tags
+}
+
+// 获取博客的标签并转换成 json
+func (b *Blogger) BlogTagsJSON() string {
+	tags := b.BlogTags()
+	revel.ERROR.Println("tags ", tags)
+	bytearr, err := json.Marshal(tags)
+	if err != nil {
+		revel.ERROR.Println(err)
+		return ""
+	}
+	return string(bytearr)
 }
 
 // GetBlogByPage .
@@ -228,7 +239,7 @@ func (b *Blogger) New() (int64, error) {
 	blog.Summary = b.Summary
 	blog.CreateTime = b.CreateTime
 
-	has, err := support.Xorm.InsertOne(blog)
+	_, err := support.Xorm.InsertOne(blog)
 
 	// refurbish cache.
 	if err == nil {
@@ -241,13 +252,13 @@ func (b *Blogger) New() (int64, error) {
 			}
 		}
 	}
-	return has, err
+	return blog.Id, err
 }
 
 // Update blogger.
 // 更新博客
 func (b *Blogger) Update() (bool, error) {
-	has, err := support.Xorm.Id(b.Id).Update(&b)
+	has, err := support.Xorm.Id(b.Id).Update(b)
 	if err == nil {
 		// refurbish cache.
 		res, e1 := json.Marshal(&b)
@@ -280,4 +291,14 @@ func (b *Blogger) UpdateView(id int64) {
 	if err == nil {
 		support.Xorm.Table(blog).Id(id).Update(map[string]interface{}{"read_count": blog.ReadCount + 1})
 	}
+}
+
+// 删除该博客关联的所有标签
+func (b *Blogger) DeleteAllBlogTags() error {
+	bt := &BloggerTagRef{Blogid: b.Id}
+	_, err := support.Xorm.Delete(bt)
+	if err != nil {
+		return err
+	}
+	return nil
 }

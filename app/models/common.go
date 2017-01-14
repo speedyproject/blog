@@ -18,5 +18,6 @@ func InitModel() {
 
 func SyncDB() error {
 	engine := support.Xorm
+	InitModel()
 	return engine.Sync2(new(Admin), new(AdminRole), new(Blog), new(Category), new(Comment), new(Setting), new(Tag), new(BlogTag))
 }

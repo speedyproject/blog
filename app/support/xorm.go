@@ -34,21 +34,12 @@ func initMySQL() error {
 	port, _ := AppConfig.String("database", "database.port")
 	prefix, _ := AppConfig.String("database", "database.prefix")
 
-	var err error
-	Xorm, err = xorm.NewEngine("mysql", fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8", user, passwd, host, port, dbname))
-	tbMapper := core.NewPrefixMapper(core.SnakeMapper{}, prefix)
-	Xorm.SetTableMapper(tbMapper)
-	Xorm.ShowSQL(true)
-	if err != nil {
-		revel.ERROR.Println(err)
-		return err
-	}
-	return Xorm.Ping()
+	return TestXorm("mysql", user, passwd, host, port, dbname, prefix)
 }
 
-func TestXorm(driver, user, pass, host, dbname string, port int, prefix string) error {
+func TestXorm(driver, user, pass, host, port, dbname string, prefix string) error {
 	var err error
-	Xorm, err = xorm.NewEngine(driver, fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8", user, pass, host, port, dbname))
+	Xorm, err = xorm.NewEngine(driver, fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8", user, pass, host, port, dbname))
 	tbMapper := core.NewPrefixMapper(core.SnakeMapper{}, prefix)
 	Xorm.SetTableMapper(tbMapper)
 	Xorm.ShowSQL(true)

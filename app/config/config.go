@@ -33,7 +33,7 @@ func InitConfig() {
 			IsInstalled = false
 			revel.WARN.Println("连接数据库失败，准备安装")
 		} else {
-			// 检查表是否存在，然后检查是否同步表结构
+			// 数据库可以正常连接，同步表结构
 			revel.WARN.Println("连接数据库成功，开始同步数据库")
 			models.SyncDB()
 		}
@@ -41,7 +41,7 @@ func InitConfig() {
 	if !IsInstalled {
 		AppConfig = config.New(config.DEFAULT_COMMENT, config.ALTERNATIVE_SEPARATOR, false, true)
 	} else {
-		revel.INFO.Println("加载配置文件成功...")
+		revel.INFO.Println("配置加载成功...")
 	}
 	support.InitCache(IsInstalled, AppConfig)
 }

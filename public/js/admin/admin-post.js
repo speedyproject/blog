@@ -10,7 +10,7 @@ var Post = {
     editor: null,
     ms: null,
     init: function () {
-        Post.editor = editormd({
+    Post.editor = editormd({
             id: "editormd",
             height: 640,
             syncScrolling: "single",
@@ -26,7 +26,9 @@ var Post = {
             placeholder:"请输入标签"
         });
         var tags = $("#blog-tags").text();
-        Post.ms.setSelection(JSON.parse(tags));
+        if(tags.length > 0){
+            Post.ms.setSelection(JSON.parse(tags));
+        }
     },
     submit: function () {
         var tags = Post.ms.getSelection(),

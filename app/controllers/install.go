@@ -12,7 +12,7 @@ type DBParams struct {
 	Db_host   string
 	Db_user   string
 	Db_pass   string
-	Db_port   int
+	Db_port   string
 	Db_name   string
 	Db_prefix string
 	Driver    string
@@ -74,11 +74,11 @@ func (i *Install) AddDB() revel.Result {
 
 func (i *Install) checkDB(info *DBParams) error {
 	fmt.Println("db info: ", info)
-	err := support.TestXorm(info.Driver, info.Db_user, info.Db_pass, info.Db_host, info.Db_name, info.Db_port, info.Db_prefix)
+	err := support.TestXorm(info.Driver, info.Db_user, info.Db_pass, info.Db_host, info.Db_port, info.Db_name, info.Db_prefix)
 	if err != nil {
 		return err
 	}
-	err = support.AddDB(info.Db_host, fmt.Sprintf("%d", info.Db_port), info.Db_user, info.Db_pass, info.Db_name, info.Db_prefix, info.Driver)
+	err = support.AddDB(info.Db_host, info.Db_port, info.Db_user, info.Db_pass, info.Db_name, info.Db_prefix, info.Driver)
 	if err != nil {
 		return err
 	}

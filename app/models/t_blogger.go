@@ -220,6 +220,7 @@ func (b *Blogger) New() (int64, error) {
 	blog := new(Blogger)
 	blog.Title = b.Title
 	blog.ContentHTML = b.ContentHTML
+	blog.ContentMD = b.ContentMD
 	blog.CreateBy = b.CreateBy
 	blog.UpdateTime = time.Now()
 	blog.Passwd = b.Passwd

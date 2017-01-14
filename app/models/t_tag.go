@@ -8,10 +8,6 @@ import (
 	"github.com/revel/revel"
 )
 
-const (
-	TABLE_TAG = "t_tag"
-)
-
 //BloggerTag model
 // 标签表
 type BloggerTag struct {

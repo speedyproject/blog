@@ -7,10 +7,6 @@ import (
 	"github.com/revel/revel"
 )
 
-const (
-	TABLE_CATEGORY = "t_category"
-)
-
 var categoryModel *Category
 
 // Category .

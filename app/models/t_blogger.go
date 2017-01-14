@@ -16,8 +16,6 @@ const (
 	BLOG_TYPE_MD        = 0
 	BLOG_TYPE_HTML      = 1
 	PAGE_SIZE           = 10
-	TABLE_BLOG          = "t_blogger"
-	TABLE_BLOG_TAG      = "t_blog_tag"
 )
 
 // Blogger model.

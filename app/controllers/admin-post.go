@@ -14,7 +14,7 @@ import (
  * 发布博客 action
  */
 
-var blogModel *models.Blogger
+var blogModel *models.Blog
 
 // PostData model.
 // 发布博客前端提交的数据
@@ -41,13 +41,12 @@ type Post struct {
 // 创建博客页面
 func (p *Post) Index(postid int64) revel.Result {
 	categoryModel := new(models.Category)
-	tagModel := new(models.BloggerTag)
 	p.RenderArgs["categorys"] = categoryModel.FindAll()
 	tags, err := tagModel.ListAll()
 	if err != nil {
-		tags = make([]models.BloggerTag, 0)
+		tags = make([]models.Tag, 0)
 	}
-	blog := &models.Blogger{Id: postid}
+	blog := &models.Blog{Id: postid}
 	if postid > 0 {
 		blog, err = blog.FindById()
 		if err != nil {
@@ -66,7 +65,7 @@ func (p *Post) Index(postid int64) revel.Result {
 func (p *Post) ManagePost(uid, category int64) revel.Result {
 	blogs, err := blogModel.GetBlogByPageAND(uid, category, 1, 20)
 	if err != nil {
-		blogs = make([]models.Blogger, 0)
+		blogs = make([]models.Blog, 0)
 	}
 	p.RenderArgs["blogs"] = blogs
 	p.RenderArgs["p_uid"] = uid
@@ -86,7 +85,7 @@ func (p *Post) NewPostHandler() revel.Result {
 		return p.RenderJson(&ResultJson{Success: false, Msg: p.Validation.Errors[0].Message})
 	}
 
-	blog := new(models.Blogger)
+	blog := new(models.Blog)
 	blog.Title = data.Title
 	blog.ContentHTML = data.ContentHTML
 	blog.ContentMD = data.ContentMD
@@ -123,10 +122,10 @@ func (p *Post) NewPostHandler() revel.Result {
 	}
 
 	// 添加新的标签
-	btr := new(models.BloggerTagRef)
+	btr := new(models.BlogTag)
 	newTags := strings.Split(data.NewTag, ",")
 	for _, v := range newTags {
-		tag := &models.BloggerTag{Name: v}
+		tag := &models.Tag{Name: v}
 		tagid, _ := tag.New()
 		if tagid > 0 {
 			btr.AddTagRef(tagid, blogID)
@@ -157,7 +156,7 @@ func (p *Post) QueryCategorys() revel.Result {
 }
 
 func (p *Post) CreateTag(name string) revel.Result {
-	tag := new(models.BloggerTag)
+	tag := new(models.Tag)
 	tag.Name = name
 	tag.Parent = 0
 	tag.Type = 0
@@ -174,7 +173,7 @@ func (p *Post) Delete(ids string) revel.Result {
 		for _, v := range idArr {
 			id, err := strconv.Atoi(v)
 			if err == nil {
-				blog := &models.Blogger{Id: int64(id)}
+				blog := &models.Blog{Id: int64(id)}
 				blog.Del()
 			}
 		}

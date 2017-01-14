@@ -1,6 +1,7 @@
 package app
 
 import (
+	"blog/app/config"
 	"blog/app/controllers"
 	"blog/app/support"
 
@@ -28,7 +29,8 @@ func init() {
 	// ( order dependent )
 	// revel.OnAppStart(InitDB)
 	// revel.OnAppStart(FillCache)
-	revel.OnAppStart(support.InitConfig)
+	revel.OnAppStart(config.InitConfig)
+	// revel.OnAppStart(models.InitModel)
 	// revel.OnAppStart(support.InitXorm)
 	// revel.OnAppStart(support.InitCache)
 	// revel.OnAppStart(support.LoadCache)

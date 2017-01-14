@@ -3,17 +3,21 @@ package support
 import (
 	"errors"
 	"fmt"
+	"os"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/core"
 	"github.com/go-xorm/xorm"
+	"github.com/revel/config"
 	"github.com/revel/revel"
 )
 
 var Xorm *xorm.Engine
+var Isinstalled bool
 
 //Init the Xorm.
-func initXorm() error {
+func InitXorm(appConfig *config.Config) error {
+	AppConfig = appConfig
 	dbdriver, _ := AppConfig.String("database", "database.driver")
 	switch dbdriver {
 	case "mysql":
@@ -52,4 +56,36 @@ func TestXorm(driver, user, pass, host, dbname string, port int, prefix string) 
 		return err
 	}
 	return Xorm.Ping()
+}
+
+func AddDB(dbhost, dbport, dbuser, dbpass, dbname, dbprefix, dbtype string) error {
+	AppConfig.AddOption("database", "database.host", dbhost)
+	AppConfig.AddOption("database", "database.port", dbport)
+	AppConfig.AddOption("database", "database.user", dbuser)
+	AppConfig.AddOption("database", "database.password", dbpass)
+	AppConfig.AddOption("database", "database.dbname", dbname)
+	AppConfig.AddOption("database", "database.prefix", dbprefix)
+	AppConfig.AddOption("database", "database.driver", dbtype)
+	return nil
+}
+
+func writeConfig() error {
+	filepath := revel.BasePath + "/conf/speedy.conf"
+	_, err := os.Open(filepath)
+	if err != nil {
+		os.Create(filepath)
+	}
+
+	err = AppConfig.WriteFile(filepath, 0775, "default config")
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func FinishInstall() {
+	err := writeConfig()
+	if err != nil {
+		revel.ERROR.Println("write config error: ", err)
+	}
 }

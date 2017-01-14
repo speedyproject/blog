@@ -72,7 +72,7 @@ func (c *Category) resetOtherCategory(id int64) {
 // RelatedBlogCount get how many blog that related to the category
 // 获取该分类下的文章数目
 func (c *Category) RelatedBlogCount() int {
-	blogModel := new(Blogger)
+	blogModel := new(Blog)
 	count, err := support.Xorm.Where("category = ?", c.Id).Count(blogModel)
 	if err != nil {
 		revel.ERROR.Println("RelatedBlogCount error: ", err)

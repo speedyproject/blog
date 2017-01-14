@@ -36,7 +36,7 @@ func (m *Main) Main() revel.Result {
 	if p == 0 {
 		p = 1
 	}
-	blogModel := new(models.Blogger)
+	blogModel := new(models.Blog)
 	blogs, err := blogModel.GetBlogByPage(p, 0)
 	if err != nil {
 		revel.ERROR.Println("加载博客列表失败: ", err)
@@ -58,10 +58,10 @@ func (m *Main) Main() revel.Result {
 
 // 某个分类下的博客
 func (m *Main) Blog4Category(ca string) revel.Result {
-	blog := new(models.Blogger)
+	blog := new(models.Blog)
 	category := new(models.Category)
 	id := category.GetByIdent(ca)
-	var blogs *[]models.Blogger
+	var blogs *[]models.Blog
 	if id > 0 {
 		blogs, _ = blog.FindByCategory(id)
 	}

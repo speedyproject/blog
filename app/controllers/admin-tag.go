@@ -12,8 +12,6 @@ import (
  * 后台管理 tag 的控制器
  */
 
-var tagModel = new(models.BloggerTag)
-
 type AdminTag struct {
 	Admin
 }
@@ -21,7 +19,7 @@ type AdminTag struct {
 // admin manage tag index page
 // 后台管理标签首页
 func (a *AdminTag) Index() revel.Result {
-	tagModel := new(models.BloggerTag)
+	tagModel := new(models.Tag)
 	list, err := tagModel.ListAll()
 	if err != nil {
 		revel.ERROR.Panic("in admin-tag page index error: ", err)
@@ -38,7 +36,7 @@ func (a *AdminTag) Edit(tagID int64, tagName, tagIdent string) revel.Result {
 	if a.Validation.HasErrors() {
 		return a.RenderJson(&ResultJson{Success: false, Msg: a.Validation.Errors[0].Message, Data: ""})
 	}
-	tag := new(models.BloggerTag)
+	tag := new(models.Tag)
 	tag, err := tag.GetByID(tagID)
 	if err != nil {
 		return a.RenderJson(&ResultJson{Success: false, Msg: err.Error(), Data: ""})

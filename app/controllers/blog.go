@@ -15,7 +15,7 @@ type Blogger struct {
 // BloggerPage to display the blog detail.
 // 显示博客详情
 func (b Blogger) BloggerPage(id int64) revel.Result {
-	blogModel := &models.Blogger{Id: id}
+	blogModel := &models.Blog{Id: id}
 	blog, err := blogModel.FindById()
 	if err != nil {
 		revel.ERROR.Println("加载博客失败: ", err)
@@ -30,6 +30,6 @@ func (b Blogger) BloggerPage(id int64) revel.Result {
 // 获取最新的 n 条博客
 func (b *Blogger) LatestBlogger() {
 	n := 10
-	blogModel := &models.Blogger{}
+	blogModel := &models.Blog{}
 	blogModel.GetLatestBlog(n)
 }

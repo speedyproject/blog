@@ -14,7 +14,7 @@ type BlogTag struct {
 
 //
 func (b *BlogTag) Index(ident string) revel.Result {
-	tag := new(models.BloggerTag)
+	tag := new(models.Tag)
 	tag, err := tag.GetByIdent(ident)
 	if err != nil {
 		revel.ERROR.Panic("wrong")
@@ -29,7 +29,7 @@ func (b *BlogTag) Index(ident string) revel.Result {
 // GetAllTags to find all tags
 // 获取所有的标签
 func (b *BlogTag) GetAllTags() revel.Result {
-	tagModel := new(models.BloggerTag)
+	tagModel := new(models.Tag)
 	tags, err := tagModel.ListAll()
 	if err != nil {
 		revel.ERROR.Println("find all tags error: ", err)
@@ -40,7 +40,7 @@ func (b *BlogTag) GetAllTags() revel.Result {
 // QueryTags to Search for tag
 // 根据用户输入的单词匹配 tag
 func (b *BlogTag) QueryTags(t string) revel.Result {
-	tag := new(models.BloggerTag)
+	tag := new(models.Tag)
 	res, err := tag.QueryTags(t)
 	if err != nil {
 		return b.RenderJson(&ResultJson{Success: false, Msg: err.Error(), Data: ""})

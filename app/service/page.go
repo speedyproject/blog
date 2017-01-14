@@ -18,7 +18,7 @@ type BlogPager struct {
 // GetTotalPagerCount .
 // 获取总页数
 func (b *BlogPager) GetTotalPagerCount() int64 {
-	blog := new(models.Blogger)
+	blog := new(models.Blog)
 	totalPage := blog.GetBlogCount()
 	pageCount := totalPage / PAGE_SIZE
 	addOne := totalPage % PAGE_SIZE

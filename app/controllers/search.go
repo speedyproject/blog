@@ -14,9 +14,9 @@ type Search struct {
 func (s *Search) Index(q string) revel.Result {
 	s.RenderArgs["keywords"] = q
 	ids := service.FullTextSearch(q)
-	blogs := make([]*models.Blogger, 0)
+	blogs := make([]*models.Blog, 0)
 	for _, v := range ids {
-		blogModel := &models.Blogger{Id: v}
+		blogModel := &models.Blog{Id: v}
 		b, err := blogModel.FindById()
 		if err == nil {
 			blogs = append(blogs, b)

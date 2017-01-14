@@ -1,22 +1,36 @@
 package support
 
-import "github.com/revel/revel/cache"
+import (
+	"github.com/revel/config"
+	"github.com/revel/revel/cache"
+)
 
 var cacheType int
 var MCache cache.Cache
 var SPY_CONF_MD5_VAL string
 var SPY_CONF_SIGN_VAL string
+var AppConfig *config.Config
+var IsInstalled bool
 
 const (
-	DEFAULT = 0
-	REDIS   = 1
+	DEFAULT           = 0
+	REDIS             = 1
+	SPY_CONF_MD5_KEY  = "speedy:conf:md5:key"
+	SPY_CONF_SIGN_KEY = "speedy:conf:sign:key"
+
+	SPY_ADMIN_INFO = "admin:info:id:"
+
+	SPY_BLOGGER_LIST   = "speedy:blogger:list"
+	SPY_BLOGGER_SINGLE = "speedy:blogger:id:"
 )
 
-func InitCache() {
+func InitCache(isInstalled bool, config *config.Config) {
 	// Cache := cache
+	AppConfig = config
+	IsInstalled = isInstalled
 	MCache = cache.NewInMemoryCache(cache.DEFAULT)
 	InitRedis()
-	loadCache(IsInstalled)
+	loadCache(isInstalled)
 }
 
 //Load config data to redis cache.

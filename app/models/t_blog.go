@@ -20,7 +20,7 @@ const (
 
 // Blogger model.
 // 博客实体
-type Blogger struct {
+type Blog struct {
 	Id            int64     `xorm:"not null pk autoincr INT(11)"`
 	Title         string    `xorm:"not null default '' VARCHAR(50)"`
 	ContentHTML   string    `xorm:"not null TEXT 'content_html'"`
@@ -42,9 +42,9 @@ type Blogger struct {
 
 // FindList to Get blogger list.
 // 获取所有博客
-func (b *Blogger) FindList() ([]Blogger, error) {
+func (b *Blog) FindList() ([]Blog, error) {
 	// get list data from cache.
-	list := make([]Blogger, 0)
+	list := make([]Blog, 0)
 	res, _ := support.Cache.Get(support.SPY_BLOGGER_LIST).Result()
 
 	if res != "" {
@@ -67,15 +67,15 @@ func (b *Blogger) FindList() ([]Blogger, error) {
 }
 
 // 获取博客的标签
-func (b *Blogger) BlogTags() []BloggerTag {
+func (b *Blog) BlogTags() []Tag {
 	sql := "SELECT t.* FROM " + TABLE_BLOG + " AS b, " + TABLE_TAG + " AS t, " + TABLE_BLOG_TAG + " AS bt WHERE b.id = bt.blogid AND t.id = bt.tagid AND b.id = " + fmt.Sprintf("%d", b.Id)
-	tags := make([]BloggerTag, 0)
+	tags := make([]Tag, 0)
 	support.Xorm.Sql(sql).Find(&tags)
 	return tags
 }
 
 // 获取博客的标签并转换成 json
-func (b *Blogger) BlogTagsJSON() string {
+func (b *Blog) BlogTagsJSON() string {
 	tags := b.BlogTags()
 	revel.ERROR.Println("tags ", tags)
 	bytearr, err := json.Marshal(tags)
@@ -88,11 +88,11 @@ func (b *Blogger) BlogTagsJSON() string {
 
 // GetBlogByPage .
 // 根据页面获取博客
-func (b *Blogger) GetBlogByPage(page int, pageSize int) ([]Blogger, error) {
+func (b *Blog) GetBlogByPage(page int, pageSize int) ([]Blog, error) {
 	if pageSize == 0 {
 		pageSize = PAGE_SIZE
 	}
-	list := make([]Blogger, 0)
+	list := make([]Blog, 0)
 	start := (page - 1) * pageSize
 	err := support.Xorm.Desc("id").Limit(pageSize, start).Find(&list)
 	return list, err
@@ -100,7 +100,7 @@ func (b *Blogger) GetBlogByPage(page int, pageSize int) ([]Blogger, error) {
 
 // GetBlogByPage .
 // 根据页面获取博客
-func (b *Blogger) GetBlogByPageAND(uid, category int64, page int, pageSize int) ([]Blogger, error) {
+func (b *Blog) GetBlogByPageAND(uid, category int64, page int, pageSize int) ([]Blog, error) {
 	if pageSize == 0 {
 		pageSize = PAGE_SIZE
 	}
@@ -111,7 +111,7 @@ func (b *Blogger) GetBlogByPageAND(uid, category int64, page int, pageSize int) 
 	if category > 0 {
 		temp.And("category_id = ?", category)
 	}
-	list := make([]Blogger, 0)
+	list := make([]Blog, 0)
 	start := (page - 1) * pageSize
 	err := temp.Limit(pageSize, start).Find(&list)
 	return list, err
@@ -119,8 +119,8 @@ func (b *Blogger) GetBlogByPageAND(uid, category int64, page int, pageSize int) 
 
 // FindById to find blogger by id.
 // 通过 id 查找博客
-func (b *Blogger) FindById() (*Blogger, error) {
-	blog := new(Blogger)
+func (b *Blog) FindById() (*Blog, error) {
+	blog := new(Blog)
 	// Get single blogger from cache.
 	res, e1 := support.Cache.Get(support.SPY_BLOGGER_SINGLE + fmt.Sprintf("%d", b.Id)).Result()
 	if e1 == nil {
@@ -140,7 +140,7 @@ func (b *Blogger) FindById() (*Blogger, error) {
 // GetSummary to cut out a part of blog content
 // 获取一篇博客的摘要
 // 如果没有摘要则截取文章开头 300 个字符
-func (b *Blogger) GetSummary() string {
+func (b *Blog) GetSummary() string {
 	if b.Summary != "" {
 		return b.Summary
 	}
@@ -152,19 +152,19 @@ func (b *Blogger) GetSummary() string {
 
 // MainURL return the url of the blog
 // TODO:Laily it is can be set as id, category, ident and so on
-func (b *Blogger) MainURL() string {
+func (b *Blog) MainURL() string {
 	return fmt.Sprintf("/article/%d", b.Id)
 }
 
 // 获取作者
-func (b *Blogger) Auther() *Admin {
+func (b *Blog) Auther() *Admin {
 	userID := b.CreateBy
 	user := new(Admin)
 	user, _ = user.GetUserByID(int64(userID))
 	return user
 }
 
-func (b *Blogger) Category() *Category {
+func (b *Blog) Category() *Category {
 	categoryID := b.CategoryId
 	category, err := categoryModel.GetByID(int64(categoryID))
 	if err != nil {
@@ -175,38 +175,38 @@ func (b *Blogger) Category() *Category {
 
 // FindByCategory .
 // 查找某个分类下的博客
-func (b *Blogger) FindByCategory(categoryID int64) (*[]Blogger, error) {
-	blogs := make([]Blogger, 0)
+func (b *Blog) FindByCategory(categoryID int64) (*[]Blog, error) {
+	blogs := make([]Blog, 0)
 	err := support.Xorm.Where("category_id = ?", categoryID).Find(&blogs)
 	return &blogs, err
 }
 
 // IsMD to judge it is written by Markdown
 // 判断这篇博客是否由 markdown 书写
-func (b *Blogger) IsMD() bool {
+func (b *Blog) IsMD() bool {
 	return b.Type == BLOG_TYPE_MD
 }
 
 // GetLatestBlog .
 // 获取最热门的博客
-func (b *Blogger) GetHotBlog(n int) []Blogger {
-	blogs := make([]Blogger, 0)
+func (b *Blog) GetHotBlog(n int) []Blog {
+	blogs := make([]Blog, 0)
 	support.Xorm.Desc("read_count").Limit(n, 0).Find(&blogs)
 	return blogs
 }
 
 // GetLatestBlog .
 // 获取最新的博客
-func (b *Blogger) GetLatestBlog(n int) []Blogger {
-	blogs := make([]Blogger, 0)
+func (b *Blog) GetLatestBlog(n int) []Blog {
+	blogs := make([]Blog, 0)
 	support.Xorm.Desc("id").Limit(n, 0).Find(&blogs)
 	return blogs
 }
 
 // GetBlogCount .
 // 获取博客总数
-func (b *Blogger) GetBlogCount() int64 {
-	blog := new(Blogger)
+func (b *Blog) GetBlogCount() int64 {
+	blog := new(Blog)
 	total, err := support.Xorm.Where("is_deleted = 0 ").Count(blog)
 	if err != nil {
 		revel.ERROR.Println("get blog count error: ", err)
@@ -215,7 +215,7 @@ func (b *Blogger) GetBlogCount() int64 {
 	return total
 }
 
-func (b *Blogger) RenderContent() string {
+func (b *Blog) RenderContent() string {
 	if b.Type == BLOG_TYPE_MD && b.ContentHTML == "" {
 		mdContent := string(blackfriday.MarkdownCommon([]byte(b.ContentMD)))
 		return mdContent
@@ -225,8 +225,8 @@ func (b *Blogger) RenderContent() string {
 
 // New to Add new blogger.
 // 新建一个博客
-func (b *Blogger) New() (int64, error) {
-	blog := new(Blogger)
+func (b *Blog) New() (int64, error) {
+	blog := new(Blog)
 	blog.Title = b.Title
 	blog.ContentHTML = b.ContentHTML
 	blog.ContentMD = b.ContentMD
@@ -241,7 +241,7 @@ func (b *Blogger) New() (int64, error) {
 
 	// refurbish cache.
 	if err == nil {
-		list := make([]Blogger, 0)
+		list := make([]Blog, 0)
 		err := support.Xorm.Find(&list)
 		if err == nil {
 			res, e1 := json.Marshal(&list)
@@ -255,7 +255,7 @@ func (b *Blogger) New() (int64, error) {
 
 // Update blogger.
 // 更新博客
-func (b *Blogger) Update() (bool, error) {
+func (b *Blog) Update() (bool, error) {
 	has, err := support.Xorm.Id(b.Id).Update(b)
 	if err == nil {
 		// refurbish cache.
@@ -270,7 +270,7 @@ func (b *Blogger) Update() (bool, error) {
 
 // Del to Delete blogger.
 // 删除一篇博客
-func (b *Blogger) Del() (bool, error) {
+func (b *Blog) Del() (bool, error) {
 
 	has, err := support.Xorm.Id(b.Id).Delete(b)
 
@@ -283,8 +283,8 @@ func (b *Blogger) Del() (bool, error) {
 }
 
 // 更新浏览次数
-func (b *Blogger) UpdateView(id int64) {
-	blog := &Blogger{Id: id}
+func (b *Blog) UpdateView(id int64) {
+	blog := &Blog{Id: id}
 	blog, err := blog.FindById()
 	if err == nil {
 		support.Xorm.Table(blog).Id(id).Update(map[string]interface{}{"read_count": blog.ReadCount + 1})
@@ -292,8 +292,8 @@ func (b *Blogger) UpdateView(id int64) {
 }
 
 // 删除该博客关联的所有标签
-func (b *Blogger) DeleteAllBlogTags() error {
-	bt := &BloggerTagRef{Blogid: b.Id}
+func (b *Blog) DeleteAllBlogTags() error {
+	bt := &BlogTag{Blogid: b.Id}
 	_, err := support.Xorm.Delete(bt)
 	if err != nil {
 		return err

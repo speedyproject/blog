@@ -3,11 +3,11 @@
 {{append . "moreScripts" "js/admin/admin-post.js"}}
 {{template "Layout/AdminHeader.html" .}}
 <div class="main admin-user">
-    <h2 class="page-header title">{{.title}}</h2> <span class="add"></span>
+    <h2 class="page-header title">{{.title}}</h2>
     <div class="sub-opration">
         <button class="btn btn-danger btn-sm" onclick="Manager.delete()">删除选中项</button>
     </div>
-    <div id="post-list" class="post-list">
+    <div id="post-list table-div" class="post-list">
         <table class="table">
             <thead>
                 <th class="select"><input type="checkbox" id="select-all" onclick="Manager.selectAll(event)"></th>

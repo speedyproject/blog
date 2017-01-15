@@ -21,12 +21,17 @@ func (c *Category) Index() revel.Result {
 	return c.RenderTemplate("Admin/Category/Index.html")
 }
 
-// ListAll .
-// 列出所有分类
-func (c *Category) ListAll() revel.Result {
-	category := new(models.Category)
-	categorys := category.FindAll()
-	return c.RenderJson(categorys)
+// 编辑分类页面
+func (c *Category) EditPage(cid int64) revel.Result {
+	ca := new(models.Category)
+	ca, err := ca.GetByID(cid)
+	if err != nil {
+		revel.ERROR.Printf("获取 id 为 %d 的分类失败。", cid)
+		return c.NotFound("分类未找到")
+	}
+	c.RenderArgs["category"] = ca
+	c.RenderArgs["allcategorys"] = ca.FindAll()
+	return c.RenderTemplate("Admin/Category/Edit.html")
 }
 
 // AddPage page of add a category
@@ -36,6 +41,14 @@ func (c *Category) AddPage() revel.Result {
 	c.RenderArgs["category"] = ca
 	c.RenderArgs["allcategorys"] = ca.FindAll()
 	return c.RenderTemplate("Admin/Category/Edit.html")
+}
+
+// ListAll .
+// 列出所有分类
+func (c *Category) ListAll() revel.Result {
+	category := new(models.Category)
+	categorys := category.FindAll()
+	return c.RenderJson(categorys)
 }
 
 // Add to add a new category

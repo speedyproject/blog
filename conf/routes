@@ -67,6 +67,7 @@ GET     /admin/category/index                   Category.Index
 GET     /admin/category/all                     Category.ListAll
 GET     /admin/category/add                     Category.AddPage
 POST    /admin/category/add                     Category.Add
+GET     /admin/category/edit/:cid               Category.EditPage
 
 # Tag Mangement
 GET     /admin/tag                              AdminTag.Index

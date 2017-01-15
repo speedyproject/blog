@@ -42,7 +42,7 @@ func (l Login) SignInHandler(name, passwd string) revel.Result {
 		return l.Redirect(routes.Login.SignIn())
 	}
 
-	revel.INFO.Println(admin)
+	revel.INFO.Printf("用户[%s:%d]尝试登陆", admin.Name, admin.Id)
 	//put admin id in seesion
 	l.Session["UID"] = strconv.Itoa(int(admin.Id))
 	//set admin info in cache, time out time.Minute * 30

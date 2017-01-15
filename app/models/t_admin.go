@@ -27,11 +27,12 @@ type Admin struct {
 	LastLogin time.Time `xorm:"created TIMESTAMP"`
 }
 
-//Admin sign in.
+// Admin sign in／login.
+// 用户登录验证
 func (a *Admin) SignIn(request *revel.Request) (*Admin, string) {
 	admin := new(Admin)
 	if a.Name == "" || a.Passwd == "" {
-		return admin, "username or passwd can't be null."
+		return admin, "用户名或密码不能为空."
 	}
 
 	//Get MD5 key in cache
@@ -40,10 +41,10 @@ func (a *Admin) SignIn(request *revel.Request) (*Admin, string) {
 
 	sign := &support.Sign{Src: a.Passwd, Key: signKey}
 	a.Passwd = sign.GetMd5()
-
 	_, err := support.Xorm.Where("name = ? and passwd = ?", a.Name, a.Passwd).Get(admin)
 
 	if err != nil {
+		revel.ERROR.Printf(err.Error())
 		return admin, err.Error()
 	}
 

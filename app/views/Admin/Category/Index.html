@@ -4,16 +4,23 @@
 {{template "Layout/AdminHeader.html" .}}
 
 <div class="main admin-user">
-  <h2 class="page-header title">{{.title}} <span class="add"><a href="/admin/category/add">新增</a></span></h2>
+  <h2 class="page-header title">{{.title}}</h2>
+      <div class="sub-opration">
+        <button class="btn btn-primary btn-sm" 
+         onclick="javascript:location.href='/admin/category/add'">新增
+        </button>  
+    </div>
   <div>
       {{if gt (len .categorys) 0}}
-        <div>
-            <table class="table table-striped">
+        <div class="table-div">
+            <table class="table">
                 <thead>
                     <th>ID</th>
                     <th>标签名</th>
                     <th>Ident</th>
                     <th>文章数</th>
+                    <th>修改</th>
+                    <th>删除</th>
                 </thead>
                 <tbody>
                     {{range .categorys}}
@@ -22,6 +29,8 @@
                         <td>{{.Name}}</td>
                         <td>{{.Ident}}</td>
                         <td>{{.RelatedBlogCount}}</td>
+                        <td><a href="/admin/category/edit/{{.Id}}">修改</a></td>
+                        <td>删除</td>
                     </tr>
                     {{end}}
                 </tbody>

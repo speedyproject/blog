@@ -8,9 +8,10 @@ var CategoryArea = {
         }
         $.post("/admin/category/add", data, function (data) {
             if(data.Success){
-                alert("添加成功");
+                alertify.success("添加成功");
+                setInterval(function(){location.href="/admin/category";},300);
             }else{
-                alert(data.Msg);
+                alertify.alert("Error",data.Msg);
             }
         })
     }

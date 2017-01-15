@@ -23,7 +23,7 @@ func InitConfig() {
 	IsInstalled = true
 	// 配置文件不存在
 	if err != nil {
-		revel.WARN.Println("获取配置文件失败，准备安装", err)
+		revel.WARN.Println("获取配置文件失败，准备安装")
 		IsInstalled = false
 	} else {
 		// 配置文件存在

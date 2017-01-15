@@ -83,6 +83,17 @@ func (a *Admin) listByDB() ([]Admin, error) {
 	return users, err
 }
 
+// 统计 admin_super 用户数目
+func (a *Admin) AdminSuperUserCount() int {
+	user := new(Admin)
+	count, err := support.Xorm.Where("role_id = ?", ADMIN_SUPER).Count(user)
+	if err != nil {
+		revel.ERROR.Println("统计超级管理员数目错误：", err)
+		return 0
+	}
+	return int(count)
+}
+
 //Add new admin user.
 func (a *Admin) New() (int64, string) {
 

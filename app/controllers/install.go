@@ -68,8 +68,10 @@ func (i *Install) AddDB() revel.Result {
 		return i.RenderJson(&ResultJson{Success: false, Msg: msg, Data: ""})
 	}
 	revel.INFO.Println("同步数据库完成...")
+	admin := new(models.Admin)
+	adminCount := admin.AdminSuperUserCount()
 	i.finishInstall()
-	return i.RenderJson(&ResultJson{Success: true})
+	return i.RenderJson(&ResultJson{Success: true, Data: adminCount})
 }
 
 func (i *Install) checkDB(info *DBParams) error {

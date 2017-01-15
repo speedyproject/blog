@@ -70,9 +70,6 @@ var Post = {
             }
         })
     },
-    addTags: function(){
-
-    }
 }
 
 var Manager = {

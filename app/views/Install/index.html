@@ -77,8 +77,10 @@
                 </div>
             </div>
         </div>
-        <div>
-            <button id="next-button" class="btn btn-sm btn-primary next-button" onclick="Install.submit()">下一步</button>
+        <div class="buttons">
+            <span id="msg" class=""></span>
+            <button id="skip" class="btn btn-sm btn-default skip" onclick="Install.skip()">跳 过</button>
+            <button id="next-button" class="btn btn-sm btn-primary" onclick="Install.submit()">下一步</button>
         </div>
     </div>
     <script type="text/javascript" src="/public/js/install/install.js"></script>

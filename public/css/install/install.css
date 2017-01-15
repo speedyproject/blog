@@ -52,6 +52,12 @@
     .install-page .install-content .step-1,
     .install-page .install-content .step-2 {
       display: none; }
-  .install-page .next-button {
-    float: right;
-    margin-right: 100px; }
+  .install-page .buttons {
+    text-align: right;
+    padding-right: 100px; }
+    .install-page .buttons span, .install-page .buttons .skip {
+      margin-right: 20px; }
+    .install-page .buttons .skip {
+      display: none; }
+    .install-page .buttons span {
+      color: #aaa; }

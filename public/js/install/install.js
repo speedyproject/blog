@@ -1,5 +1,6 @@
 var Install = {
     step: 0,
+    totalStep: 2,
     init: function () {
 
     },
@@ -45,6 +46,10 @@ var Install = {
             if (data.Success) {
                 $button.attr("disabled", false).text("下一步");
                 Install.renderNode(Install.step + 1);
+                if (data.Data > 0) {
+                    $("#msg").text("有超级管理员存在，这一步可以跳过");
+                    $("#skip").show();
+                }
             } else {
                 alertify.alert("Error", data.Msg, null);
                 $button.attr("disabled", false).text("下一步");
@@ -73,8 +78,9 @@ var Install = {
         $button.text("正在验证");
         $.post("/install/addadmin", data, function (data) {
             if (data.Success) {
-                $button.attr("disabled", false).text("下一步");
-                Install.renderNode(Install.step + 1);
+                // $button.attr("disabled", false).text("下一步");
+                // Install.renderNode(Install.step + 1);
+                Install.finish();
             } else {
                 alertify.alert("Error", data.Msg, null);
                 $button.attr("disabled", false).text("下一步");
@@ -84,11 +90,20 @@ var Install = {
     finish: function(){
         location.href="/main/";
     },
+    skip: function(){
+        Install.renderNode(Install.step + 1);
+    },
     renderNode: function (stepNum) {
+        if (stepNum == Install.totalStep){
+            Install.finish();
+            return;
+        }
         var $dom = $("#route");
         var lenth = $dom.find(".pointer").lenth;
         var $doms = $dom.find(".pointer");
         var temp = null;
+        $("#msg").text("");
+        $("#skip").hide();
         Install.step = stepNum;
         $doms.each(function (index, item) {
             temp = $(item);

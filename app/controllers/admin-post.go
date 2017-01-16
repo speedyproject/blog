@@ -38,7 +38,7 @@ type Post struct {
 	Admin
 }
 
-// 创建博客页面
+// 创建博客页面，编辑页面也是这个
 func (p *Post) Index(postid int64) revel.Result {
 	categoryModel := new(models.Category)
 	p.RenderArgs["categorys"] = categoryModel.FindAll()

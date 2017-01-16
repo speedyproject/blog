@@ -38,7 +38,8 @@
                     <div class="category-list">
                         {{range .categorys}}
                         <li>
-                            <input type="radio" id="category-{{.Id}}" name="category" value="{{.Id}}">
+                            <input type="radio" id="category-{{.Id}}" name="category" value="{{.Id}}"
+                               {{if eq $.blog.CategoryId .Id}} checked="checked" {{end}}>
                             <label for="category-{{.Id}}">{{.Name}}</label>
                         </li>
                         {{end}}

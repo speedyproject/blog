@@ -38,25 +38,20 @@ func (a *Admin) SignIn(request *revel.Request) (*Admin, string) {
 	//Get MD5 key in cache
 	signKey := ""
 	support.MCache.Get(support.SPY_CONF_MD5_KEY, &signKey)
-
 	sign := &support.Sign{Src: a.Passwd, Key: signKey}
 	a.Passwd = sign.GetMd5()
 	_, err := support.Xorm.Where("name = ? and passwd = ?", a.Name, a.Passwd).Get(admin)
-
 	if err != nil {
-		revel.ERROR.Printf(err.Error())
 		return admin, err.Error()
 	}
 
 	revel.INFO.Printf("Admin user info: %v", admin)
-
 	if admin.Lock > 0 {
-		return admin, "login failed, the account is lock."
+		return admin, "账户被锁，登陆失败"
 	}
 
 	if strings.EqualFold(a.Name, admin.Name) && strings.EqualFold(a.Passwd, admin.Passwd) {
 		lastIP := support.GetRequestIP(request)
-
 		ad := new(Admin)
 		ad.LastIp = lastIP
 		ad.LastLogin = time.Now()
@@ -68,8 +63,7 @@ func (a *Admin) SignIn(request *revel.Request) (*Admin, string) {
 
 		return admin, ""
 	}
-
-	return admin, "login failed."
+	return admin, "登陆失败，用户名或者密码错误."
 }
 
 // List all user

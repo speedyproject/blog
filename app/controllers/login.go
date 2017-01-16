@@ -34,15 +34,14 @@ func (l Login) SignInHandler(name, passwd string) revel.Result {
 	}
 
 	model := &models.Admin{Name: name, Passwd: passwd}
+	revel.WARN.Printf("用户[name:%s; pass:%s]尝试登陆", name, passwd)
 	admin, err := model.SignIn(l.Request)
-
 	if err != "" {
 		revel.ERROR.Println(err)
-		l.Flash.Error("msg", err)
 		return l.Redirect(routes.Login.SignIn())
 	}
+	revel.WARN.Printf("用户[name:%s; id:%d]登陆成功", admin.Name, admin.Id)
 
-	revel.INFO.Printf("用户[%s:%d]尝试登陆", admin.Name, admin.Id)
 	//put admin id in seesion
 	l.Session["UID"] = strconv.Itoa(int(admin.Id))
 	//set admin info in cache, time out time.Minute * 30

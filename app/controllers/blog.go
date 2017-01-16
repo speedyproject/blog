@@ -8,13 +8,13 @@ import (
 )
 
 // Blogger controller
-type Blogger struct {
+type Blog struct {
 	*revel.Controller
 }
 
 // BloggerPage to display the blog detail.
 // 显示博客详情
-func (b Blogger) BloggerPage(id int64) revel.Result {
+func (b Blog) BlogPage(id int64) revel.Result {
 	blogModel := &models.Blog{Id: id}
 	blog, err := blogModel.FindById()
 	if err != nil {
@@ -28,7 +28,7 @@ func (b Blogger) BloggerPage(id int64) revel.Result {
 
 // LatestBlogger get laster n blog
 // 获取最新的 n 条博客
-func (b *Blogger) LatestBlogger() {
+func (b *Blog) LatestBlogger() {
 	n := 10
 	blogModel := &models.Blog{}
 	blogModel.GetLatestBlog(n)

@@ -76,6 +76,9 @@ POST    /admin/tag/index                        AdminTag.Edit
 POST    /admin/tag/del                          AdminTag.Del
 
 
+# Tag show blog by tag
+# Get    /tag/:tagident
+
 # Search
 Get    /search                                  Search.Index
 Get    /opensearch.xml                          Static.Serve("public","opensearch.xml")

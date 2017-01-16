@@ -22,7 +22,6 @@ $(function () {
 
 
 var paraseData = function () {
-
     var array = {
         "title": $("#site-title").val(),
         "subtitle": $("#site-subtitle").val(),
@@ -38,10 +37,9 @@ var paraseData = function () {
 };
 
 var update = function () {
-
     var json = paraseData()
     console.log(json);
-    $.post("/admin/site", json, function (data) {
+    $.post("/admin/setting", json, function (data) {
         alert(data);
     });
 

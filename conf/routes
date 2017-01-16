@@ -69,6 +69,10 @@ GET     /admin/category/add                     Category.AddPage
 POST    /admin/category/add                     Category.Add
 GET     /admin/category/edit/:cid               Category.EditPage
 
+# Admin setting
+GET     /admin/setting                          Setting.SiteSetPage
+POST    /admin/setting                          Setting.SiteSetHandler
+
 # Tag Mangement
 GET     /admin/tag                              AdminTag.Index
 GET     /admin/tag/index                        AdminTag.Index
@@ -86,10 +90,7 @@ Get    /opensearch.xml                          Static.Serve("public","opensearc
 # File Upload
 POST    /upload/simple                          Upload.HandleUpload
 
-# Admin setting
 
-GET     /admin/site                             Setting.SiteSetPage
-POST    /admin/site                             Setting.SiteSetHandler
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

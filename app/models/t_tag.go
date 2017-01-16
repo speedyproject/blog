@@ -2,6 +2,7 @@ package models
 
 import (
 	"blog/app/support"
+	"errors"
 	"fmt"
 	"strings"
 
@@ -53,24 +54,6 @@ func (b *Tag) GetByIdent(ident string) (*Tag, error) {
 	return nil, err
 }
 
-// New to Add a new tag
-// 新增一个标签
-func (b *Tag) New() (int64, error) {
-	if b.Name != "" {
-		bt := new(Tag)
-		bt.Type = b.Type
-		bt.Name = b.Name
-		bt.Parent = b.Parent
-		_, err := support.Xorm.InsertOne(bt)
-
-		if err != nil {
-			return 0, err
-		}
-		return bt.Id, nil
-	}
-	return 0, nil
-}
-
 // FindBlogCount to get count of blog related to this tag
 // 查询标签关联的文章数目
 func (t *Tag) FindBlogByTag(ident string) []Blog {
@@ -101,6 +84,35 @@ func (t *Tag) QueryTags(str string) ([]map[string][]byte, error) {
 		return ress, err
 	}
 	return ress, nil
+}
+
+// 根据名字创建一个标签
+func (b *Tag) NewTagByName(name string) (int64, error) {
+	tag := new(Tag)
+	tag.Name = name
+	tag.Parent = 0
+	tag.Type = 0
+	temp := strings.Replace(name, " ", "_", -1)
+	tag.Ident = temp
+	return tag.New()
+}
+
+// New to Add a new tag
+// 新增一个标签
+func (b *Tag) New() (int64, error) {
+	if b.Name != "" && b.Ident != "" {
+		bt := new(Tag)
+		bt.Type = b.Type
+		bt.Name = b.Name
+		bt.Ident = b.Ident
+		bt.Parent = b.Parent
+		_, err := support.Xorm.InsertOne(bt)
+		if err != nil {
+			return -1, err
+		}
+		return bt.Id, nil
+	}
+	return -1, errors.New("必须填写标签名和标签标识")
 }
 
 // 更新标签

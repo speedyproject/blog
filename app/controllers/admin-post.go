@@ -121,19 +121,21 @@ func (p *Post) NewPostHandler() revel.Result {
 		blogID, err = blog.New()
 	}
 
+	// 删除所有的旧标签
+	blog.DeleteAllBlogTags()
 	// 添加新的标签
 	btr := new(models.BlogTag)
 	newTags := strings.Split(data.NewTag, ",")
 	for _, v := range newTags {
-		tag := &models.Tag{Name: v}
-		tagid, _ := tag.New()
+		tagid, err := tagModel.NewTagByName(v)
 		if tagid > 0 {
 			btr.AddTagRef(tagid, blogID)
+		} else {
+			revel.ERROR.Println("创建标签失败：", err)
 		}
 	}
 
 	// 处理标签关联
-	blog.DeleteAllBlogTags()
 	tagids := strings.Split(data.Tag, ",")
 	for _, v := range tagids {
 		id, err := strconv.Atoi(v)
@@ -155,18 +157,19 @@ func (p *Post) QueryCategorys() revel.Result {
 	return p.RenderJson(&ResultJson{Success: true, Msg: "", Data: arr})
 }
 
+// CreateTag to create a new tag when create a blog
+// 在创建博客的时候创建一个标签
 func (p *Post) CreateTag(name string) revel.Result {
-	tag := new(models.Tag)
-	tag.Name = name
-	tag.Parent = 0
-	tag.Type = 0
-	_, err := tag.New()
+	_, err := tagModel.NewTagByName(name)
 	if err != nil {
+		revel.ERROR.Println("创建标签失败：", err)
 		return p.RenderJson(&ResultJson{Success: false, Msg: err.Error(), Data: ""})
 	}
 	return p.RenderJson(&ResultJson{Success: true, Msg: "", Data: ""})
 }
 
+// Delete a blog
+// 删除博客
 func (p *Post) Delete(ids string) revel.Result {
 	idArr := strings.Split(ids, ",")
 	if len(idArr) > 0 {

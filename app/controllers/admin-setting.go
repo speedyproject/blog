@@ -24,10 +24,10 @@ func (s *Setting) SiteSetPage() revel.Result {
 
 //Site setting handler.
 func (s *Setting) SiteSetHandler(title, subtitle, url, seo, reg, foot,
-	statistics, status string) revel.Result {
+	statistics, status, comment string) revel.Result {
 
 	set := new(models.Setting)
-	err := set.NewSiteInfo(title, subtitle, url, seo, reg, foot, statistics, status)
+	err := set.NewSiteInfo(title, subtitle, url, seo, reg, foot, statistics, status, comment)
 
 	if err != nil {
 		return s.RenderJson(err.Error())

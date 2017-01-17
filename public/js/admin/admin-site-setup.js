@@ -30,7 +30,8 @@ var paraseData = function () {
         "reg": $("input[name='site-reg']:checked").val(),
         "foot": $("#site-foot").val(),
         "statistics": $("#site-statistics").val(),
-        "status": $("input[name='site-status']:checked").val()
+        "status": $("input[name='site-status']:checked").val(),
+        "comment": $("#site-comment").val()
     };
 
     return array

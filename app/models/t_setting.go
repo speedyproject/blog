@@ -9,7 +9,7 @@ import (
 //Setting model
 type Setting struct {
 	Key   string `xorm:"not null pk VARCHAR(20)"`
-	Value string `xorm:"not null VARCHAR(255)"`
+	Value string `xorm:"not null TEXT"`
 }
 
 //SiteInfo model
@@ -22,6 +22,7 @@ type SiteInfo struct {
 	Foot       string
 	Statistics string
 	Status     string
+	Comment    string
 }
 
 //Loaded setting info to cache.
@@ -110,6 +111,8 @@ func (s *Setting) GetSiteInfo() (*SiteInfo, string) {
 				site.Url = tmp.Value
 			case "site-statistics":
 				site.Statistics = tmp.Value
+			case "site-comment":
+				site.Comment = tmp.Value
 			}
 		}
 	}
@@ -143,7 +146,7 @@ func (s *Setting) InsertAndModify(key, value string) error {
 
 //Add new site info
 func (s *Setting) NewSiteInfo(title, subtitle, url, seo, reg, foot,
-	statistics, status string) error {
+	statistics, status, comment string) error {
 	var err error
 	if title != "" {
 		err = s.InsertAndModify("site-title", title)
@@ -183,6 +186,11 @@ func (s *Setting) NewSiteInfo(title, subtitle, url, seo, reg, foot,
 		}
 	} else if status != "" {
 		err = s.InsertAndModify("site-status", status)
+		if err != nil {
+			return err
+		}
+	} else if comment != "" {
+		err = s.InsertAndModify("site-comment", status)
 		if err != nil {
 			return err
 		}

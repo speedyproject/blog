@@ -6,6 +6,8 @@ import (
 	"github.com/revel/revel"
 )
 
+var SiteInfos *SiteInfo
+
 //Setting model
 type Setting struct {
 	Key   string `xorm:"not null pk VARCHAR(20)"`
@@ -116,6 +118,7 @@ func (s *Setting) GetSiteInfo() (*SiteInfo, string) {
 			}
 		}
 	}
+	SiteInfos = site
 	return site, err
 }
 

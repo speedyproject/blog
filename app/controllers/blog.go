@@ -22,6 +22,10 @@ func (b Blog) BlogPage(id int64) revel.Result {
 		return b.Redirect(routes.Main.Main())
 	}
 	b.RenderArgs["blog"] = blog
+	settingModel := new(models.Setting)
+	set, _ := settingModel.GetSiteInfo()
+	revel.ERROR.Println("comment: ", set.Comment)
+	b.RenderArgs["comment"] = set.Comment
 	go blog.UpdateView(blog.Id)
 	return b.Render()
 }

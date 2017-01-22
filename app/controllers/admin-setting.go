@@ -30,8 +30,7 @@ func (s *Setting) SiteSetHandler(title, subtitle, url, seo, reg, foot,
 	err := set.NewSiteInfo(title, subtitle, url, seo, reg, foot, statistics, status, comment)
 
 	if err != nil {
-		return s.RenderJson(err.Error())
+		return s.RenderJson(&ResultJson{Success: false, Msg: err.Error()})
 	}
-
-	return s.RenderJson("success")
+	return s.RenderJson(&ResultJson{Success: true})
 }

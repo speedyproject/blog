@@ -41,7 +41,11 @@ var update = function () {
     var json = paraseData()
     console.log(json);
     $.post("/admin/setting", json, function (data) {
-        alert(data);
+        if(data.Success){
+            alertify.success("更新成功")
+        }else{
+            alertify.alert("Error","更新失败："+data.Msg)
+        }
     });
 
 };

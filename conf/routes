@@ -33,7 +33,7 @@ Get     /tag/:ident
 
 # Post a blog
 GET     /article                                Blog.BlogPage
-GET     /article/:id                            Blog.BlogPage
+GET     /article/:ident                         Blog.BlogPage
 Get     /query_tags/:t                          BlogTag.QueryTags
 Get     /query_categorys/:t                     Post.QueryCategorys
 Post    /post/add_tag                           Post.CreateTag

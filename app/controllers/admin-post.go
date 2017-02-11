@@ -6,6 +6,8 @@ import (
 	"strings"
 	"time"
 
+	"net/url"
+
 	"github.com/revel/revel"
 )
 
@@ -20,17 +22,18 @@ var blogModel *models.Blog
 // 发布博客前端提交的数据
 type PostData struct {
 	Id          int64
-	Title       string //博客标题
-	ContentMD   string //博客内容 MD
+	Title       string // 博客标题
+	Ident       string // 博客标示，用作url
+	ContentMD   string // 博客内容 MD
 	ContentHTML string // 博客内容 HTML
 	Category    int64  // 博客类别
 	Tag         string // 标签 格式：12,14,32
 	Keywords    string // 关键词 格式：java,web开发
-	passwd      string //博客内容是否加密
+	passwd      string // 博客内容是否加密
 	Summary     string // 博客摘要
 	Type        int    // 0 表示 markdown，1 表示 html
 	NewTag      string // 新添加的标签
-	Createtime  string //创建时间
+	Createtime  string // 创建时间
 }
 
 // User for User Controller
@@ -87,6 +90,10 @@ func (p *Post) NewPostHandler() revel.Result {
 
 	blog := new(models.Blog)
 	blog.Title = data.Title
+	if data.Ident == "" {
+		data.Ident = url.QueryEscape(blog.Title)
+	}
+	blog.Ident = url.QueryEscape(data.Ident)
 	blog.ContentHTML = data.ContentHTML
 	blog.ContentMD = data.ContentMD
 	blog.CategoryId = data.Category

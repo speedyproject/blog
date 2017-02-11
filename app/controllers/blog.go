@@ -14,9 +14,9 @@ type Blog struct {
 
 // BloggerPage to display the blog detail.
 // 显示博客详情
-func (b Blog) BlogPage(id int64) revel.Result {
-	blogModel := &models.Blog{Id: id}
-	blog, err := blogModel.FindById()
+func (b Blog) BlogPage(ident string) revel.Result {
+	blogModel := &models.Blog{Ident: ident}
+	blog, err := blogModel.FindByIdent()
 	if err != nil {
 		revel.ERROR.Println("加载博客失败: ", err)
 		return b.Redirect(routes.Main.Main())

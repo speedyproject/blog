@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"time"
 
+	"net/url"
+
 	"github.com/revel/revel"
 	"github.com/russross/blackfriday"
 )
@@ -22,6 +24,7 @@ const (
 // 博客实体
 type Blog struct {
 	Id            int64     `xorm:"not null pk autoincr INT(11)"`
+	Ident         string    `xorm:"not null VARCHAR(255)`
 	Title         string    `xorm:"not null default '' VARCHAR(50)"`
 	ContentHTML   string    `xorm:"not null TEXT 'content_html'"`
 	CategoryId    int64     `xorm:"INT(11)"`
@@ -137,6 +140,26 @@ func (b *Blog) FindById() (*Blog, error) {
 	return blog, err
 }
 
+// FindByIdent to find blogger by ident.
+// 通过 id 查找博客
+func (b *Blog) FindByIdent() (*Blog, error) {
+	blog := new(Blog)
+	// Get single blogger from cache.
+	res, e1 := support.Cache.Get(support.SPY_BLOGGER_SINGLE + fmt.Sprintf("%s", b.Ident)).Result()
+	if e1 == nil {
+		e2 := json.Unmarshal([]byte(res), &blog)
+		if e2 == nil {
+			return blog, nil
+		}
+	}
+	// if cache not blogger data, find in db.
+	_, err := support.Xorm.Where("ident=?", b.Ident).Get(blog)
+	if err != nil {
+		return blog, err
+	}
+	return blog, err
+}
+
 // GetSummary to cut out a part of blog content
 // 获取一篇博客的摘要
 // 如果没有摘要则截取文章开头 300 个字符
@@ -151,11 +174,12 @@ func (b *Blog) GetSummary() string {
 }
 
 // MainURL return the url of the blog
-// TODO:Laily it is can be set as id, category, ident and so on
+// 博客的链接
 func (b *Blog) MainURL() string {
-	return fmt.Sprintf("/article/%d", b.Id)
+	return "/article/" + b.Ident
 }
 
+// Auther to get blog auther
 // 获取作者
 func (b *Blog) Auther() *Admin {
 	userID := b.CreateBy
@@ -228,6 +252,11 @@ func (b *Blog) RenderContent() string {
 func (b *Blog) New() (int64, error) {
 	blog := new(Blog)
 	blog.Title = b.Title
+	if b.Ident == "" {
+		b.Ident = url.QueryEscape(b.Title)
+	}
+	revel.ERROR.Println("ident: ", b.Ident)
+	blog.Ident = b.Ident
 	blog.ContentHTML = b.ContentHTML
 	blog.ContentMD = b.ContentMD
 	blog.CreateBy = b.CreateBy

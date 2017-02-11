@@ -4,18 +4,18 @@
 {{append . "moreScripts" "third/mdeditor/editormd.min.js"}} 
 {{append . "moreScripts" "third/magicsuggest/magicsuggest.js"}} 
 {{append . "moreScripts" "js/admin/admin-post.js"}} 
-{{set . "title" "撰写文章"}} 
+{{set . "_title" "撰写文章"}} 
 {{template "Layout/AdminHeader.html" .}}
 
 <div class="main admin-user admin-post">
-    <h2 class="page-header title">{{.title}}</h2> <span class="add"></span>
+    <h2 class="page-header title">{{._title}}</h2> <span class="add"></span>
     <div>
-        <div class="form-group">
-            <input type="text" id="blog-title" class="form-control" placeholder="标题" 
-            {{with .blog}} value="{{.Title}}" {{end}}>
-        </div>
         <div class="edit-area">
             <div class="editor">
+                <div class="form-group">
+                    <input type="text" id="blog-title" class="form-control" placeholder="标题" 
+                    {{with .blog}} value="{{.Title}}" {{end}}>
+                </div>
                 <div>
                     {{template "Admin/Post/editor-md.html" .}}
                 </div>
@@ -28,6 +28,11 @@
                 </div>
             </div>
             <div class="extra">
+                <div class="form-group">
+                    <label for="">URL 标识</label>
+                    <input id="blog-ident" type="text" class="form-control" 
+                    {{with .blog}} value="{{.Ident}}"{{end}}>
+                </div>
                 <div class="form-group">
                     <label for="">发布时间</label>
                     <input id="blog-createtime" type="text" class="form-control"

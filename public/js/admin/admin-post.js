@@ -47,6 +47,7 @@ var Post = {
         var data = {
             "data.Id":$("#blog-id").val(),
             "data.Title": $("#blog-title").val(),
+            "data.Ident": $("#blog-ident").val(),
             "data.ContentMD": Post.editor.getMarkdown(),
             "data.ContentHTML": Post.editor.getHTML(),
             "data.Type": 0,

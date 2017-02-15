@@ -41,6 +41,7 @@ type Post struct {
 	Admin
 }
 
+// Index page to create or edit a blog
 // 创建博客页面，编辑页面也是这个
 func (p *Post) Index(postid int64) revel.Result {
 	categoryModel := new(models.Category)
@@ -53,11 +54,10 @@ func (p *Post) Index(postid int64) revel.Result {
 	if postid > 0 {
 		blog, err = blog.FindById()
 		if err != nil {
-			p.NotFound("博客不存在")
-		} else {
-			p.RenderArgs["blog"] = blog
+			return p.NotFound("博客不存在")
 		}
 	}
+	p.RenderArgs["blog"] = blog
 	p.RenderArgs["tags"] = tags
 	p.RenderArgs["timenow"] = time.Now()
 	return p.RenderTemplate("Admin/Post/Index.html")

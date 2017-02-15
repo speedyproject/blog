@@ -68,6 +68,7 @@ GET     /admin/category/all                     Category.ListAll
 GET     /admin/category/add                     Category.AddPage
 POST    /admin/category/add                     Category.Add
 GET     /admin/category/edit/:cid               Category.EditPage
+POST    /admin/category/del                     Category.Del
 
 # Admin setting
 GET     /admin/setting                          Setting.SiteSetPage

@@ -6,6 +6,8 @@ import (
 	"github.com/revel/revel"
 )
 
+var categoryModel models.Category
+
 // Category for blog, admin user can access
 // 博客分类，后台用户操作
 type Category struct {
@@ -21,10 +23,18 @@ func (c *Category) Index() revel.Result {
 	return c.RenderTemplate("Admin/Category/Index.html")
 }
 
+// ListAll .
+// 列出所有分类
+func (c *Category) ListAll() revel.Result {
+	category := new(models.Category)
+	categorys := category.FindAll()
+	return c.RenderJson(categorys)
+}
+
+// EditPage is a page to edit a category
 // 编辑分类页面
 func (c *Category) EditPage(cid int64) revel.Result {
-	ca := new(models.Category)
-	ca, err := ca.GetByID(cid)
+	ca, err := categoryModel.GetByID(cid)
 	if err != nil {
 		revel.ERROR.Printf("获取 id 为 %d 的分类失败。", cid)
 		return c.NotFound("分类未找到")
@@ -37,32 +47,32 @@ func (c *Category) EditPage(cid int64) revel.Result {
 // AddPage page of add a category
 // 添加一个分类的页面
 func (c *Category) AddPage() revel.Result {
-	ca := new(models.Category)
-	c.RenderArgs["category"] = ca
-	c.RenderArgs["allcategorys"] = ca.FindAll()
+	c.RenderArgs["category"] = new(models.Category)
+	c.RenderArgs["allcategorys"] = categoryModel.FindAll()
 	return c.RenderTemplate("Admin/Category/Edit.html")
-}
-
-// ListAll .
-// 列出所有分类
-func (c *Category) ListAll() revel.Result {
-	category := new(models.Category)
-	categorys := category.FindAll()
-	return c.RenderJson(categorys)
 }
 
 // Add to add a new category
 // 添加一个新的分类
-func (c *Category) Add(ca_name string, ca_ident string, p_ca int, ca_desc string) revel.Result {
-	ca := new(models.Category)
+func (c *Category) Add(ca_name string, ca_ident string, ca_p, ca_id int, ca_desc string) revel.Result {
 	c.Validation.Required(ca_name).Message("分类名必填")
 	c.Validation.Required(ca_ident).Message("分类标识必填")
 	if c.Validation.HasErrors() {
 		return c.RenderJson(&ResultJson{Success: false, Msg: c.Validation.Errors[0].Message, Data: ""})
 	}
-	flag := ca.Add(ca_name, ca_ident, int64(p_ca), ca_desc)
+	flag, err := categoryModel.AddOrUpdate(int64(ca_id), ca_name, ca_ident, int64(ca_p), ca_desc)
 	if flag == 0 {
-		return c.RenderJson(&ResultJson{Success: false, Msg: "添加分类失败", Data: ""})
+		return c.RenderJson(&ResultJson{Success: false, Msg: "添加分类失败: " + err.Error(), Data: ""})
 	}
 	return c.RenderJson(&ResultJson{Success: true, Msg: "", Data: flag})
+}
+
+// Del a category
+// 删除一个分类
+func (c *Category) Del(id int) revel.Result {
+	if id > 0 {
+		categoryModel.Delete(int64(id))
+		return c.RenderJson(&ResultJson{Success: true})
+	}
+	return c.RenderJson(&ResultJson{Success: false, Msg: "id 不存在"})
 }

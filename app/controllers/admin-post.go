@@ -61,7 +61,6 @@ func (p *Post) Index(postid int64) revel.Result {
 	}
 	p.RenderArgs["blog"] = blog
 	p.RenderArgs["tags"] = tags
-	revel.ERROR.Println("createtime: ", createtime)
 	p.RenderArgs["createtime"] = createtime
 	return p.RenderTemplate("Admin/Post/Index.html")
 }

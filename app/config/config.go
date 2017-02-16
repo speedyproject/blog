@@ -35,7 +35,7 @@ func InitConfig() {
 		} else {
 			// 数据库可以正常连接，同步表结构
 			revel.WARN.Println("连接数据库成功，开始同步数据库")
-			models.SyncDB()
+			go models.SyncDB()
 		}
 	}
 	if !IsInstalled {

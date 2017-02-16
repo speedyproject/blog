@@ -47,6 +47,7 @@ func (p *Post) Index(postid int64) revel.Result {
 	categoryModel := new(models.Category)
 	p.RenderArgs["categorys"] = categoryModel.FindAll()
 	tags, err := tagModel.ListAll()
+	createtime := time.Now()
 	if err != nil {
 		tags = make([]models.Tag, 0)
 	}
@@ -56,10 +57,12 @@ func (p *Post) Index(postid int64) revel.Result {
 		if err != nil {
 			return p.NotFound("博客不存在")
 		}
+		createtime = blog.CreateTime
 	}
 	p.RenderArgs["blog"] = blog
 	p.RenderArgs["tags"] = tags
-	p.RenderArgs["timenow"] = time.Now()
+	revel.ERROR.Println("createtime: ", createtime)
+	p.RenderArgs["createtime"] = createtime
 	return p.RenderTemplate("Admin/Post/Index.html")
 }
 

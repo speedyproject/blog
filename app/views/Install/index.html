@@ -1,61 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
-    {{template "Common/Head.html" .}}
-    <link rel="stylesheet" href="">
+    <title>安装</title>
+    <link rel="stylesheet" href="/public/css/install/install.css"> {{template "Common/Head.html" .}}
 </head>
+
 <body>
-    <div>
-    <div>
-        <div>
-            <h3>数据库配置</h3>
-            <div>
-                <label for="">数据库地址</label>
-                <input id="db-host" type="text">
+    <div class="install-page">
+        <div class="title">
+            <span class="title-1">GOLB</span><span class="title-2">正在准备安装</span>
+        </div>
+        <div id="route" class="route">
+            <div class="node">
+                <i class="pointer ing"></i>
             </div>
-            <div>
-                <label for="">数据库账号</label>
-                <input id="db-user" type="text">
+            <div class="node">
+                <i class="pointer"></i>
             </div>
-            <div>
-                <label for="">数据库端口</label>
-                <input id="db-port" type="text">
+            <!--<div class="node">
+                <i class="pointer"></i>
             </div>
-            <div>
-                <label for="">数据库密码</label>
-                <input id="db-pass" type="text">
+            <div class="node">
+                <i class="pointer"></i>
             </div>
-            <div>
-                <label for="">数据库名</label>
-                <input id="db-name" type="text">
+            <div class="node">
+                <i class="pointer"></i>
+            </div>-->
+        </div>
+        <div class="install-content">
+            <div id="step-0" class="step step-0">
+                <h3 class="step-title">数据库配置</h3>
+                <div class="step-content">
+                    <div class="form-group form-inline">
+                        <label for="">数据库地址</label>
+                        <input id="db-host" class="form-control" type="text">
+                    </div>
+                    <div class="form-group form-inline">
+                        <label for="">数据库端口</label>
+                        <input id="db-port" class="form-control" type="text" value="3306">
+                    </div>
+                    <div class="form-group form-inline">
+                        <label for="">数据库账号</label>
+                        <input id="db-user" class="form-control" type="text">
+                    </div>
+                    <div class="form-group form-inline">
+                        <label for="">数据库密码</label>
+                        <input id="db-pass" class="form-control" type="text">
+                    </div>
+                    <div class="form-group form-inline">
+                        <label for="">数据库名称</label>
+                        <input id="db-name" class="form-control" type="text">
+                    </div>
+                    <div class="form-group form-inline">
+                        <label for="">数据表前缀</label>
+                        <input id="db-prefix" class="form-control" type="text" value="t_">
+                    </div>
+                </div>
+            </div>
+            <div id="step-1" class="step step-1">
+                <h3 class="step-title">管理员账号</h3>
+                <div class="step-content">
+                    <div class="form-group form-inline">
+                        <label for="">用户名</label>
+                        <input id="admin-user" class="form-control" type="text">
+                    </div>
+                    <div class="form-group form-inline">
+                        <label for="">密码</label>
+                        <input id="admin-pass" class="form-control" type="text">
+                    </div>
+                    <div class="form-group form-inline">
+                        <label for="">邮箱</label>
+                        <input id="admin-email" class="form-control" type="text">
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div>
-            <h3>管理员账号</h3>
-            <div>
-                <label for="">用户名</label>
-                <input id="admin-user" type="text">
-            </div>
-            <div>
-                <label for="">密码</label>
-                <input id="admin-pass" type="text">
-            </div>
-            <div>
-                <label for="">邮箱</label>
-                <input id="admin-email" type="text">
-            </div>
+        <div class="buttons">
+            <span id="msg" class=""></span>
+            <button id="skip" class="btn btn-sm btn-default skip" onclick="Install.skip()">跳 过</button>
+            <button id="next-button" class="btn btn-sm btn-primary" onclick="Install.submit()">下一步</button>
         </div>
     </div>
-    <button onclick="Install.submit()">下一步</button>
-</div>
-<script src="/public/js/install/install.js"></script>
-{{template "Common/Foot.html" .}}
+    <script type="text/javascript" src="/public/js/install/install.js"></script>
+    {{template "Common/Foot.html" .}}
 </body>
+
 </html>
-
-
-
-

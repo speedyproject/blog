@@ -7,20 +7,16 @@ import (
 	"github.com/revel/revel"
 )
 
-const (
-	TABLE_CATEGORY = "t_category"
-)
-
 var categoryModel *Category
 
 // Category .
 // 博客分类实体
 type Category struct {
-	Id     int64  `xorm:"not null pk autoincr INT(11)`
-	Name   string `xorm:"not null VARCHAR(15)"`
-	Ident  string `xorm:"not null VARCHAR(15)"`
-	Parent int64  `xorm:"not null INT(11)"`
-	Desc   string
+	Id     int64  `xorm:"not null pk autoincr INT(11)"`
+	Name   string `xorm:"not null VARCHAR(20)"`
+	Ident  string `xorm:"VARCHAR(30)"`
+	Parent int64  `xorm:"default 0 INT(11)"`
+	Desc   string `xorm:"VARCHAR(255)"`
 }
 
 // GetByIdent get category by category ident
@@ -44,16 +40,29 @@ func (c *Category) GetByID(id int64) (*Category, error) {
 	return nil, errors.New("not found")
 }
 
-// Add function to save a category
-// 添加一个分类
-func (c *Category) Add(name, ident string, parent int64, desc string) int64 {
+// AddOrUpdate is a function to save or update a category
+// 添加或者更新一个分类
+func (c *Category) AddOrUpdate(id int64, name, ident string, parent int64, desc string) (int64, error) {
 	category := &Category{Name: name, Ident: ident, Parent: parent, Desc: desc}
-	_, err := support.Xorm.Insert(category)
+	ca := &Category{}
+	has, err := support.Xorm.Where("ident = ?", ident).Get(ca)
+	if has && ca.Id != id && id != 0 {
+		msg := "ident 已经存在"
+		revel.ERROR.Println("save category errror: ", msg)
+		return 0, errors.New(msg)
+	}
+
+	if id > 0 {
+		support.Xorm.Id(id).Update(category)
+		return id, nil
+	}
+
+	_, err = support.Xorm.Insert(category)
 	if err != nil {
 		revel.ERROR.Println("save category errror: ", err)
-		return 0
+		return 0, err
 	}
-	return category.Id
+	return category.Id, nil
 }
 
 // Delete to delete a category
@@ -76,8 +85,8 @@ func (c *Category) resetOtherCategory(id int64) {
 // RelatedBlogCount get how many blog that related to the category
 // 获取该分类下的文章数目
 func (c *Category) RelatedBlogCount() int {
-	blogModel := new(Blogger)
-	count, err := support.Xorm.Where("category = ?", c.Id).Count(blogModel)
+	blogModel := new(Blog)
+	count, err := support.Xorm.Where("category_id = ?", c.Id).Count(blogModel)
 	if err != nil {
 		revel.ERROR.Println("RelatedBlogCount error: ", err)
 		return 0

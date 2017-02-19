@@ -42,7 +42,7 @@ func (user *User) Edit(id int64) revel.Result {
 // EditHandler to update user info
 // 处理编辑用户的方法
 func (user *User) EditHandler(username, nickname, password, email string, group int, id int64) revel.Result {
-	u := &models.Admin{Name: username, Nickname: nickname, Email: email, Passwd: password, RoleId: group}
+	u := &models.Admin{Name: username, Nickname: nickname, Email: email, Passwd: password, RoleId: int64(group)}
 	_, err := u.UpdateAdmin(id, u)
 	if err != "" {
 		return user.RenderJson(ResultJson{Success: false, Msg: err})
@@ -60,7 +60,7 @@ func (user *User) Create() revel.Result {
 // 处理创建用户的请求
 func (user *User) CreateHandler(username, nickname, password, email string, group int) revel.Result {
 	revel.INFO.Printf("%s,%s,%s,%s,%d", username, nickname, password, email, group)
-	u := &models.Admin{Name: username, Nickname: nickname, Email: email, Passwd: password, RoleId: group}
+	u := &models.Admin{Name: username, Nickname: nickname, Email: email, Passwd: password, RoleId: int64(group)}
 	id, err := u.New()
 	if err != "" {
 		return user.RenderJson(ResultJson{Success: false, Msg: err})

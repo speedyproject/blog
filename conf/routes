@@ -5,6 +5,8 @@
 # install page
 # GET     /install                                Install.Index
 # POST    /install/index                          Install.HandleInstall
+# POST    /install/adddb                          Install.AddDB
+# POST    /install/addadmin                       Install.AddAdmin
 
 module:testrunner
 
@@ -30,8 +32,8 @@ Get     /tag/:ident
 
 
 # Post a blog
-GET     /article                                Blogger.BloggerPage
-GET     /article/:id                            Blogger.BloggerPage
+GET     /article                                Blog.BlogPage
+GET     /article/:ident                         Blog.BlogPage
 Get     /query_tags/:t                          BlogTag.QueryTags
 Get     /query_categorys/:t                     Post.QueryCategorys
 Post    /post/add_tag                           Post.CreateTag
@@ -45,8 +47,8 @@ POST    /admin/manage-post/delete               Post.Delete
 GET     /admin/                                 Admin.Main
 GET     /admin/main                             Admin.Main
 
-GET     /admin/post                             Post.Index
-GET     /admin/post/index                       Post.Index
+GET     /admin/post/                            Post.Index
+GET     /admin/post/:postid                     Post.Index
 POST    /admin/post/index                       Post.NewPostHandler 
 
 # User Management
@@ -65,6 +67,12 @@ GET     /admin/category/index                   Category.Index
 GET     /admin/category/all                     Category.ListAll
 GET     /admin/category/add                     Category.AddPage
 POST    /admin/category/add                     Category.Add
+GET     /admin/category/edit/:cid               Category.EditPage
+POST    /admin/category/del                     Category.Del
+
+# Admin setting
+GET     /admin/setting                          Setting.SiteSetPage
+POST    /admin/setting                          Setting.SiteSetHandler
 
 # Tag Mangement
 GET     /admin/tag                              AdminTag.Index
@@ -73,6 +81,9 @@ POST    /admin/tag/index                        AdminTag.Edit
 POST    /admin/tag/del                          AdminTag.Del
 
 
+# Tag show blog by tag
+# Get    /tag/:tagident
+
 # Search
 Get    /search                                  Search.Index
 Get    /opensearch.xml                          Static.Serve("public","opensearch.xml")
@@ -80,10 +91,7 @@ Get    /opensearch.xml                          Static.Serve("public","opensearc
 # File Upload
 POST    /upload/simple                          Upload.HandleUpload
 
-# Admin setting
 
-GET     /admin/site                             Setting.SiteSetPage
-POST    /admin/site                             Setting.SiteSetHandler
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

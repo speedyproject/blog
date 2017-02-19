@@ -8,49 +8,50 @@ import (
 	"github.com/revel/revel"
 )
 
+const (
+	ADMIN_SUPER  = 1001
+	ADMIN_WRITER = 1002
+)
+
 //Admin model
 type Admin struct {
-	Id        int       `xorm:"not null pk autoincr INT(11)"`
+	Id        int64     `xorm:"not null pk autoincr INT(11)"`
 	Name      string    `xorm:"not null VARCHAR(15)"`
-	Nickname  string    `xorm:"not null VARCHAR(20)"`
+	Nickname  string    `xorm:"VARCHAR(20)"`
 	Passwd    string    `xorm:"not null VARCHAR(64)"`
 	Email     string    `xorm:"VARCHAR(45)"`
 	Skey      string    `xorm:"not null VARCHAR(64)"`
 	Lock      int       `xorm:"default 0 INT(11)"`
-	RoleId    int       `xorm:"default 1001 INT(11)"`
+	RoleId    int64     `xorm:"default 1001 INT(11)"`
 	LastIp    string    `xorm:"default '0.0.0.0' VARCHAR(20)"`
-	LastLogin time.Time `xorm:"default 'CURRENT_TIMESTAMP' TIMESTAMP"`
+	LastLogin time.Time `xorm:"created TIMESTAMP"`
 }
 
-//Admin sign in.
+// Admin sign in／login.
+// 用户登录验证
 func (a *Admin) SignIn(request *revel.Request) (*Admin, string) {
 	admin := new(Admin)
 	if a.Name == "" || a.Passwd == "" {
-		return admin, "username or passwd can't be null."
+		return admin, "用户名或密码不能为空."
 	}
 
 	//Get MD5 key in cache
 	signKey := ""
 	support.MCache.Get(support.SPY_CONF_MD5_KEY, &signKey)
-
 	sign := &support.Sign{Src: a.Passwd, Key: signKey}
 	a.Passwd = sign.GetMd5()
-
 	_, err := support.Xorm.Where("name = ? and passwd = ?", a.Name, a.Passwd).Get(admin)
-
 	if err != nil {
 		return admin, err.Error()
 	}
 
 	revel.INFO.Printf("Admin user info: %v", admin)
-
 	if admin.Lock > 0 {
-		return admin, "login failed, the account is lock."
+		return admin, "账户被锁，登陆失败"
 	}
 
 	if strings.EqualFold(a.Name, admin.Name) && strings.EqualFold(a.Passwd, admin.Passwd) {
 		lastIP := support.GetRequestIP(request)
-
 		ad := new(Admin)
 		ad.LastIp = lastIP
 		ad.LastLogin = time.Now()
@@ -62,8 +63,30 @@ func (a *Admin) SignIn(request *revel.Request) (*Admin, string) {
 
 		return admin, ""
 	}
+	return admin, "登陆失败，用户名或者密码错误."
+}
 
-	return admin, "login failed."
+// List all user
+// TODO:Laily need to spilit for page
+func (a *Admin) List() ([]Admin, error) {
+	return a.listByDB()
+}
+
+func (a *Admin) listByDB() ([]Admin, error) {
+	users := make([]Admin, 0)
+	err := support.Xorm.Find(&users)
+	return users, err
+}
+
+// 统计 admin_super 用户数目
+func (a *Admin) AdminSuperUserCount() int {
+	user := new(Admin)
+	count, err := support.Xorm.Where("role_id = ?", ADMIN_SUPER).Count(user)
+	if err != nil {
+		revel.ERROR.Println("统计超级管理员数目错误：", err)
+		return 0
+	}
+	return int(count)
 }
 
 //Add new admin user.
@@ -189,16 +212,4 @@ func (a *Admin) GetUserByID(id int64) (*Admin, error) {
 // DeleteAdmin .
 func (a *Admin) DeleteAdmin(id int64) {
 	support.Xorm.Id(id).Delete(a)
-}
-
-// List all user
-// TODO:Laily need to spilit for page
-func (a *Admin) List() ([]Admin, error) {
-	return a.listByDB()
-}
-
-func (a *Admin) listByDB() ([]Admin, error) {
-	users := make([]Admin, 0)
-	err := support.Xorm.Find(&users)
-	return users, err
 }

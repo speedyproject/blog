@@ -20,7 +20,9 @@
     margin-left: 1.5em; }
     .admin-post .edit-area .extra .category-list {
       background-color: #fff;
-      padding: 1em; }
+      padding: 1em;
+      max-height: 400px;
+      overflow-y: scroll; }
       .admin-post .edit-area .extra .category-list li {
         list-style: none; }
         .admin-post .edit-area .extra .category-list li label {

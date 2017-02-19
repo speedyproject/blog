@@ -91,5 +91,8 @@ body {
       padding: 20px !important; }
       .admin-area .admin-content .main .page-header {
         margin: 0; }
+      .admin-area .admin-content .main .table-div {
+        background-color: #fff;
+        padding: 1em 2em; }
       .admin-area .admin-content .main .sub-opration {
         margin: 1em 0; }

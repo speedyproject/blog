@@ -1,1 +1,1 @@
-*.html linguist-language=go
+*.html *.js *.css linguist-language=go

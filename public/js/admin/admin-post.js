@@ -10,18 +10,25 @@ var Post = {
     editor: null,
     ms: null,
     init: function () {
-        Post.editor = editormd({
+    Post.editor = editormd({
             id: "editormd",
             height: 640,
             syncScrolling: "single",
             saveHTMLToTextarea: true,
             path: "/public/third/mdeditor/lib/",
-            watch:false
+            watch:false,
+            onload: function(){
+                this.setMarkdown($("#blog-src").val());
+            }
         });
 
         Post.ms = $('#magicsuggest').magicSuggest({
             placeholder:"请输入标签"
         });
+        var tags = $("#blog-tags").text();
+        if(tags.length > 0){
+            Post.ms.setSelection(JSON.parse(tags));
+        }
     },
     submit: function () {
         var tags = Post.ms.getSelection(),
@@ -38,7 +45,9 @@ var Post = {
             }
         }
         var data = {
+            "data.Id":$("#blog-id").val(),
             "data.Title": $("#blog-title").val(),
+            "data.Ident": $("#blog-ident").val(),
             "data.ContentMD": Post.editor.getMarkdown(),
             "data.ContentHTML": Post.editor.getHTML(),
             "data.Type": 0,
@@ -48,13 +57,21 @@ var Post = {
             "data.NewTag": newTag.join(","),
             "data.Createtime":$("#blog-createtime").val()
         }
-        $.post("/admin/post/index", data, function (d) {
-            console.log(d);
+        if(data["data.Title"] == ""){
+            alertify.alert("Error","标题不能为空");
+        }
+        if(data["data.ContentHTML"] == ""){
+            alertify.alert("Error","内容不能为空");
+        }
+        $.post("/admin/post/index", data, function (data) {
+            if(data.Success){
+                alertify.success("发布成功");
+                location.href="/admin/manage-post";
+            }else{
+                alertify.alert("Error",data.Msg,null);
+            }
         })
     },
-    addTags: function(){
-
-    }
 }
 
 var Manager = {

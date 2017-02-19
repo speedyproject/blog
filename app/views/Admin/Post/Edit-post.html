@@ -1,0 +1,9 @@
+{{append . "moreScripts" "js/admin/admin-post.js"}} 
+{{set . "title" "编辑文章"}}
+{{template "Layout/AdminHeader.html" .}}
+
+<div class="main admin-user admin-post">
+    <h2 class="page-header title">{{.title}}</h2>
+</div>
+
+{{template "Layout/AdminFooter.html" .}}

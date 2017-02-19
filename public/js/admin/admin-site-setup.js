@@ -22,7 +22,6 @@ $(function () {
 
 
 var paraseData = function () {
-
     var array = {
         "title": $("#site-title").val(),
         "subtitle": $("#site-subtitle").val(),
@@ -31,18 +30,22 @@ var paraseData = function () {
         "reg": $("input[name='site-reg']:checked").val(),
         "foot": $("#site-foot").val(),
         "statistics": $("#site-statistics").val(),
-        "status": $("input[name='site-status']:checked").val()
+        "status": $("input[name='site-status']:checked").val(),
+        "comment": $("#site-comment").val()
     };
 
     return array
 };
 
 var update = function () {
-
     var json = paraseData()
     console.log(json);
-    $.post("/admin/site", json, function (data) {
-        alert(data);
+    $.post("/admin/setting", json, function (data) {
+        if(data.Success){
+            alertify.success("更新成功")
+        }else{
+            alertify.alert("Error","更新失败："+data.Msg)
+        }
     });
 
 };

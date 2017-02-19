@@ -7,9 +7,9 @@
     </h2>
     <p class="lead author-time">
         <!--<span class="glyphicon glyphicon-time"></span> -->
-        <span>{{date .CreateTime}}</span><span> · </span>
+        <span>{{date .CreateTime}}</span>
         {{range .BlogTags}}
-            <a class="" href="/tag/{{.Ident}}">{{.Name}}</a>
+            <span> · </span><a class="" href="/tag/{{.Ident}}">{{.Name}}</a>
         {{end}}
         <span> · </span>
         <span>{{.ReadCount}} Views</span>

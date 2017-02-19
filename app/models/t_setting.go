@@ -6,10 +6,12 @@ import (
 	"github.com/revel/revel"
 )
 
+var SiteInfos *SiteInfo
+
 //Setting model
 type Setting struct {
 	Key   string `xorm:"not null pk VARCHAR(20)"`
-	Value string `xorm:"not null VARCHAR(255)"`
+	Value string `xorm:"not null TEXT"`
 }
 
 //SiteInfo model
@@ -22,6 +24,7 @@ type SiteInfo struct {
 	Foot       string
 	Statistics string
 	Status     string
+	Comment    string
 }
 
 //Loaded setting info to cache.
@@ -110,9 +113,12 @@ func (s *Setting) GetSiteInfo() (*SiteInfo, string) {
 				site.Url = tmp.Value
 			case "site-statistics":
 				site.Statistics = tmp.Value
+			case "site-comment":
+				site.Comment = tmp.Value
 			}
 		}
 	}
+	SiteInfos = site
 	return site, err
 }
 
@@ -143,48 +149,20 @@ func (s *Setting) InsertAndModify(key, value string) error {
 
 //Add new site info
 func (s *Setting) NewSiteInfo(title, subtitle, url, seo, reg, foot,
-	statistics, status string) error {
+	statistics, status, comment string) error {
+
+	keyArr := []string{"site-title", "site-subtitle", "site-url", "site-seo", "site-reg", "site-foot",
+		"site-statistics", "site-status", "site-comment"}
+	valueArr := []string{title, subtitle, url, seo, reg, foot, statistics, status, comment}
+
 	var err error
-	if title != "" {
-		err = s.InsertAndModify("site-title", title)
-		if err != nil {
-			return err
-		}
-	}
-	if subtitle != "" {
-		err = s.InsertAndModify("site-subtitle", subtitle)
-		if err != nil {
-			return err
-		}
-	} else if url != "" {
-		err = s.InsertAndModify("site-url", url)
-		if err != nil {
-			return err
-		}
-	} else if seo != "" {
-		err = s.InsertAndModify("site-seo", seo)
-		if err != nil {
-			return err
-		}
-	} else if reg != "" {
-		err = s.InsertAndModify("site-reg", reg)
-		if err != nil {
-			return err
-		}
-	} else if foot != "" {
-		err = s.InsertAndModify("site-foot", foot)
-		if err != nil {
-			return err
-		}
-	} else if statistics != "" {
-		err = s.InsertAndModify("site-statistics", statistics)
-		if err != nil {
-			return err
-		}
-	} else if status != "" {
-		err = s.InsertAndModify("site-status", status)
-		if err != nil {
-			return err
+	for k, v := range valueArr {
+		if v != "" {
+			err = s.InsertAndModify(keyArr[k], v)
+			if err != nil {
+				revel.ERROR.Printf("更新站点设置表错误，错误字段[%s],内容：%v\n", keyArr[k], err)
+				return err
+			}
 		}
 	}
 	return err

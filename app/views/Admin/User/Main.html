@@ -3,7 +3,14 @@
 {{append . "moreScripts" "js/admin/admin-user-create.js"}}
 {{template "Layout/AdminHeader.html" .}}
 <div class="main admin-user">
-  <h2 class="page-header title">{{.title}} <span class="add"><a href="/admin/user/create">新增用户</a></span></h2>
+  <h2 class="page-header title">{{.title}}</h2>
+  <div class="sub-opration">
+      <button class="btn btn-primary btn-sm" 
+         onclick="javascript:location.href='/admin/user/create'">
+           新增
+        </button> 
+        <button class="btn btn-danger btn-sm" onclick="deletethem()">删除选中项</button>
+  </div>
   <div>
       <div>
         {{if gt (len .users) 0}}
@@ -32,7 +39,6 @@
             没有用户
           {{end}}
         </table>
-        <input type="checkbox"> <a href="javascript:void(0)" onclick="deletethem()">删除</a> 选中项
       </div>
   </div>
 </div>

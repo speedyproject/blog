@@ -37,6 +37,10 @@
                 <label for="site-statistics">统计代码</label>
                 <input type="text" class="form-control" id="site-statistics" placeholder="统计代码" value="{{.site.Statistics}}">
             </div>
+            <div class="form-group">
+                <label for="site-comment">第三方评论插件</label>
+                <textarea name="" id="site-comment" class="form-control" cols="30" rows="10">{{raw .site.Comment}}</textarea>
+            </div>
              <div class="form-group">
                 <label>站点状态</label> <br/>
                 <input type="radio" name="site-status" id="site-status-1" value="2001"`> 运营

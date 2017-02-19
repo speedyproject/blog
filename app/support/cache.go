@@ -1,6 +1,9 @@
 package support
 
 import (
+	"math/rand"
+	"time"
+
 	"github.com/revel/config"
 	"github.com/revel/revel/cache"
 )
@@ -40,8 +43,8 @@ func loadCache(hasConfig bool) {
 		md5_key, _ = AppConfig.String("secret", "secret.md5.key")
 		sign_key, _ = AppConfig.String("secret", "secret.sign.key")
 	} else {
-		md5_key = "yigeheshangtiaoshuihe"
-		sign_key = "lianggeheshangtaishuihe"
+		md5_key = randStringBytes(16)
+		sign_key = randStringBytes(16)
 	}
 
 	MCache.Set(SPY_CONF_MD5_KEY, md5_key, cache.FOREVER)
@@ -50,4 +53,15 @@ func loadCache(hasConfig bool) {
 	AppConfig.AddOption("secret", "secret.sign.key", sign_key)
 	SPY_CONF_MD5_VAL = md5_key
 	SPY_CONF_SIGN_VAL = sign_key
+}
+
+const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+func randStringBytes(n int) string {
+	rand.Seed(time.Now().Unix())
+	b := make([]byte, n)
+	for i := range b {
+		b[i] = letterBytes[rand.Intn(len(letterBytes))]
+	}
+	return string(b)
 }

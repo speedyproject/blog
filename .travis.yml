@@ -5,7 +5,7 @@ go:
   - master
   
 script: 
-  - ./build.sh >> /dev/null
+  - ./build.sh
 
 
 install:

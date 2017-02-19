@@ -23,7 +23,7 @@ const (
 type Blog struct {
 	Id            int64     `xorm:"not null pk autoincr INT(11)"`
 	Ident         string    `xorm:"not null VARCHAR(255)`
-	Title         string    `xorm:"not null default '' VARCHAR(50)"`
+	Title         string    `xorm:"not null default '' VARCHAR(250)"`
 	ContentHTML   string    `xorm:"not null TEXT 'content_html'"`
 	CategoryId    int64     `xorm:"INT(11)"`
 	Passwd        string    `xorm:"VARCHAR(64)"`

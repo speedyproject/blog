@@ -66,6 +66,7 @@ var Post = {
         $.post("/admin/post/index", data, function (data) {
             if(data.Success){
                 alertify.success("发布成功");
+                location.href="/admin/manage-post";
             }else{
                 alertify.alert("Error",data.Msg,null);
             }

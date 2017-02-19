@@ -6,8 +6,6 @@ import (
 	"strings"
 	"time"
 
-	"net/url"
-
 	"github.com/revel/revel"
 )
 
@@ -93,9 +91,9 @@ func (p *Post) NewPostHandler() revel.Result {
 	blog := new(models.Blog)
 	blog.Title = data.Title
 	if data.Ident == "" {
-		data.Ident = url.QueryEscape(blog.Title)
+		data.Ident = blog.Title
 	}
-	blog.Ident = url.QueryEscape(data.Ident)
+	blog.Ident = data.Ident
 	blog.ContentHTML = data.ContentHTML
 	blog.ContentMD = data.ContentMD
 	blog.CategoryId = data.Category

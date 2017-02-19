@@ -6,8 +6,6 @@ import (
 	"fmt"
 	"time"
 
-	"net/url"
-
 	"github.com/revel/revel"
 	"github.com/russross/blackfriday"
 )
@@ -253,9 +251,8 @@ func (b *Blog) New() (int64, error) {
 	blog := new(Blog)
 	blog.Title = b.Title
 	if b.Ident == "" {
-		b.Ident = url.QueryEscape(b.Title)
+		b.Ident = b.Title
 	}
-	revel.ERROR.Println("ident: ", b.Ident)
 	blog.Ident = b.Ident
 	blog.ContentHTML = b.ContentHTML
 	blog.ContentMD = b.ContentMD

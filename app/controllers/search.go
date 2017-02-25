@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"blog/app/models"
-	"blog/app/service"
+	"blog/app/support"
 
 	"github.com/revel/revel"
 )
@@ -13,7 +13,7 @@ type Search struct {
 
 func (s *Search) Index(q string) revel.Result {
 	s.RenderArgs["keywords"] = q
-	ids := service.FullTextSearch(q)
+	ids := support.FullTextSearch(q)
 	blogs := make([]*models.Blog, 0)
 	for _, v := range ids {
 		blogModel := &models.Blog{Id: v}

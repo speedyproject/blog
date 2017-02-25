@@ -4,6 +4,7 @@ import (
 	"blog/app/models"
 	"blog/app/support"
 
+	"github.com/huichen/wukong/types"
 	"github.com/revel/config"
 	"github.com/revel/revel"
 )
@@ -44,4 +45,20 @@ func InitConfig() {
 		revel.INFO.Println("配置加载成功...")
 	}
 	support.InitCache(IsInstalled, AppConfig)
+	go InitSearcher()
+}
+
+func InitSearcher() {
+	support.InitSearcher()
+
+	// 将文档加入索引，docId 从1开始
+	blogModel := new(models.Blog)
+	blogs, _ := blogModel.FindList()
+	for _, v := range blogs {
+		support.Searcher.IndexDocument(uint64(v.Id), types.DocumentIndexData{Content: v.ContentHTML}, false)
+	}
+
+	// 等待索引刷新完毕
+	support.Searcher.FlushIndex()
+	support.Searcher.Close()
 }

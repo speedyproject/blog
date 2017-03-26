@@ -90,7 +90,8 @@ body {
     .admin-area .admin-content .main {
       padding: 20px !important; }
       .admin-area .admin-content .main .page-header {
-        margin: 0; }
+        margin: 0;
+        border-bottom: none; }
       .admin-area .admin-content .main .table-div {
         background-color: #fff;
         padding: 1em 2em; }

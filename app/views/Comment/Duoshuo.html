@@ -1,5 +1,57 @@
-{{if gt (len .comment) 0}}
-    {{raw .comment}}
-{{else}}
-    ...
-{{end}}        
+<!-- 评论框部分 -->
+<div class="comment-area">
+    <div class="comment-list">
+        <div class="list" id="comment-001">
+            <div class="comment">
+                <div class="protrait">
+                    <img src="http://himg.bdimg.com/sys/portrait/item/8d5e4c61696c793132333903.jpg" alt="">
+                </div>
+                <div class="comment-content">
+                    <div class="user-name"><a href="http://laily.net">Laily</a></div>
+                    <div class="content">这是一条评论,谈谈中国的现状,一个故事不知道真假但发人深思:一天一个哥们打车去清华,路上司机很谦虚地说,你们才是国家的栋梁,除了差遣分了几套房之外,我就一个开车的,只知道开车其他啥都不会,如果你们就想着毕业之后如何在北京买一套房的话,那么这个国家还有啥希望.(故事大意). 中国大学生的现状大家都知道.</div>
+                </div>
+            </div>
+            <div class="comment-replay">
+                <div class="protrait">
+                    <img src="http://himg.bdimg.com/sys/portrait/item/8d5e4c61696c793132333903.jpg" alt="">
+                </div>
+                <div class="comment-content">
+                    <div class="user-name">Laily</div>
+                    <div class="content">这是一条回复</div>
+                </div>
+            </div>
+        </div>
+        <div class="list" id="comment-001">
+            <div class="comment">
+                <div class="protrait">
+                    <img src="http://himg.bdimg.com/sys/portrait/item/8d5e4c61696c793132333903.jpg" alt="">
+                </div>
+                <div class="comment-content">
+                    <div class="user-name">Laily</div>
+                    <div class="content">这是一条评论</div>
+                </div>
+            </div>
+            <div class="comment-replay">
+                <div class="protrait">
+                    <img src="http://himg.bdimg.com/sys/portrait/item/8d5e4c61696c793132333903.jpg" alt="">
+                </div>
+                <div class="comment-content">
+                    <div class="user-name">Laily</div>
+                    <div class="content">这是一条回复</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="new-comment">
+        <div class="protrait">
+            <img src="http://himg.bdimg.com/sys/portrait/item/8d5e4c61696c793132333903.jpg" alt="">
+        </div>
+        <div class="input-area">
+            <textarea class="form-control" name="" id="" rows="4"></textarea>
+            <div class="send-button">
+                <div>表情</div>
+                <div class="button"><button type="button" class="btn btn-sm btn-success">发布</button></div>
+            </div>
+        </div>
+    </div>
+</div>

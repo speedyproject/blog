@@ -21,3 +21,44 @@
     font-size: 2.5em;
     margin: 1em 0;
     font-weight: 700; }
+
+.comment-area .comment-list {
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+  border-bottom: solid 1px #ddd; }
+  .comment-area .comment-list .comment,
+  .comment-area .comment-list .comment-replay {
+    display: flex;
+    margin-bottom: 0.5em; }
+    .comment-area .comment-list .comment .protrait,
+    .comment-area .comment-list .comment-replay .protrait {
+      flex: 1; }
+      .comment-area .comment-list .comment .protrait img,
+      .comment-area .comment-list .comment-replay .protrait img {
+        width: 4em;
+        border-radius: 10%; }
+    .comment-area .comment-list .comment .comment-content,
+    .comment-area .comment-list .comment-replay .comment-content {
+      flex: 20;
+      padding-left: 1em; }
+  .comment-area .comment-list .comment-replay {
+    margin-left: 5em; }
+
+.comment-area .new-comment {
+  display: flex; }
+  .comment-area .new-comment .protrait {
+    flex: 1; }
+    .comment-area .new-comment .protrait img {
+      width: 4em;
+      border-radius: 15%; }
+  .comment-area .new-comment .input-area {
+    flex: 20;
+    padding-left: 1em; }
+    .comment-area .new-comment .input-area textarea {
+      width: 100%; }
+    .comment-area .new-comment .input-area .send-button {
+      margin-top: 0.5em; }
+      .comment-area .new-comment .input-area .send-button div {
+        display: inline-block; }
+      .comment-area .new-comment .input-area .send-button .button {
+        float: right; }

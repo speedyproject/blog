@@ -1,32 +1,85 @@
-@media (min-width: 1200px) {
-    .blog-container {
-        width: 1170px;
+    @media (min-width: 1200px) {
+        .blog-container {
+            width: 1170px;
+        }
     }
-}
 
-@media (min-width: 992px) {
-    .blog-container {
-        width: 970px;
+    @media (min-width: 992px) {
+        .blog-container {
+            width: 970px;
+        }
     }
-}
 
-@media (min-width: 768px) {
-    .blog-container {
-        width: 750px;
+    @media (min-width: 768px) {
+        .blog-container {
+            width: 750px;
+        }
     }
-}
 
-.blog-container {
-    width: 78%;
-    .container {
-        padding-right: 15px;
-        padding-left: 15px;
-        margin-right: auto;
-        margin-left: auto;
+    .blog-container {
+        width: 78%;
+        .container {
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+        .blog-title {
+            font-size: 2.5em;
+            margin: 1em 0;
+            font-weight: 700;
+        }
     }
-    .blog-title {
-        font-size: 2.5em;
-        margin: 1em 0;
-        font-weight: 700;
+
+    .comment-area {
+        .comment-list {
+            padding-bottom: 1em;
+            margin-bottom: 1em;
+            border-bottom: solid 1px #ddd;
+            .comment,
+            .comment-replay {
+                display: flex;
+                margin-bottom: 0.5em;
+                .protrait {
+                    flex: 1;
+                    img {
+                        width: 4em;
+                        border-radius: 10%;
+                    }
+                }
+                .comment-content {
+                    flex: 20;
+                    padding-left: 1em;
+                }
+            }
+            .comment-replay {
+                margin-left: 5em;
+            }
+        }
+        .new-comment {
+            display: flex;
+            .protrait {
+                flex: 1;
+                img {
+                    width: 4em;
+                    border-radius: 15%;
+                }
+            }
+            .input-area {
+                flex: 20;
+                padding-left: 1em;
+                textarea {
+                    width: 100%;
+                }
+                .send-button {
+                    margin-top: 0.5em;
+                    div {
+                        display: inline-block;
+                    }
+                    .button {
+                        float: right;
+                    }
+                }
+            }
+        }
     }
-}

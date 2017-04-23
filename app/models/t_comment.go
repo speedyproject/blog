@@ -36,7 +36,7 @@ func (c *Comment) NewComment() error {
 
 	model.CreateTime = time.Now()
 	model.Status = c.Status
-	has, err := support.Xorm.InsertOne(&model)
+	has, err := support.Xorm.InsertOne(model)
 
 	if has <= 0 {
 		return err

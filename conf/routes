@@ -91,7 +91,8 @@ Get    /opensearch.xml                          Static.Serve("public","opensearc
 # File Upload
 POST    /upload/simple                          Upload.HandleUpload
 
-
+# Comment
+POST   /ajax/new-comment                        Comment.NewComment
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

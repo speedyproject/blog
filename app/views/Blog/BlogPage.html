@@ -2,6 +2,7 @@
 {{append . "moreStyles" "css/home/blog-md.css"}}
 {{append . "moreStyles" "third/prism/prism.css"}}
 {{append . "moreScripts" "third/prism/prism.js"}}
+{{append . "moreScripts" "js/blog/blog.js"}}
 {{template "Layout/HomeHeader.html" .}}
 
     <!-- Page Content -->
@@ -87,7 +88,7 @@
     <!-- /.container -->
 
     <!-- Comment -->
-    {{template "Comment/Duoshuo.html" .}}
+    {{template "Comment/Comment.html" .}}
     <!-- Comment End-->
 
 {{template "Layout/HomeFooter.html" .}}

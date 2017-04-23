@@ -1,5 +1,6 @@
 <!-- 评论框部分 -->
 <div class="comment-area">
+    <input id="blog-id" type="hidden" value="{{.blog.Id}}">
     <div class="comment-list">
         <div class="list" id="comment-001">
             <div class="comment">
@@ -47,10 +48,10 @@
             <img src="http://himg.bdimg.com/sys/portrait/item/8d5e4c61696c793132333903.jpg" alt="">
         </div>
         <div class="input-area">
-            <textarea class="form-control" name="" id="" rows="4"></textarea>
+            <textarea id="comment-content" class="form-control" name="" id="" rows="4"></textarea>
             <div class="send-button">
                 <div>表情</div>
-                <div class="button"><button type="button" class="btn btn-sm btn-success">发布</button></div>
+                <div class="button"><button type="button" class="btn btn-sm btn-success" onclick="Comment.post()">发布</button></div>
             </div>
         </div>
     </div>

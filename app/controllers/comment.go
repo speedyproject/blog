@@ -1,6 +1,10 @@
 package controllers
 
-import "github.com/revel/revel"
+import (
+	"blog/app/models"
+
+	"github.com/revel/revel"
+)
 
 //Comment controller.
 type Comment struct {
@@ -8,8 +12,27 @@ type Comment struct {
 }
 
 //New comment.
-func (c *Comment) NewComment() revel.Result {
-	return c.RenderText("ok")
+func (c *Comment) NewComment(content, name string, blogid int64) revel.Result {
+	res := &ResultJson{Success: false}
+	if content == "" {
+		res.Msg = "内容不能为空"
+		return c.RenderJSON(res)
+	}
+	if blogid <= 0 {
+		res.Msg = "博客不存在"
+		return c.RenderJSON(res)
+	}
+	if name == "" {
+		name = "default-name"
+	}
+	_comment := &models.Comment{BlogId: blogid, Name: name, Content: content}
+	err := _comment.NewComment()
+	if err != nil {
+		res.Msg = err.Error()
+		return c.RenderJSON(res)
+	}
+	res.Success = true
+	return c.RenderJSON(res)
 }
 
 //Delete comment.

@@ -20,9 +20,9 @@ func (b *BlogTag) Index(ident string) revel.Result {
 		revel.ERROR.Panic("wrong")
 	}
 	blogs := tag.FindBlogByTag("")
-	b.RenderArgs["flag"] = "tag"
-	b.RenderArgs["tag"] = tag
-	b.RenderArgs["blogs"] = blogs
+	b.ViewArgs["flag"] = "tag"
+	b.ViewArgs["tag"] = tag
+	b.ViewArgs["blogs"] = blogs
 	return b.RenderTemplate("Main/Blog4Search.html")
 }
 
@@ -34,7 +34,7 @@ func (b *BlogTag) GetAllTags() revel.Result {
 	if err != nil {
 		revel.ERROR.Println("find all tags error: ", err)
 	}
-	return b.RenderJson(tags)
+	return b.RenderJSON(tags)
 }
 
 // QueryTags to Search for tag
@@ -43,7 +43,7 @@ func (b *BlogTag) QueryTags(t string) revel.Result {
 	tag := new(models.Tag)
 	res, err := tag.QueryTags(t)
 	if err != nil {
-		return b.RenderJson(&ResultJson{Success: false, Msg: err.Error(), Data: ""})
+		return b.RenderJSON(&ResultJson{Success: false, Msg: err.Error(), Data: ""})
 	}
 	resMap := make(map[int64]string, 0)
 	for _, v := range res {
@@ -52,5 +52,5 @@ func (b *BlogTag) QueryTags(t string) revel.Result {
 			resMap[int64(id)] = string(v["name"])
 		}
 	}
-	return b.RenderJson(&ResultJson{Success: true, Msg: "", Data: resMap})
+	return b.RenderJSON(&ResultJson{Success: true, Msg: "", Data: resMap})
 }

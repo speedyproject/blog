@@ -45,9 +45,9 @@ func (i *Install) AddAdmin() revel.Result {
 	id, msg := admin.New()
 
 	if id <= 0 {
-		return i.RenderJson(&ResultJson{Success: false, Msg: msg, Data: ""})
+		return i.RenderJSON(&ResultJson{Success: false, Msg: msg, Data: ""})
 	}
-	return i.RenderJson(&ResultJson{Success: true})
+	return i.RenderJSON(&ResultJson{Success: true})
 }
 
 func (i *Install) AddDB() revel.Result {
@@ -58,20 +58,20 @@ func (i *Install) AddDB() revel.Result {
 	if err != nil {
 		msg := "连接数据库失败：" + err.Error()
 		revel.ERROR.Println(msg)
-		return i.RenderJson(&ResultJson{Success: false, Msg: msg, Data: ""})
+		return i.RenderJSON(&ResultJson{Success: false, Msg: msg, Data: ""})
 	}
 	revel.INFO.Println("开始同步数据库...")
 	err = models.SyncDB()
 	if err != nil {
 		msg := "同步数据库失败：" + err.Error()
 		revel.ERROR.Println(msg)
-		return i.RenderJson(&ResultJson{Success: false, Msg: msg, Data: ""})
+		return i.RenderJSON(&ResultJson{Success: false, Msg: msg, Data: ""})
 	}
 	revel.INFO.Println("同步数据库完成...")
 	admin := new(models.Admin)
 	adminCount := admin.AdminSuperUserCount()
 	i.finishInstall()
-	return i.RenderJson(&ResultJson{Success: true, Data: adminCount})
+	return i.RenderJSON(&ResultJson{Success: true, Data: adminCount})
 }
 
 func (i *Install) checkDB(info *DBParams) error {

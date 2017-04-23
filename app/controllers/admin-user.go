@@ -23,7 +23,7 @@ func (user *User) Main() revel.Result {
 		revel.ERROR.Println(err)
 		return nil
 	}
-	user.RenderArgs["users"] = users
+	user.ViewArgs["users"] = users
 	return user.RenderTemplate("Admin/User/Main.html")
 }
 
@@ -35,7 +35,7 @@ func (user *User) Edit(id int64) revel.Result {
 	if err != nil {
 		return user.RenderText("user is not exist")
 	}
-	user.RenderArgs["user"] = u
+	user.ViewArgs["user"] = u
 	return user.RenderTemplate("Admin/User/Edit.html")
 }
 
@@ -45,9 +45,9 @@ func (user *User) EditHandler(username, nickname, password, email string, group 
 	u := &models.Admin{Name: username, Nickname: nickname, Email: email, Passwd: password, RoleId: int64(group)}
 	_, err := u.UpdateAdmin(id, u)
 	if err != "" {
-		return user.RenderJson(ResultJson{Success: false, Msg: err})
+		return user.RenderJSON(ResultJson{Success: false, Msg: err})
 	}
-	return user.RenderJson(ResultJson{Success: true, Data: id})
+	return user.RenderJSON(ResultJson{Success: true, Data: id})
 }
 
 // Create user
@@ -63,9 +63,9 @@ func (user *User) CreateHandler(username, nickname, password, email string, grou
 	u := &models.Admin{Name: username, Nickname: nickname, Email: email, Passwd: password, RoleId: int64(group)}
 	id, err := u.New()
 	if err != "" {
-		return user.RenderJson(ResultJson{Success: false, Msg: err})
+		return user.RenderJSON(ResultJson{Success: false, Msg: err})
 	}
-	return user.RenderJson(ResultJson{Success: true, Data: id})
+	return user.RenderJSON(ResultJson{Success: true, Data: id})
 }
 
 // Delete a user

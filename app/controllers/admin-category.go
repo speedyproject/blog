@@ -19,7 +19,7 @@ type Category struct {
 func (c *Category) Index() revel.Result {
 	categoryStruct := new(models.Category)
 	categorys := categoryStruct.FindAll()
-	c.RenderArgs["categorys"] = categorys
+	c.ViewArgs["categorys"] = categorys
 	return c.RenderTemplate("Admin/Category/Index.html")
 }
 
@@ -28,7 +28,7 @@ func (c *Category) Index() revel.Result {
 func (c *Category) ListAll() revel.Result {
 	category := new(models.Category)
 	categorys := category.FindAll()
-	return c.RenderJson(categorys)
+	return c.RenderJSON(categorys)
 }
 
 // EditPage is a page to edit a category
@@ -39,16 +39,16 @@ func (c *Category) EditPage(cid int64) revel.Result {
 		revel.ERROR.Printf("获取 id 为 %d 的分类失败。", cid)
 		return c.NotFound("分类未找到")
 	}
-	c.RenderArgs["category"] = ca
-	c.RenderArgs["allcategorys"] = ca.FindAll()
+	c.ViewArgs["category"] = ca
+	c.ViewArgs["allcategorys"] = ca.FindAll()
 	return c.RenderTemplate("Admin/Category/Edit.html")
 }
 
 // AddPage page of add a category
 // 添加一个分类的页面
 func (c *Category) AddPage() revel.Result {
-	c.RenderArgs["category"] = new(models.Category)
-	c.RenderArgs["allcategorys"] = categoryModel.FindAll()
+	c.ViewArgs["category"] = new(models.Category)
+	c.ViewArgs["allcategorys"] = categoryModel.FindAll()
 	return c.RenderTemplate("Admin/Category/Edit.html")
 }
 
@@ -58,13 +58,13 @@ func (c *Category) Add(ca_name string, ca_ident string, ca_p, ca_id int, ca_desc
 	c.Validation.Required(ca_name).Message("分类名必填")
 	c.Validation.Required(ca_ident).Message("分类标识必填")
 	if c.Validation.HasErrors() {
-		return c.RenderJson(&ResultJson{Success: false, Msg: c.Validation.Errors[0].Message, Data: ""})
+		return c.RenderJSON(&ResultJson{Success: false, Msg: c.Validation.Errors[0].Message, Data: ""})
 	}
 	flag, err := categoryModel.AddOrUpdate(int64(ca_id), ca_name, ca_ident, int64(ca_p), ca_desc)
 	if flag == 0 {
-		return c.RenderJson(&ResultJson{Success: false, Msg: "添加分类失败: " + err.Error(), Data: ""})
+		return c.RenderJSON(&ResultJson{Success: false, Msg: "添加分类失败: " + err.Error(), Data: ""})
 	}
-	return c.RenderJson(&ResultJson{Success: true, Msg: "", Data: flag})
+	return c.RenderJSON(&ResultJson{Success: true, Msg: "", Data: flag})
 }
 
 // Del a category
@@ -72,7 +72,7 @@ func (c *Category) Add(ca_name string, ca_ident string, ca_p, ca_id int, ca_desc
 func (c *Category) Del(id int) revel.Result {
 	if id > 0 {
 		categoryModel.Delete(int64(id))
-		return c.RenderJson(&ResultJson{Success: true})
+		return c.RenderJSON(&ResultJson{Success: true})
 	}
-	return c.RenderJson(&ResultJson{Success: false, Msg: "id 不存在"})
+	return c.RenderJSON(&ResultJson{Success: false, Msg: "id 不存在"})
 }

@@ -40,7 +40,7 @@ func InitConfig() {
 		}
 	}
 	if !IsInstalled {
-		AppConfig = config.New(config.DEFAULT_COMMENT, config.ALTERNATIVE_SEPARATOR, false, true)
+		AppConfig = config.NewDefault()
 	} else {
 		revel.INFO.Println("配置加载成功...")
 	}

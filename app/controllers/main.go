@@ -46,12 +46,12 @@ func (m *Main) Main() revel.Result {
 
 	pageStruct := new(service.BlogPager)
 
-	m.RenderArgs["blogs"] = blogs
-	m.RenderArgs["hotblogs"] = hotBLogs
-	m.RenderArgs["thisPage"] = p
-	m.RenderArgs["pager"] = pageStruct.GetPager(p)
+	m.ViewArgs["blogs"] = blogs
+	m.ViewArgs["hotblogs"] = hotBLogs
+	m.ViewArgs["thisPage"] = p
+	m.ViewArgs["pager"] = pageStruct.GetPager(p)
 	category := new(models.Category)
-	m.RenderArgs["categorys"] = category.FindAll()
+	m.ViewArgs["categorys"] = category.FindAll()
 	info := &SiteInfo{Title: title, SubTitle: subtitle, Copyright: copyr}
 	return m.Render(info)
 }
@@ -65,6 +65,6 @@ func (m *Main) Blog4Category(ca string) revel.Result {
 	if id > 0 {
 		blogs, _ = blog.FindByCategory(id)
 	}
-	m.RenderArgs["blogs"] = blogs
+	m.ViewArgs["blogs"] = blogs
 	return m.RenderTemplate("Main/Blog4Search.html")
 }

@@ -18,7 +18,7 @@ func (s *Setting) SiteSetPage() revel.Result {
 	site, err := set.GetSiteInfo()
 	revel.INFO.Println(err)
 
-	s.RenderArgs["site"] = site
+	s.ViewArgs["site"] = site
 	return s.RenderTemplate("Admin/Setting/SiteSetPage.html")
 }
 
@@ -30,7 +30,7 @@ func (s *Setting) SiteSetHandler(title, subtitle, url, seo, reg, foot,
 	err := set.NewSiteInfo(title, subtitle, url, seo, reg, foot, statistics, status, comment)
 
 	if err != nil {
-		return s.RenderJson(&ResultJson{Success: false, Msg: err.Error()})
+		return s.RenderJSON(&ResultJson{Success: false, Msg: err.Error()})
 	}
-	return s.RenderJson(&ResultJson{Success: true})
+	return s.RenderJSON(&ResultJson{Success: true})
 }

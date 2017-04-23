@@ -12,7 +12,7 @@ type Search struct {
 }
 
 func (s *Search) Index(q string) revel.Result {
-	s.RenderArgs["keywords"] = q
+	s.ViewArgs["keywords"] = q
 	ids := support.FullTextSearch(q)
 	blogs := make([]*models.Blog, 0)
 	for _, v := range ids {
@@ -22,7 +22,7 @@ func (s *Search) Index(q string) revel.Result {
 			blogs = append(blogs, b)
 		}
 	}
-	s.RenderArgs["blogs"] = blogs
-	s.RenderArgs["flag"] = "search"
+	s.ViewArgs["blogs"] = blogs
+	s.ViewArgs["flag"] = "search"
 	return s.RenderTemplate("Main/Blog4Search.html")
 }

@@ -24,7 +24,7 @@ func (a *AdminTag) Index() revel.Result {
 	if err != nil {
 		revel.ERROR.Panic("in admin-tag page index error: ", err)
 	}
-	a.RenderArgs["tags"] = list
+	a.ViewArgs["tags"] = list
 	return a.RenderTemplate("Admin/Tag/Index.html")
 }
 
@@ -34,19 +34,19 @@ func (a *AdminTag) Edit(tagID int64, tagName, tagIdent string) revel.Result {
 	a.Validation.Required(tagName)
 	a.Validation.Required(tagIdent)
 	if a.Validation.HasErrors() {
-		return a.RenderJson(&ResultJson{Success: false, Msg: a.Validation.Errors[0].Message, Data: ""})
+		return a.RenderJSON(&ResultJson{Success: false, Msg: a.Validation.Errors[0].Message, Data: ""})
 	}
 	tag := new(models.Tag)
 	tag, err := tag.GetByID(tagID)
 	if err != nil {
-		return a.RenderJson(&ResultJson{Success: false, Msg: err.Error(), Data: ""})
+		return a.RenderJSON(&ResultJson{Success: false, Msg: err.Error(), Data: ""})
 	}
 	tag.Ident = tagIdent
 	tag.Name = tagName
 	if !tag.Update() {
-		return a.RenderJson(&ResultJson{Success: false, Msg: "更新失败", Data: ""})
+		return a.RenderJSON(&ResultJson{Success: false, Msg: "更新失败", Data: ""})
 	}
-	return a.RenderJson(&ResultJson{Success: true, Msg: "", Data: ""})
+	return a.RenderJSON(&ResultJson{Success: true, Msg: "", Data: ""})
 }
 
 // 删除标签
@@ -61,5 +61,5 @@ func (a *AdminTag) Del(ids string) revel.Result {
 		}
 		tagModel.Delete(idsArr)
 	}
-	return a.RenderJson(&ResultJson{Success: true, Msg: "", Data: ""})
+	return a.RenderJSON(&ResultJson{Success: true, Msg: "", Data: ""})
 }

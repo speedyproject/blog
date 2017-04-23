@@ -33,7 +33,7 @@ type FileInfo struct {
 
 func (c *Upload) Before() revel.Result {
 	// Rendering useful info here.
-	c.RenderArgs["action"] = c.Controller.Action
+	c.ViewArgs["action"] = c.Controller.Action
 
 	return nil
 }
@@ -65,7 +65,7 @@ func (c *Upload) HandleUpload() revel.Result {
 		}
 	}
 
-	return c.RenderJson(map[string]interface{}{
+	return c.RenderJSON(map[string]interface{}{
 		"Count":  fileCount,
 		"Files":  filesInfo,
 		"Status": "Successfully uploaded",

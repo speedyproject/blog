@@ -43,7 +43,7 @@ type Post struct {
 // 创建博客页面，编辑页面也是这个
 func (p *Post) Index(postid int64) revel.Result {
 	categoryModel := new(models.Category)
-	p.RenderArgs["categorys"] = categoryModel.FindAll()
+	p.ViewArgs["categorys"] = categoryModel.FindAll()
 	tags, err := tagModel.ListAll()
 	createtime := time.Now()
 	if err != nil {
@@ -57,9 +57,9 @@ func (p *Post) Index(postid int64) revel.Result {
 		}
 		createtime = blog.CreateTime
 	}
-	p.RenderArgs["blog"] = blog
-	p.RenderArgs["tags"] = tags
-	p.RenderArgs["createtime"] = createtime
+	p.ViewArgs["blog"] = blog
+	p.ViewArgs["tags"] = tags
+	p.ViewArgs["createtime"] = createtime
 	return p.RenderTemplate("Admin/Post/Index.html")
 }
 
@@ -70,9 +70,9 @@ func (p *Post) ManagePost(uid, category int64) revel.Result {
 	if err != nil {
 		blogs = make([]models.Blog, 0)
 	}
-	p.RenderArgs["blogs"] = blogs
-	p.RenderArgs["p_uid"] = uid
-	p.RenderArgs["p_ca"] = category
+	p.ViewArgs["blogs"] = blogs
+	p.ViewArgs["p_uid"] = uid
+	p.ViewArgs["p_ca"] = category
 	return p.RenderTemplate("Admin/Post/Manage-post.html")
 }
 
@@ -85,7 +85,7 @@ func (p *Post) NewPostHandler() revel.Result {
 	p.Validation.Required(data.ContentHTML).Message("内容不能为空")
 
 	if p.Validation.HasErrors() {
-		return p.RenderJson(&ResultJson{Success: false, Msg: p.Validation.Errors[0].Message})
+		return p.RenderJSON(&ResultJson{Success: false, Msg: p.Validation.Errors[0].Message})
 	}
 
 	blog := new(models.Blog)
@@ -153,15 +153,15 @@ func (p *Post) NewPostHandler() revel.Result {
 
 	if err != nil || blogID <= 0 {
 		p.Flash.Error("msg", "create new blogger post error.")
-		return p.RenderJson(&ResultJson{Success: false, Msg: err.Error(), Data: ""})
+		return p.RenderJSON(&ResultJson{Success: false, Msg: err.Error(), Data: ""})
 	}
-	return p.RenderJson(&ResultJson{Success: true})
+	return p.RenderJSON(&ResultJson{Success: true})
 }
 
 func (p *Post) QueryCategorys() revel.Result {
 	c := new(models.Category)
 	arr := c.FindAll()
-	return p.RenderJson(&ResultJson{Success: true, Msg: "", Data: arr})
+	return p.RenderJSON(&ResultJson{Success: true, Msg: "", Data: arr})
 }
 
 // CreateTag to create a new tag when create a blog
@@ -170,9 +170,9 @@ func (p *Post) CreateTag(name string) revel.Result {
 	_, err := tagModel.NewTagByName(name)
 	if err != nil {
 		revel.ERROR.Println("创建标签失败：", err)
-		return p.RenderJson(&ResultJson{Success: false, Msg: err.Error(), Data: ""})
+		return p.RenderJSON(&ResultJson{Success: false, Msg: err.Error(), Data: ""})
 	}
-	return p.RenderJson(&ResultJson{Success: true, Msg: "", Data: ""})
+	return p.RenderJSON(&ResultJson{Success: true, Msg: "", Data: ""})
 }
 
 // Delete a blog
@@ -187,8 +187,8 @@ func (p *Post) Delete(ids string) revel.Result {
 				blog.Del()
 			}
 		}
-		return p.RenderJson(&ResultJson{Success: true})
+		return p.RenderJSON(&ResultJson{Success: true})
 	} else {
-		return p.RenderJson(&ResultJson{Success: true})
+		return p.RenderJSON(&ResultJson{Success: true})
 	}
 }

@@ -40,7 +40,7 @@ func init() {
 	// revel.OnAppStart(models.LoadCache)
 
 	//Login status check
-	revel.InterceptFunc(support.InstallInterceptor, revel.BEFORE, revel.ALL_CONTROLLERS)
+	revel.InterceptFunc(support.InstallInterceptor, revel.BEFORE, revel.AllControllers)
 	revel.InterceptFunc(support.LoginFilter, revel.BEFORE, controllers.Admin{})
 
 	revel.InterceptMethod((*controllers.Admin).AdminChecker, revel.AFTER)

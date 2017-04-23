@@ -31,7 +31,7 @@ func InitCache(isInstalled bool, config *config.Config) {
 	// Cache := cache
 	AppConfig = config
 	IsInstalled = isInstalled
-	MCache = cache.NewInMemoryCache(cache.DEFAULT)
+	MCache = cache.NewInMemoryCache(cache.DefaultExpiryTime)
 	InitRedis()
 	loadCache(isInstalled)
 }
@@ -47,8 +47,8 @@ func loadCache(hasConfig bool) {
 		sign_key = randStringBytes(16)
 	}
 
-	MCache.Set(SPY_CONF_MD5_KEY, md5_key, cache.FOREVER)
-	MCache.Set(SPY_CONF_SIGN_KEY, sign_key, cache.FOREVER)
+	MCache.Set(SPY_CONF_MD5_KEY, md5_key, cache.ForEverNeverExpiry)
+	MCache.Set(SPY_CONF_SIGN_KEY, sign_key, cache.ForEverNeverExpiry)
 	AppConfig.AddOption("secret", "secret.md5.key", md5_key)
 	AppConfig.AddOption("secret", "secret.sign.key", sign_key)
 	SPY_CONF_MD5_VAL = md5_key

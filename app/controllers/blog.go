@@ -21,11 +21,11 @@ func (b Blog) BlogPage(ident string) revel.Result {
 		revel.ERROR.Println("加载博客失败: ", err)
 		return b.Redirect(routes.Main.Main())
 	}
-	b.RenderArgs["blog"] = blog
+	b.ViewArgs["blog"] = blog
 	settingModel := new(models.Setting)
 	set, _ := settingModel.GetSiteInfo()
 	revel.ERROR.Println("comment: ", set.Comment)
-	b.RenderArgs["comment"] = set.Comment
+	b.ViewArgs["comment"] = set.Comment
 	go blog.UpdateView(blog.Id)
 	return b.Render()
 }

@@ -32,9 +32,9 @@ func (admin *Admin) AdminChecker() revel.Result {
 			uri = uriStr[len(uriStr)-4]
 		}
 		if uri == "" || uri == "main" {
-			admin.RenderArgs["managementPage"] = "index"
+			admin.ViewArgs["managementPage"] = "index"
 		} else {
-			admin.RenderArgs["managementPage"] = uri
+			admin.ViewArgs["managementPage"] = uri
 		}
 	}
 	return nil

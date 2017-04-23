@@ -10,7 +10,8 @@ import (
 type Comment struct {
 	Id         int64     `xorm:"not null pk autoincr INT(11)"`
 	Content    string    `xorm:"TEXT"`
-	Auther     int64     `xorm:"INT(11)"`
+	Name       string    `xorm:"VARCHAR(200)"`
+	Email      string    `xorm:"VARVHAR(200)"`
 	BlogId     int64     `xorm:"INT(11)"`
 	CommentId  int64     `xorm:"INT(11)"`
 	CreateTime time.Time `xorm:"DATETIME"`
@@ -20,13 +21,13 @@ type Comment struct {
 //New comment.
 func (c *Comment) NewComment() error {
 
-	if c.Content == "" || c.Auther == 0 || c.BlogId == 0 {
+	if c.Content == "" || c.Name == "" || c.BlogId == 0 {
 		return errors.New("Content, auther or blog id can't be null.")
 	}
 
 	model := new(Comment)
 	model.Content = c.Content
-	model.Auther = c.Auther
+	model.Name = c.Name
 	model.BlogId = c.BlogId
 
 	if c.CommentId != 0 {

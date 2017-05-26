@@ -21,6 +21,7 @@ func (b Blog) BlogPage(ident string) revel.Result {
 		revel.ERROR.Println("加载博客失败: ", err)
 		return b.Redirect(routes.Main.Main())
 	}
+	b.ViewArgs["title"] = blog.Title
 	b.ViewArgs["blog"] = blog
 	settingModel := new(models.Setting)
 	set, _ := settingModel.GetSiteInfo()

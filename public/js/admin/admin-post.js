@@ -120,8 +120,8 @@ var Manager = {
             if(data.Success){
                 for(var i in idarr){
                     $("#blog-"+idarr[i]).remove();
-                    alertify.success('删除成功！');
                 }
+                alertify.success('删除成功！');
             }else{
                 alertify.alert("注意",data.Msg);
             }

@@ -49,6 +49,11 @@ func InitConfig() {
 }
 
 func InitSearcher() {
+	defer func() {
+		if r := recover(); r != nil {
+			revel.ERROR.Println("something wrong: ", r)
+		}
+	}()
 	support.InitSearcher()
 
 	// 将文档加入索引，docId 从1开始

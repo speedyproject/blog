@@ -179,16 +179,19 @@ func (p *Post) CreateTag(name string) revel.Result {
 // 删除博客
 func (p *Post) Delete(ids string) revel.Result {
 	idArr := strings.Split(ids, ",")
-	if len(idArr) > 0 {
-		for _, v := range idArr {
-			id, err := strconv.Atoi(v)
-			if err == nil {
-				blog := &models.Blog{Id: int64(id)}
-				blog.Del()
-			}
+	if len(idArr) <= 0 {
+		return p.RenderJSON(&ResultJson{Success: false, Msg: "参数无效"})
+	}
+	validIdArr := []int64{}
+	for _, v := range idArr {
+		id, err := strconv.Atoi(v)
+		if err == nil {
+			validIdArr = append(validIdArr, int64(id))
 		}
-		return p.RenderJSON(&ResultJson{Success: true})
-	} else {
+	}
+	ok, err := blogModel.BatchDel(validIdArr)
+	if ok {
 		return p.RenderJSON(&ResultJson{Success: true})
 	}
+	return p.RenderJSON(&ResultJson{Success: false, Msg: err})
 }

@@ -101,6 +101,7 @@ func (b *Blog) GetBlogByPage(page int, pageSize int) ([]Blog, error) {
 
 // GetBlogByPage .
 // 根据页面获取博客
+// FIXME:Laily 这里顺便查出作者，否则页面显示的时候再查询作者信息效率太差
 func (b *Blog) GetBlogByPageAND(uid, category int64, page int, pageSize int) ([]Blog, error) {
 	if pageSize == 0 {
 		pageSize = PAGE_SIZE
@@ -294,18 +295,27 @@ func (b *Blog) Update() (bool, error) {
 	return has > 0, err
 }
 
-// Del to Delete blogger.
-// 删除一篇博客
-func (b *Blog) Del() (bool, error) {
 
-	has, err := support.Xorm.Id(b.Id).Delete(b)
-
-	if err == nil {
-		// Delete cache.
-		support.Cache.Del(support.SPY_BLOGGER_SINGLE + fmt.Sprintf("%d", b.Id))
+// BatchDel to delete a batch of blog
+// 删除一批博客
+func (b *Blog) BatchDel(ids []int64) (bool, string) {
+	idStr := ""
+	for _, id := range ids {
+		idStr += fmt.Sprintf(",%d", id)
 	}
+	sql := "DELETE FROM " + TABLE_BLOG + " WHERE id in (" + idStr[1:] + ")"
+	res, err := support.Xorm.Exec(sql)
+	if err != nil {
+		revel.ERROR.Println("delete blog error: ", err)
+		return false, err.Error()
+	}
+	rowsAffect, err1 := res.RowsAffected()
+	if err1 != nil {
+		revel.ERROR.Println("delete blog error1: ", err)
+		return false, err.Error()
 
-	return has > 0, err
+	}
+	return rowsAffect >= 0, ""
 }
 
 // 更新浏览次数

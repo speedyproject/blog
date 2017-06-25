@@ -88,7 +88,11 @@
     <!-- /.container -->
 
     <!-- Comment -->
-    {{template "Comment/Comment.html" .}}
+    {{if gt (len .comment) 0}}
+        {{raw .comment}}
+    {{else}}
+        {{template "Comment/Comment.html" .}}
+    {{end}}
     <!-- Comment End-->
 
 {{template "Layout/HomeFooter.html" .}}

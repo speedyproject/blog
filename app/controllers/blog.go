@@ -25,7 +25,6 @@ func (b Blog) BlogPage(ident string) revel.Result {
 	b.ViewArgs["blog"] = blog
 	settingModel := new(models.Setting)
 	set, _ := settingModel.GetSiteInfo()
-	revel.ERROR.Println("comment: ", set.Comment)
 	b.ViewArgs["comment"] = set.Comment
 	go blog.UpdateView(blog.Id)
 	return b.Render()

@@ -4,12 +4,26 @@ import (
 	"blog/app/models"
 	"blog/app/service"
 
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/revel/revel"
+)
+
+var (
+	promHttp   = promhttp.Handler()
+	promResult = &PromHttpStruct{}
 )
 
 //Main controller.
 type Main struct {
 	*revel.Controller
+}
+
+// 构造一个 revel.Result
+// 提供 golang 应用数据给 prometheus 的结构体
+type PromHttpStruct struct{}
+
+func (p *PromHttpStruct) Apply(req *revel.Request, resp *revel.Response) {
+	promHttp.ServeHTTP(resp.Out, req.Request)
 }
 
 //SiteInfo model
@@ -67,4 +81,8 @@ func (m *Main) Blog4Category(ca string) revel.Result {
 	}
 	m.ViewArgs["blogs"] = blogs
 	return m.RenderTemplate("Main/Blog4Search.html")
+}
+
+func (m *Main) Debug() revel.Result {
+	return promResult
 }

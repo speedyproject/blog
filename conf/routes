@@ -102,3 +102,6 @@ GET     /public/*filepath                       Static.Serve("public")
 
 # Catch all
 *       /:controller/:action                    :controller.:action
+
+# debug
+GET     /debug                                  Main.Debug

@@ -15,6 +15,12 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/beorn7/perks"
+  packages = ["quantile"]
+  revision = "4c0e84591b9aa9e6dcfdf3e020114cd81f89d5f9"
+
+[[projects]]
+  branch = "master"
   name = "github.com/boltdb/bolt"
   packages = ["."]
   revision = "e9cf4fae01b5a8ff89d0ec6b32f0d9c9f79aefdd"
@@ -105,6 +111,12 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/golang/protobuf"
+  packages = ["proto"]
+  revision = "748d386b5c1ea99658fd69fe9f03991ce86a90c1"
+
+[[projects]]
+  branch = "master"
   name = "github.com/huichen/murmur"
   packages = ["."]
   revision = "e0489551cf5116e27d7cc69d97a53cdbdd028acf"
@@ -132,6 +144,36 @@
   name = "github.com/klauspost/cpuid"
   packages = ["."]
   revision = "09cded8978dc9e80714c4d85b0322337b0a1e5e0"
+
+[[projects]]
+  name = "github.com/matttproud/golang_protobuf_extensions"
+  packages = ["pbutil"]
+  revision = "3247c84500bff8d9fb6d579d800f20b3e091582c"
+  version = "v1.0.0"
+
+[[projects]]
+  name = "github.com/prometheus/client_golang"
+  packages = ["prometheus","prometheus/promhttp"]
+  revision = "c5b7fccd204277076155f10851dad72b76a49317"
+  version = "v0.8.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/prometheus/client_model"
+  packages = ["go"]
+  revision = "6f3806018612930941127f2a7c6c453ba2c527d2"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/prometheus/common"
+  packages = ["expfmt","internal/bitbucket.org/ww/goautoneg","model"]
+  revision = "61f87aac8082fa8c3c5655c7608d7478d46ac2ad"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/prometheus/procfs"
+  packages = [".","xfs"]
+  revision = "e645f4e5aaa8506fc71d6edbc5c4ff02c04c46f2"
 
 [[projects]]
   branch = "master"
@@ -196,6 +238,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "006dba93dc5e79f4c978e5a60384002043d3e81b094ad39a9e53e893b8a599fe"
+  inputs-digest = "425cf66891b2965f04762ba140c3fe4aa2500e7dba9cf1d63484ad38758704e2"
   solver-name = "gps-cdcl"
   solver-version = 1

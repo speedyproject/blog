@@ -104,4 +104,4 @@ GET     /public/*filepath                       Static.Serve("public")
 *       /:controller/:action                    :controller.:action
 
 # debug
-GET     /debug                                  Main.Debug
+GET     /metrics                                  Main.Debug
